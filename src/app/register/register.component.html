@@ -20,17 +20,13 @@
           <p>Select and two questions<br /> and answer</p>
           <div class="form-group">
             <select class="form-control">
-              <option>Question 1</option>
-              <option>Question 2</option>
-              <option>Question 3</option>
+              <option *ngFor="let question of questions |  keyvalue">{{question.value}}</option>
             </select>
             <input type="text" class="form-control" placeholder="Answer">
           </div>
           <div class="form-group">
             <select class="form-control">
-              <option>Question 1</option>
-              <option>Question 2</option>
-              <option>Question 3</option>
+              <option *ngFor="let question of questions |  keyvalue">{{question.value}}</option>
             </select>
             <input type="text" class="form-control" placeholder="Answer">
           </div>
@@ -40,7 +36,7 @@
         </div>
         <div class="form-group">
           <label>You already have an account?</label>
-          <button type="submit" class="btn btn-secondary btn-block">Login</button>
+          <button type="submit" class="btn btn-secondary btn-block" (click)="redirectToLogin()">Login</button>
         </div>
       </form>
     </div>

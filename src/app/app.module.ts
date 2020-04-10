@@ -8,7 +8,17 @@ import { SettingsComponent } from './menu/settings/settings.component';
 import { RankingsComponent } from './menu/rankings/rankings.component';
 import { StatsComponent } from './menu/stats/stats.component';
 import { HeaderComponent } from './header/header.component';
-import { MenuComponent } from './menu/menu/menu.component';
+import { MenuComponent } from './menu/menu.component';
+import {RouterModule, Routes} from '@angular/router';
+
+const appRoutes: Routes = [
+  { path: 'login', component: LoginComponent},
+  { path: 'register', component: RegisterComponent},
+  { path: 'menu', component: MenuComponent},
+  { path: '**', redirectTo : '/login'}
+
+
+];
 
 @NgModule({
   declarations: [
@@ -22,7 +32,10 @@ import { MenuComponent } from './menu/menu/menu.component';
     MenuComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    RouterModule.forRoot(
+      appRoutes
+    )
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -24,7 +24,7 @@ export class MenuComponent implements OnInit {
   };
 
     // metoda ktora nam wlasnie tworzy taki routing np  http://localhost:4200/menu?action=rankings
-  redirectTo(pathAction: string){
+  redirectTo(pathAction: string) {
     this.router.navigate(['menu'], {queryParams : {action: pathAction}});
   }
 

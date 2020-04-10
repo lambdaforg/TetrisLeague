@@ -1,0 +1,28 @@
+.list-group {
+
+  margin:auto;
+  float:left;
+  padding-top:20px;
+  border: black;
+}
+.lead {
+
+  margin:auto;
+  left:0;
+  right:0;
+  padding-top:10%;
+}
+
+.user-avatar {
+  width: 100px;
+  height:100px;
+}
+
+.container-fluid {
+  padding: 20px;
+}
+
+.media-body {
+  padding: 10px;
+}
+

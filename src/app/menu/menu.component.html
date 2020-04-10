@@ -1,0 +1,35 @@
+<div class="container-fluid justify-content-start">
+  <div class="row">
+    <div class="col-6">
+      <div class="media">
+        <a class="pull-left" href="#">
+          <img class="media-object user-avatar" src="">
+        </a>
+        <div class="media-body">
+          <h5>Username</h5>
+          <h6>3 492</h6>
+          <h6>23 492</h6>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <!-- Musiałem jakoś tu dodać, dodałem te col-6 powyżej żeby to niżej czyli podstrony były mniej wiecej na środku, nie są jak coś xD --!>
+       <app-rankings *ngIf="action === 'rankings'"></app-rankings>
+       <app-settings *ngIf="action === 'setting'"></app-settings>
+       <app-stats *ngIf="action === 'stats'"></app-stats>
+     </div>
+   </div>
+   <div class="row">
+     <div class="col-6">
+       <div class="list-group flex-md-column">
+         <a class="list-group-item list-group-item-action" href="#" data-toggle="tab">Singlepayer</a>
+         <a class="list-group-item list-group-item-action" href="#" data-toggle="tab">Multiplayer</a>
+         <a class="list-group-item list-group-item-action" href="#" data-toggle="tab" (click)="redirectTo('rankings')">Rankings</a>
+         <a class="list-group-item list-group-item-action" href="#" data-toggle="tab" (click)="redirectTo('stats')">Stats</a>
+         <a class="list-group-item list-group-item-action active" href="#" data-toggle="tab" (click)="redirectTo('setting')">Settings</a>
+         <a class="list-group-item list-group-item-action" href="#" data-toggle="tab">Log out</a>
+       </div>
+     </div>
+   </div>
+ </div>
+

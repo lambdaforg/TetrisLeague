@@ -1,14 +1,18 @@
 .sidebar {
   background: #aaaaaa;
-  /* For browsers that do not support gradients */
   padding: 0px;
   min-height: 100%;
+}
+.profile {
+  padding: 5px;
+  border-bottom: grey;
+  box-shadow: 0px 2px 1px 0px #555555;
 }
 .avatar {
   max-height: 80px;
 }
 .avatar>img {
-  margin: 10px;
+  margin-right: 5px;
   padding: 0px;
   max-width: 90px;
   max-height: 90px;
@@ -17,17 +21,15 @@
   background: #aaaaaa;
   margin-top: 10px;
   margin-right: 5px;
+  color: #555555;
 }
 .list {
   color: #fff;
   list-style: none;
   padding-left: 0px;
 }
-/* .list::first-line {
-    color: rgba(255, 255, 255, 0.5);
-} */
 .list> li, h5 {
-  padding: 5px 0px 5px 40px;
+  padding: 5px 0px 5px 20px;
 }
 .list>li:hover {
   background-color: rgba(255, 255, 255, 0.2);
@@ -35,6 +37,13 @@
   color: white;
   font-weight: bolder;
   padding-left: 35px;
-}.main-content{
+}
+.main-content{
    text-align:center;
  }
+.btn {
+  color: white;
+}
+.page-content {
+  min-width: available;
+}

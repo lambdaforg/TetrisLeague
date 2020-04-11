@@ -1,1 +1,32 @@
-<h1>Settings</h1>
+  <form class="page-content mx-auto">
+
+<!--  Avatar setting  -->
+    <h6>Change avatar</h6>
+    <div class="form-group">
+      <div class="media">
+        <img id="avatar" class="avatar" src="assets/img/avatar.png">
+        <div class="media-body">
+          <!-- Place to specify image  -->
+        </div>
+      </div>
+      <div class="input-group">
+        <div class="custom-file">
+          <input type="file" class="custom-file-input" placeholder="Choose file">
+          <label class="custom-file-label">Choose file</label>
+        </div>
+        <div class="input-group-prepend">
+          <span class="input-group-text btn btn-upload-file">Upload</span>
+        </div>
+      </div>
+    </div>
+
+<!--  Password setting  -->
+    <div class="form-group password-setting">
+      <h6>Change password</h6>
+      <input type="password" class="form-control" id="inputPassword" placeholder="Current password">
+      <input type="password" class="form-control" id="inputNewPassword" placeholder="New password">
+      <input type="password" class="form-control" id="inputConfirmNewPassword" placeholder="Confirm new password">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </form>
+

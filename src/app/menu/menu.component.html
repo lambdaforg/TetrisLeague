@@ -1,9 +1,9 @@
-<div class="container-fluid justify-content-start h-100">
+<div class="container-fluid h-100">
   <div class="row">
 
 <!-- Sidebar menu -->
     <!--TODO responsiveness, hide sidebar on sm-->
-    <div class="sidebar">
+    <div class="sidebar ">
       <div class="profile media">
         <div class="avatar">
           <img src="assets/img/avatar.png" class="img-responsive center-block" alt="Logo">
@@ -17,18 +17,18 @@
       <br><br>
         <div class="left-navigation">
           <ul class="list">
-            <li>Singleplayer</li>
-            <li>Multiplayer</li>
-            <li (click)="redirectTo('rankings')">Rankings</li>
-            <li (click)="redirectTo('stats')">Stats</li>
-            <li (click)="redirectTo('setting')">Settings</li>
-            <li>Log out</li>
+            <li type="button">Singleplayer</li>
+            <li type="button">Multiplayer</li>
+            <li type="button" (click)="redirectTo('rankings')">Rankings</li>
+            <li type="button" (click)="redirectTo('stats')">Stats</li>
+            <li type="button" (click)="redirectTo('setting')">Settings</li>
+            <li type="button">Log out</li>
           </ul>
         </div>
     </div>
 
 <!-- Pages content -->
-    <div class="page-content">
+    <div class="page-content col">
       <app-rankings *ngIf="action === 'rankings'"></app-rankings>
       <app-settings *ngIf="action === 'setting'"></app-settings>
       <app-stats *ngIf="action === 'stats'"></app-stats>

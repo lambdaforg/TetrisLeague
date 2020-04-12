@@ -10,6 +10,7 @@ import { StatsComponent } from './menu/stats/stats.component';
 import { HeaderComponent } from './header/header.component';
 import { MenuComponent } from './menu/menu.component';
 import {RouterModule, Routes} from '@angular/router';
+import { BoardComponent } from './game/board/board.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent},
@@ -29,7 +30,8 @@ const appRoutes: Routes = [
     RankingsComponent,
     StatsComponent,
     HeaderComponent,
-    MenuComponent
+    MenuComponent,
+    BoardComponent
   ],
   imports: [
     BrowserModule,

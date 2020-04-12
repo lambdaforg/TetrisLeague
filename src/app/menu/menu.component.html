@@ -3,22 +3,18 @@
 
 <!-- Sidebar menu -->
     <!--TODO responsiveness, hide sidebar on sm-->
-<!--    <nav class="navbar navbar-expand-md">-->
-<!--      <button class="navbar-toggler" data-toggle="collapse" data-target="#collapse_target">-->
-<!--        <span class="navbar-toggler-icon"></span>-->
-<!--      </button>-->
-      <div class="sidebar sticky-top">
-        <div class="profile media">
-          <div class="avatar">
-            <img src="assets/img/avatar.png" class="img-responsive center-block">
-          </div>
-          <div class="media-body user-info">
-            <h6 class="username">Username</h6>
-            <h6 class="points1">1 234</h6>
-            <h6 class="points2">321</h6>
-          </div>
+    <div class="sidebar ">
+      <div class="profile media">
+        <div class="avatar">
+          <img src="assets/img/avatar.png" class="img-responsive center-block" alt="Logo">
         </div>
-        <br><br>
+        <div class="media-body user-info">
+          <h6 class="username">{{user.name}}</h6>
+          <h6 class="points1">{{user.points}}</h6>
+          <h6 class="points2">321</h6>
+        </div>
+      </div>
+      <br><br>
         <div class="left-navigation">
           <ul class="list">
             <li type="button" (click)="action = null">Singleplayer</li>
@@ -29,8 +25,7 @@
             <li type="button">Log out</li>
           </ul>
         </div>
-      </div>
-<!--    </nav>-->
+    </div>
 
 <!-- Pages content -->
     <div class="page-content col">

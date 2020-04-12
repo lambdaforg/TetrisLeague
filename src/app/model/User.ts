@@ -3,6 +3,8 @@ export class User {
   id: number;
   login: string;
   password: string;
+  name: string;
+  points: number;
 
   Questions: Array<Questions>
   answerQuestion1: string;

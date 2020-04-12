@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {User} from '../model/User';
+import {DataService} from '../data.service';
 
 @Component({
   selector: 'app-menu',
@@ -8,13 +10,21 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class MenuComponent implements OnInit {
 
-
+  user: User;
   action: string;
 
   constructor(private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private dataService: DataService) { }
 
   ngOnInit(): void {
+    // Testowy user
+    this.dataService.getUser(0).subscribe(
+      next => {
+              this.user = next;
+      }
+    );
+
     // tutaj chodzi o to że bierzemy z takiego routa http://localhost:4200/menu?action=rankings  do zmiennej action rankings
     this.route.queryParams.subscribe(
       (params) => {

@@ -2,6 +2,7 @@ import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/c
 import {BLOCK_SIZE, COLORS, COLS, KEY, LEVEL, LINES_PER_LEVEL, POINTS, ROWS} from '../classes/constants';
 import {IPiece, Piece} from '../classes/piece';
 import {GameService} from '../classes/game.service';
+import {DataService} from '../../data.service';
 
 @Component({
   selector: 'app-board',
@@ -55,7 +56,8 @@ export class BoardComponent implements OnInit {
     }
   }
 
-  constructor(private service: GameService) {}
+  constructor(private service: GameService,
+              private dataService: DataService) {}
 
   ngOnInit() {
     this.initBoard();
@@ -192,6 +194,14 @@ export class BoardComponent implements OnInit {
     this.ctx.font = '1px Arial';
     this.ctx.fillStyle = 'red';
     this.ctx.fillText('GAME OVER', 1.8, 4);
+
+    // TO DO
+    //Albo przekazywać user, albo przekazywać id żeby wiedzieć kogo wywołać (lub brać z sesji)
+    this.dataService.getUser(0).subscribe(
+      next => {
+          next.points = this.points;
+      }
+    );
   }
 
   getEmptyBoard(): number[][] {

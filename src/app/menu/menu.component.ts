@@ -49,7 +49,6 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
     // metoda ktora nam wlasnie tworzy taki routing np  http://localhost:4200/menu?action=rankings
   redirectTo(pathAction: string) {
-    console.log(this.user);
     this.router.navigate(['menu'], {queryParams : {action: pathAction}});
   }
 

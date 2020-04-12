@@ -17,7 +17,7 @@
       <br><br>
         <div class="left-navigation">
           <ul class="list">
-            <li type="button">Singleplayer</li>
+            <li type="button" (click)="action = null">Singleplayer</li>
             <li type="button">Multiplayer</li>
             <li type="button" (click)="redirectTo('rankings')">Rankings</li>
             <li type="button" (click)="redirectTo('stats')">Stats</li>
@@ -29,6 +29,7 @@
 
 <!-- Pages content -->
     <div class="page-content col">
+      <app-board *ngIf="action == null"></app-board>
       <app-rankings *ngIf="action === 'rankings'"></app-rankings>
       <app-settings *ngIf="action === 'setting'"></app-settings>
       <app-stats *ngIf="action === 'stats'"></app-stats>

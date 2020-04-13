@@ -1,1 +1,216 @@
-<p>rankings works!</p>
+<!--  Top navbar  -->
+<nav class="navbar navbar-expand-md navbar-light sticky-top">
+
+  <!--  TODO: fix collapsing   -->
+  <button class="navbar-toggler" data-toggler="collapse" data-target="#collapse_target">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="collapse_target">
+    <ul class="nav navbar-nav active">
+      <li class="nav-item">
+        <a class="nav-link" href="#ranking-today" data-toggle="tab">Today</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#ranking-week" data-toggle="tab">Week</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#ranking-month" data-toggle="tab">Month</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#ranking-general" data-toggle="tab">General</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#ranking-scores" data-toggle="tab">Best Scores</a>
+      </li>
+    </ul>
+  </div>
+  <form class="form-inline">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+</nav>
+
+<!--  ranking tables  -->
+<div class="tab-content">
+
+  <div class="tab-pane active" id="ranking-today">
+    <table class="table">
+      <thead class="thead-light">
+      <tr>
+        <th scope="col">Place</th>
+        <th scope="col">Nick</th>
+        <th scope="col">Ranking Points</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+        <td>12312</td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Jacob</td>
+        <td>11233</td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td>Larry</td>
+        <td>9234</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tab-pane" id="ranking-week">
+    <table class="table">
+      <thead class="thead-light">
+      <tr>
+        <th scope="col">Place</th>
+        <th scope="col">Nick</th>
+        <th scope="col">Ranking Points</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Przemo</td>
+        <td>21712</td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Mark</td>
+        <td>12312</td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td>Jacob</td>
+        <td>11233</td>
+      </tr>
+      <tr>
+        <th scope="row">4</th>
+        <td>Larry</td>
+        <td>9234</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tab-pane" id="ranking-month">
+    <table class="table">
+      <thead class="thead-light">
+      <tr>
+        <th scope="col">Place</th>
+        <th scope="col">Nick</th>
+        <th scope="col">Ranking Points</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Przemo</td>
+        <td>21712</td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Mark</td>
+        <td>12312</td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td>Jacob</td>
+        <td>11233</td>
+      </tr>
+      <tr>
+        <th scope="row">4</th>
+        <td>Larry</td>
+        <td>9234</td>
+      </tr>
+      <tr>
+        <th scope="row">5</th>
+        <td>AAAA</td>
+        <td>7234</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="tab-pane" id="ranking-general">
+    <table class="table">
+      <thead class="thead-light">
+      <tr>
+        <th scope="col">Place</th>
+        <th scope="col">Nick</th>
+        <th scope="col">Ranking Points</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Przemo</td>
+        <td>21712</td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Mark</td>
+        <td>12312</td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td>Jacob</td>
+        <td>11233</td>
+      </tr>
+      <tr>
+        <th scope="row">4</th>
+        <td>Larry</td>
+        <td>9234</td>
+      </tr>
+      <tr>
+        <th scope="row">5</th>
+        <td>AAAA</td>
+        <td>7234</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tab-pane" id="ranking-scores">
+    <table class="table">
+      <thead class="thead-light">
+      <tr>
+        <th scope="col">Place</th>
+        <th scope="col">Nick</th>
+        <th scope="col">Best scores</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Przemo</td>
+        <td>4321</td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Mark</td>
+        <td>4301</td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td>Jacob</td>
+        <td>4002</td>
+      </tr>
+      <tr>
+        <th scope="row">4</th>
+        <td>Larry</td>
+        <td>3543</td>
+      </tr>
+      <tr>
+        <th scope="row">5</th>
+        <td>AAAA</td>
+        <td>3495</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

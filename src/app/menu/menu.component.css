@@ -1,7 +1,7 @@
 .sidebar {
   background: #aaaaaa;
-  padding: 0px;
-  min-height: 100%;
+  height: fit-content;
+  width: 200px;
 }
 .profile {
   padding: 5px;

@@ -16,7 +16,7 @@ export class DataService {
       user1.password = 'test';
       user1.login = 'test1';
       user1.name = "Username";
-      user1.points = 0;
+      user1.points.push(0);
       this.users.push(user1);
   }
 
@@ -27,6 +27,22 @@ export class DataService {
     getUser(id: number): Observable<User>{
         return of(this.users.find(p => p.id === id ));
     }
+    updateUser(user: User): Observable<User>{
+     let user1 = this.users.find(p => p.id === user.id);
+     user1.points = Object.assign({}, user1.points);
+     user1.password = user.password;
 
+     return of(user1);
+    }
+    getMaximumPoints(id: number): number{
+      let arrays = this.users.find(p => p.id === id).points;
+      let max = arrays[0];
+      for(let i = 0 ; i < arrays.length; i++){
+         if(arrays[i] > max)
+           max = arrays[i];
+      }
+      console.log(max);
+      return max;
+    }
 
 }

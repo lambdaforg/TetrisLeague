@@ -10,7 +10,7 @@
         </div>
         <div class="media-body user-info">
           <h6 class="username">{{user.name}}</h6>
-          <h6 class="points1">{{user.points}}</h6>
+          <h6 class="points1">{{points}}</h6>
           <h6 class="points2">321</h6>
         </div>
       </div>
@@ -29,7 +29,7 @@
 
 <!-- Pages content -->
     <div class="page-content col">
-      <app-board *ngIf="action == null"></app-board>
+      <app-board *ngIf="action == null" [user] = "user"></app-board>
       <app-rankings *ngIf="action === 'rankings'"></app-rankings>
       <app-settings *ngIf="action === 'setting'"></app-settings>
       <app-stats *ngIf="action === 'stats'"></app-stats>

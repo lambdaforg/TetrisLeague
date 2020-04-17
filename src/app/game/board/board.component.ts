@@ -1,8 +1,10 @@
-import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
 import {BLOCK_SIZE, COLORS, COLS, KEY, LEVEL, LINES_PER_LEVEL, POINTS, ROWS} from '../classes/constants';
 import {IPiece, Piece} from '../classes/piece';
 import {GameService} from '../classes/game.service';
 import {DataService} from '../../data.service';
+import {formatNumber} from "@angular/common";
+import {User} from "../../model/User";
 
 @Component({
   selector: 'app-board',
@@ -12,10 +14,18 @@ import {DataService} from '../../data.service';
 export class BoardComponent implements OnInit {
   @ViewChild('board', { static: true })
   canvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild('current', {static: true})
+  canvasCurrent: ElementRef<HTMLCanvasElement>;
   @ViewChild('next', { static: true })
   canvasNext: ElementRef<HTMLCanvasElement>;
+
+  @Input()
+  user: User;
+
   ctx: CanvasRenderingContext2D;
+  ctxCurrent: CanvasRenderingContext2D;
   ctxNext: CanvasRenderingContext2D;
+
   board: number[][];
   piece: Piece;
   next: Piece;
@@ -24,6 +34,7 @@ export class BoardComponent implements OnInit {
   points: number;
   lines: number;
   level: number;
+
   moves = {
     [KEY.LEFT]: (p: IPiece): IPiece => ({ ...p, x: p.x - 1 }),
     [KEY.RIGHT]: (p: IPiece): IPiece => ({ ...p, x: p.x + 1 }),
@@ -32,6 +43,8 @@ export class BoardComponent implements OnInit {
     [KEY.UP]: (p: IPiece): IPiece => this.service.rotate(p)
   };
 
+
+  //To do another class Key Handler
   @HostListener('window:keydown', ['$event'])
   keyEvent(event: KeyboardEvent) {
     if (event.keyCode === KEY.ESC) {
@@ -61,19 +74,30 @@ export class BoardComponent implements OnInit {
 
   ngOnInit() {
     this.initBoard();
+    this.initCurrent();
     this.initNext();
     this.resetGame();
   }
 
   initBoard() {
     this.ctx = this.canvas.nativeElement.getContext('2d');
-
     // Calculate size of canvas from constants.
     this.ctx.canvas.width = COLS * BLOCK_SIZE;
     this.ctx.canvas.height = ROWS * BLOCK_SIZE;
-
+    this.ctx.fillStyle = "#000000";
+    this.ctx.fillRect(0,0,this.ctx.canvas.width, this.ctx.canvas.height);
     // Scale so we don't need to give size on every draw.
     this.ctx.scale(BLOCK_SIZE, BLOCK_SIZE);
+    this.drawGrid(1);
+  }
+  initCurrent() {
+    this.ctxCurrent = this.canvasCurrent.nativeElement.getContext('2d');
+
+    // Calculate size of canvas from constants.
+    this.ctxCurrent.canvas.width = 4 * BLOCK_SIZE;
+    this.ctxCurrent.canvas.height = 4 * BLOCK_SIZE;
+
+    this.ctxCurrent.scale(BLOCK_SIZE, BLOCK_SIZE);
   }
 
   initNext() {
@@ -83,22 +107,35 @@ export class BoardComponent implements OnInit {
     this.ctxNext.canvas.width = 4 * BLOCK_SIZE;
     this.ctxNext.canvas.height = 4 * BLOCK_SIZE;
 
-    this.ctxNext.scale(BLOCK_SIZE, BLOCK_SIZE);
+    this.ctxNext.scale(BLOCK_SIZE, BLOCK_SIZE );
   }
-
   play() {
     this.resetGame();
+
     this.next = new Piece(this.ctx);
     this.piece = new Piece(this.ctx);
+    this.piece.drawNext(this.ctxCurrent);
     this.next.drawNext(this.ctxNext);
     this.time.start = performance.now();
-
     // If we have an old game running a game then cancel the old
     if (this.requestId) {
       cancelAnimationFrame(this.requestId);
     }
-
     this.animate();
+  }
+  drawGrid(s: number){
+    this.ctx.strokeStyle = '#373d42';
+    this.ctx.lineWidth = 0.10;
+    this.ctx.beginPath()
+    for (let x = 0; x <=  this.ctx.canvas.width ; x += s) {
+      this.ctx.moveTo(x, 0)
+      this.ctx.lineTo(x, this.ctx.canvas.height )
+    }
+    for (let y = 0; y <= this.ctx.canvas.height ; y += s) {
+      this.ctx.moveTo(0, y)
+      this.ctx.lineTo( this.ctx.canvas.width , y)
+    }
+    this.ctx.stroke();
   }
 
   resetGame() {
@@ -110,6 +147,8 @@ export class BoardComponent implements OnInit {
   }
 
   animate(now = 0) {
+
+
     this.time.elapsed = now - this.time.start;
     if (this.time.elapsed > this.time.level) {
       this.time.start = now;
@@ -119,11 +158,15 @@ export class BoardComponent implements OnInit {
       }
     }
     this.draw();
+
     this.requestId = requestAnimationFrame(this.animate.bind(this));
   }
 
   draw() {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+    this.ctx.fillStyle = "#000000";
+    this.ctx.fillRect(0,0,this.ctx.canvas.width, this.ctx.canvas.height);
+    this.ctx.stroke()
     this.piece.draw();
     this.drawBoard();
   }
@@ -141,6 +184,7 @@ export class BoardComponent implements OnInit {
       }
       this.piece = this.next;
       this.next = new Piece(this.ctx);
+      this.piece.drawNext(this.ctxCurrent);
       this.next.drawNext(this.ctxNext);
     }
     return true;
@@ -177,6 +221,7 @@ export class BoardComponent implements OnInit {
   }
 
   drawBoard() {
+    // Scale so we don't need to give size on every draw.
     this.board.forEach((row, y) => {
       row.forEach((value, x) => {
         if (value > 0) {
@@ -185,6 +230,7 @@ export class BoardComponent implements OnInit {
         }
       });
     });
+    this.drawGrid(1);
   }
 
   gameOver() {
@@ -195,13 +241,13 @@ export class BoardComponent implements OnInit {
     this.ctx.fillStyle = 'red';
     this.ctx.fillText('GAME OVER', 1.8, 4);
 
-    // TO DO
-    //Albo przekazywać user, albo przekazywać id żeby wiedzieć kogo wywołać (lub brać z sesji)
-    this.dataService.getUser(0).subscribe(
+    this.user.points.push(this.points);
+    this.dataService.updateUser(this.user).subscribe(
       next => {
-          next.points = this.points;
+        this.user = next;
       }
     );
+
   }
 
   getEmptyBoard(): number[][] {

@@ -1,16 +1,16 @@
 export const COLS = 10;
-export const ROWS = 15;
-export const BLOCK_SIZE = 30;
+export const ROWS = 20;
+export const BLOCK_SIZE = 20;
 export const LINES_PER_LEVEL = 10;
 export const COLORS = [
   'none',
   'cyan',
-  'blue',
-  'orange',
-  'yellow',
-  'green',
-  'purple',
-  'red'
+  '#61b2fe',
+  '#01af02',
+  '#eeeee8',
+  '#8f8658',
+  '#b13b96',
+  '#ca4eaf'
 ];
 export const SHAPES = [
   [],

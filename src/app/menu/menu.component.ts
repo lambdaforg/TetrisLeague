@@ -38,14 +38,9 @@ export class MenuComponent implements OnInit, OnDestroy {
         this.points = this.maxPoints();
       },
       error => {
-        this.user = error;
-        this.points = this.maxPoints();
-        console.log(this.user.points);
+        //Handle error
       },
-      nextt => {
-        this.user = nextt;
-        this.points = this.maxPoints();
-        console.log(this.user.points);
+      complete => {
       }
     );
   };

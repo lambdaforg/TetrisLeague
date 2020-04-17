@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {User} from './model/User';
 import {Observable, of} from 'rxjs';
 
@@ -8,6 +8,7 @@ import {Observable, of} from 'rxjs';
 export class DataService {
 
   users: Array<User>;
+  event: EventEmitter<User> = new EventEmitter<User>();
 
   constructor() {
       this.users = new Array<User>();
@@ -19,11 +20,6 @@ export class DataService {
       user1.points.push(0);
       this.users.push(user1);
   }
-
-  //getUsers(): Observable<Array<User>> {
-  //      return of(this.users);
-  //}
-
     getUser(id: number): Observable<User>{
         return of(this.users.find(p => p.id === id ));
     }
@@ -31,7 +27,6 @@ export class DataService {
      let user1 = this.users.find(p => p.id === user.id);
      user1.points = Object.assign({}, user1.points);
      user1.password = user.password;
-
      return of(user1);
     }
     getMaximumPoints(id: number): number{
@@ -41,7 +36,6 @@ export class DataService {
          if(arrays[i] > max)
            max = arrays[i];
       }
-      console.log(max);
       return max;
     }
 

@@ -242,6 +242,8 @@ export class BoardComponent implements OnInit {
     this.ctx.fillText('GAME OVER', 1.8, 4);
 
     this.user.points.push(this.points);
+    this.dataService.event.emit(this.user);
+
     this.dataService.updateUser(this.user).subscribe(
       next => {
         this.user = next;

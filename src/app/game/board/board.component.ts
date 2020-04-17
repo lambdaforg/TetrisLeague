@@ -247,6 +247,8 @@ export class BoardComponent implements OnInit {
     this.dataService.updateUser(this.user).subscribe(
       next => {
         this.user = next;
+      },
+      error => {
       }
     );
 

@@ -25,7 +25,7 @@ export class DataService {
     }
     updateUser(user: User): Observable<User>{
      let user1 = this.users.find(p => p.id === user.id);
-     user1.points = Object.assign({}, user1.points);
+      user1.points = user.points;
      user1.password = user.password;
      return of(user1);
     }

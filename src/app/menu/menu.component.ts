@@ -11,6 +11,7 @@ import {DataService} from '../data.service';
 export class MenuComponent implements OnInit {
 
   user: User;
+  points: number;
   action: string;
 
   constructor(private route: ActivatedRoute,
@@ -31,6 +32,7 @@ export class MenuComponent implements OnInit {
         this.action = params['action'];
       }
     );
+    this.points = this.maxPoints();
   };
 
     // metoda ktora nam wlasnie tworzy taki routing np  http://localhost:4200/menu?action=rankings
@@ -38,6 +40,9 @@ export class MenuComponent implements OnInit {
     this.router.navigate(['menu'], {queryParams : {action: pathAction}});
   }
 
+  maxPoints(): number{
+      return this.dataService.getMaximumPoints(this.user.id);
+  }
 
 
 

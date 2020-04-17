@@ -4,7 +4,8 @@ export class User {
   login: string;
   password: string;
   name: string;
-  points: number;
+
+  points: Array<number> = new Array<number>();
 
   Questions: Array<Questions>
   answerQuestion1: string;

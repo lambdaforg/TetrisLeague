@@ -11,6 +11,8 @@ import { HeaderComponent } from './header/header.component';
 import { MenuComponent } from './menu/menu.component';
 import {RouterModule, Routes} from '@angular/router';
 import { BoardComponent } from './game/board/board.component';
+import {WaitingRoomComponent} from "./menu/waiting-room/waiting-room.component";
+import {FriendsComponent} from "./menu/friends/friends.component";
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent},
@@ -31,7 +33,9 @@ const appRoutes: Routes = [
     StatsComponent,
     HeaderComponent,
     MenuComponent,
-    BoardComponent
+    BoardComponent,
+    WaitingRoomComponent,
+    FriendsComponent
   ],
   imports: [
     BrowserModule,

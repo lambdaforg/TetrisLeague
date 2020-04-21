@@ -1,0 +1,35 @@
+.btn {
+  margin-right: 10px;
+}
+
+.form-check {
+  margin: 5px;
+}
+
+select {
+  margin: 5px;
+}
+
+.bet-input {
+  margin: 5px;
+  max-width: 90px;
+}
+
+.col-form-label {
+  margin-left: 5px;
+}
+
+.fa {
+  margin-left: 3px;
+}
+
+.fa-lock {
+  color: firebrick;
+}
+
+.fa-unlock {
+  color: green;
+}
+
+.btn-light {
+}

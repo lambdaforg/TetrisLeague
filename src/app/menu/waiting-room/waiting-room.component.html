@@ -1,0 +1,79 @@
+<!--  Top navbar  -->
+<nav class="navbar navbar-expand-md navbar-light sticky-top">
+
+  <!--  TODO: fix collapsing   -->
+  <button class="navbar-toggler" data-toggler="collapse" data-target="#collapse_target">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <form class="form-inline">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search host" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+  <form class="form-inline">
+    <label class="col-form-label" for="lowerLimitInput">Bet range:</label>
+    <input class="form-control bet-input" type="number" placeholder="0" id="lowerLimitInput">
+    <label class="col-form-label" for="upperLimitInput">-</label>
+    <input class="form-control bet-input" type="number" placeholder="max" id="upperLimitInput">
+
+    <label class="col-form-label" for="gameModeSelect">Players:</label>
+
+    <select class="form-control" id="gameModeSelect">
+      <option></option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+    </select>
+  </form>
+  <div class="form-check">
+    <input type="checkbox" class="form-check-input" id="friendsCheck">
+    <label class="form-check-label" for="friendsCheck">Only friends</label>
+  </div>
+  <div class="form-check">
+    <input type="checkbox" class="form-check-input" id="publicCheck">
+    <label class="form-check-label" for="publicCheck">Only public</label>
+  </div>
+
+</nav>
+
+<!--  rooms tables  -->
+<div class="tab-content">
+
+  <div class="tab-pane active" id="tableRooms">
+    <table class="table">
+      <thead class="thead-light">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Host</th>
+        <th scope="col">Players</th>
+        <th scope="col">Entry fee</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+        <td>1 / 4</td>
+        <td>1 000 RP</td>
+        <td class="btn btn-light">Join<i class="fa fa-lock"></i></td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Jacob</td>
+        <td>3 / 4</td>
+        <td>100 RP</td>
+        <td class="btn btn-light">Join<i class="fa fa-unlock"></i></td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td>Larry</td>
+        <td>1 / 2</td>
+        <td>250 RP</td>
+        <td class="btn btn-light">Join<i class="fa fa-lock"></i></td>
+
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+

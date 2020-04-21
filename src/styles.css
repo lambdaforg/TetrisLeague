@@ -9,3 +9,12 @@
   font-family: 'Press Start 2P', cursive;
 }
 
+nav.navbar {
+  background: lightgray;
+  padding-bottom: 0px;
+}
+
+a.nav-link.active {
+  background: #E9ECEF;
+  padding-bottom: 10px;
+}

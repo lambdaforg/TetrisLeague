@@ -1,1 +1,31 @@
-<p>stats works!</p>
+<nav class="navbar navbar-expand-md navbar-light sticky-top">
+     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapse_target">
+        <span class="navbar-toggler-icon"></span>
+     </button>
+  <div class="collapse navbar-collapse" id="collapse_target">
+    <ul class="navbar-nav active">
+      <li class="nav-item">
+        <a class="nav-link clickable" (click)="changeBookmark('User')" >User</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link clickable" (click)="changeBookmark('Website Traffic')">Website Traffic</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link clickable" (click)="changeBookmark('Customers Activity and Satisfaction')">Customers Activity and Satisfaction</a>
+      </li>
+    </ul>
+  </div>
+  <form #statsForm="ngForm" class="form-inline" >
+    <div class="form-group">
+      <!--<label for="name">Name</label>-->
+      <input  class="form-control-sm form-control mr-sm-2" type="search" placeholder="{{this.from}}" aria-label="Search" [(ngModel)]="from" name="name">
+      <input class="form-control-sm form-control mr-sm-2" type="search" placeholder="{{this.to}}" aria-label="Search"[(ngModel)]="to" name="name2" >
+      <button  class="btn btn-outline-success my-2 my-sm-0" (click)="searchInterval()">Search</button>
+      <button  class="btn btn-outline-success my-2 my-sm-0" (click)="setFavoutite()">Set favourite</button>
+    </div>
+  </form>
+</nav>
+
+<div class="float-left" id="chartContainer" style="height: 370px; width: 40%;" [hidden]="selectedBookmark !== 'User'"></div>
+<div class="float-left" id="chartContainer2" style="height: 370px; width: 40%;" [hidden]="selectedBookmark !== 'User'"></div>
+<div class="float-left" id="chartContainer3" style="height: 370px; width: 40%;" [hidden]="selectedBookmark !== 'User'"></div>

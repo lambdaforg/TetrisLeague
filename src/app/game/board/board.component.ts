@@ -3,8 +3,8 @@ import {BLOCK_SIZE, COLORS, COLS, KEY, LEVEL, LINES_PER_LEVEL, POINTS, ROWS} fro
 import {IPiece, Piece} from '../classes/piece';
 import {GameService} from '../classes/game.service';
 import {DataService} from '../../data.service';
-import {formatNumber} from "@angular/common";
-import {User} from "../../model/User";
+import {formatNumber} from '@angular/common';
+import {User} from '../../model/User';
 
 @Component({
   selector: 'app-board',

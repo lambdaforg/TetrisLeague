@@ -1,7 +1,9 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {User} from '../model/User';
 import {DataService} from '../data.service';
+import {Subscription} from 'rxjs';
+import {StatsService} from './stats/classes/stats.service';
 
 @Component({
   selector: 'app-menu',
@@ -10,58 +12,57 @@ import {DataService} from '../data.service';
 })
 export class MenuComponent implements OnInit, OnDestroy {
 
-  @Input()
-  user: User;
 
+  user: User;
   points: number;
-  action: string
+  action: string;
   subscription: any;
+  favouriteStatsSubscription: Subscription;
+  statsFavourite: string;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private dataService: DataService) {}
+              private dataService: DataService,
+              private statsService: StatsService) {}
 
   ngOnInit(): void {
-    if(this.user == null) {
-      this.dataService.getUser(0).subscribe(
-        next => {
-          this.user = next;
-        }
-      );
-    }
+    this.dataService.getUser(0).subscribe(
+      next => {
+              this.user = next;
+      }
+    );
     this.route.queryParams.subscribe(
       (params) => {
-        this.action = params['action'];
+        this.action = params.action;
       }
     );
     this.points = this.maxPoints();
     this.subscription = this.dataService.event.subscribe(
-      next =>{
+      next => {
         this.user = next;
         this.points = this.maxPoints();
       },
       error => {
-        this.user = error;
-        this.points = this.maxPoints();
-        console.log(this.user.points);
+        // Handle error
       },
-      nextt => {
-        this.user = nextt;
-        this.points = this.maxPoints();
-        console.log(this.user.points);
+      complete => {
       }
     );
-  };
+
+    this.favouriteStatsSubscription = this.statsService.favouriteStatsEventEmitter.subscribe(
+      favourite => this.statsFavourite = favourite
+    );
+  }
   ngOnDestroy(): void {
-      this.subscription.unsubscribe;
+      this.subscription.unsubscribe();
+      this.favouriteStatsSubscription.unsubscribe();
   }
     // metoda ktora nam wlasnie tworzy taki routing np  http://localhost:4200/menu?action=rankings
   redirectTo(pathAction: string) {
-    console.log(this.user);
     this.router.navigate(['menu'], {queryParams : {action: pathAction}});
   }
 
-  maxPoints(): number{
+  maxPoints(): number {
       return this.dataService.getMaximumPoints(this.user.id);
   }
 

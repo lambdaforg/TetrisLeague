@@ -1,12 +1,15 @@
 .sidebar {
-  background: #aaaaaa;
+  background-color: #d3d3d3;
   height: fit-content;
   width: 200px;
+  border-bottom-right-radius: 10px;
+
 }
 .profile {
   padding: 5px;
   border-bottom: grey;
-  box-shadow: 0px 2px 1px 0px #555555;
+  box-shadow: 0px 2px 1px 0px darkslategrey;
+  background-color: #17a2b8;
 }
 .avatar {
   max-height: 80px;
@@ -18,32 +21,46 @@
   max-height: 90px;
 }
 .user-info {
-  background: #aaaaaa;
+  background: inherit;
   margin-top: 10px;
   margin-right: 5px;
-  color: #555555;
+  color: #fff;
 }
 .list {
   color: #fff;
   list-style: none;
   padding-left: 0px;
 }
-.list> li, h5 {
-  padding: 5px 0px 5px 20px;
-}
-.list>li:hover {
+
+li:hover,
+li:active,
+li:focus,
+li.btn.active{
   background-color: rgba(255, 255, 255, 0.2);
   border-left: 5px solid white;
-  color: white;
+  color: black;
+  background-color: #E9ECEF;
   font-weight: bolder;
-  padding-left: 35px;
 }
 .main-content{
    text-align:center;
  }
-.btn {
-  color: white;
-}
+
 .page-content {
   min-width: available;
+  padding: 0px 0px;
+}
+
+li{
+  width: 200px;
+  background-color: #d3d3d3;
+  border-color: #d3d3d3;
+  color: #111111;
+}
+
+ul.nav-tabs {
+  margin-left: unset;
+  padding: unset;
+  margin-bottom: 10px;
+  border-color: #d3d3d3;
 }

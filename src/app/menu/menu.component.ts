@@ -10,20 +10,20 @@ import {DataService} from '../data.service';
 })
 export class MenuComponent implements OnInit, OnDestroy {
 
-
   user: User;
   points: number;
-  action: string
+  action: string;
   subscription: any;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private dataService: DataService) {}
+              private dataService: DataService) {
+  }
 
   ngOnInit(): void {
     this.dataService.getUser(0).subscribe(
       next => {
-              this.user = next;
+        this.user = next;
       }
     );
     this.route.queryParams.subscribe(
@@ -33,29 +33,28 @@ export class MenuComponent implements OnInit, OnDestroy {
     );
     this.points = this.maxPoints();
     this.subscription = this.dataService.event.subscribe(
-      next =>{
+      next => {
         this.user = next;
         this.points = this.maxPoints();
       },
       error => {
-        //Handle error
+        // Handle error
       },
       complete => {
       }
     );
-  };
+  }
+
   ngOnDestroy(): void {
-      this.subscription.unsubscribe;
+    this.subscription.unsubscribe;
   }
-    // metoda ktora nam wlasnie tworzy taki routing np  http://localhost:4200/menu?action=rankings
+
+  // metoda ktora nam wlasnie tworzy taki routing np  http://localhost:4200/menu?action=rankings
   redirectTo(pathAction: string) {
-    this.router.navigate(['menu'], {queryParams : {action: pathAction}});
+    this.router.navigate(['menu'], {queryParams: {action: pathAction}});
   }
 
-  maxPoints(): number{
-      return this.dataService.getMaximumPoints(this.user.id);
+  maxPoints(): number {
+    return this.dataService.getMaximumPoints(this.user.id);
   }
-
-
-
 }

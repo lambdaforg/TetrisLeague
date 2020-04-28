@@ -2,11 +2,11 @@
 <nav class="navbar navbar-expand-md navbar-light sticky-top">
 
   <!--  TODO: fix collapsing   -->
-  <button class="navbar-toggler" data-toggler="collapse" data-target="#collapse_target">
+  <button class="navbar-toggler" data-toggler="collapse" data-target="#collapse-target">
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="collapse_target">
+  <div class="collapse navbar-collapse" id="collapse-target">
     <ul class="nav navbar-nav">
       <li class="nav-item">
         <a class="nav-link active" href="#friends" data-toggle="tab">My friends</a>
@@ -36,6 +36,7 @@
         <th scope="col">Nr</th>
         <th scope="col">Nick</th>
         <th scope="col">Status</th>
+        <th scope="col"></th>
       </tr>
       </thead>
       <tbody>
@@ -43,16 +44,22 @@
         <td scope="row">1</td>
         <td>Mark</td>
         <td><i class="fa fa-circle status-online"></i>Online</td>
+        <td class="btn btn-light">Play Duel</td>
       </tr>
       <tr>
         <td scope="row">2</td>
         <td>Jacob</td>
         <td><i class="fa fa-circle status-offline"></i>Offline</td>
+        <td></td>
       </tr>
       <tr>
         <td scope="row">3</td>
         <td>Larry</td>
         <td><i class="fa fa-circle status-offline"></i>Offline</td>
+        <td></td>
+      </tr>
+      <tr>
+
       </tr>
       </tbody>
     </table>
@@ -64,15 +71,18 @@
       <tr>
         <th scope="col">Nick</th>
         <th></th>
+        <th></th>
       </tr>
       </thead>
       <tbody>
       <tr>
         <td>Tom</td>
-        <td>
-          <button class="btn btn-light accept-btn">Accept</button>
-          <button class="btn btn-light decline-btn">Decline</button>
-        </td>
+<!--        <td>-->
+<!--          <div class="btn btn-light accept-btn">Accept</div>-->
+<!--          <div class="btn btn-light decline-btn">Decline</div>-->
+<!--        </td>-->
+        <td class="btn btn-light accept-btn">Accept</td>
+        <td class="btn btn-light decline-btn">Decline</td>
       </tr>
       </tbody>
     </table>

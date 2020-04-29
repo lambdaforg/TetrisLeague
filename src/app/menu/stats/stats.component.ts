@@ -17,7 +17,8 @@ export class StatsComponent implements OnInit {
   role: string;
   from: string;
   to: string;
-
+  validDates = true;
+  earlierDatesThanPresent = true;
 
   constructor(private service: StatsService) {
   }
@@ -31,6 +32,9 @@ export class StatsComponent implements OnInit {
   }
 
   changeBookmark(bookmark: string) {
+    if (!this.validDates || !this.earlierDatesThanPresent || this.from === '' || this.to === '') {
+      return;
+    }
     this.selectedBookmark = bookmark;
     this.initializeCharts();
   }
@@ -39,8 +43,60 @@ export class StatsComponent implements OnInit {
     this.service.favouriteStatsEventEmitter.emit(this.selectedBookmark);
   }
 
+  checkIfDatesAreValid() {
+    const dateParts1 = this.from.split(' ');
+    const dateParts2 = this.to.split(' ');
+    const month1 = this.service.giveMonth(+dateParts1[1]);
+    const month2 = this.service.giveMonth(+dateParts2[1]);
+    const presentDate = new Date();
+    const presentYear = +formatDate(presentDate, 'yyyy', 'en-UK');
+    const presentMonth = +formatDate(presentDate, 'MM', 'en-UK');
+    const presentDay = +formatDate(presentDate, 'dd', 'en-UK');
+
+    if (+dateParts1[0] > presentYear || +dateParts2[0] > presentYear) {
+
+      this.earlierDatesThanPresent = false;
+
+    } else if ((+dateParts1[1] > presentMonth && +dateParts1[0] === presentYear) || (+dateParts2[1] > presentMonth && +dateParts2[0] === presentYear)) {
+
+      this.earlierDatesThanPresent = false;
+
+    } else if ((+dateParts1[2] > presentDay && +dateParts1[1] === presentMonth) || (+dateParts2[2] > presentDay && +dateParts2[1] === presentMonth)) {
+
+      this.earlierDatesThanPresent = false;
+
+    } else {
+      this.earlierDatesThanPresent = true;
+    }
+    if (+dateParts1[0] > +dateParts2[0]) {
+
+      this.validDates = false;
+
+    } else if (+dateParts1[1] > 12 || +dateParts1[1] < 1 || +dateParts2[1] > 12 || +dateParts2[1] < 1) {
+
+      this.validDates = false;
+
+    } else if (+dateParts1[1] > +dateParts2[1] && +dateParts1[0] === +dateParts2[0]) {
+
+      this.validDates = false;
+
+    } else if (+dateParts1[2] > MONTHS[month1] || +dateParts2[2] > MONTHS[month2] || +dateParts1[2] < 1 || +dateParts2[2] < 1) {
+
+      this.validDates = false;
+
+    } else if (+dateParts1[2] > +dateParts2[2] && +dateParts1[1] === +dateParts2[1] && +dateParts1[0] === +dateParts2[0]) {
+
+      this.validDates = false;
+
+    } else {
+
+      this.validDates = true;
+
+    }
+  }
+
   computeMonthsScope(from: string, to: string): Array<{ Date, number }> {
-    let q = [];
+    const q = [];
     let febDays: number;
     const startYear = +formatDate(from, 'yyyy', 'en-UK');
     const endYear = +formatDate(to, 'yyyy', 'en-UK');
@@ -62,10 +118,10 @@ export class StatsComponent implements OnInit {
     }
     if ((((startYear % 4 === 0 && startYear % 100 !== 0) || startYear % 400 === 0) &&
       (formatDate(from, 'MMM', 'en-UK') === 'Jan' ||
-      formatDate(from, 'MMM', 'en-UK') === 'Feb')) ||
+        formatDate(from, 'MMM', 'en-UK') === 'Feb')) ||
       (((endYear % 4 === 0 && endYear % 100 !== 0) || endYear % 400 === 0) &&
         (formatDate(from, 'MMM', 'en-UK') !== 'Jan' ||
-        formatDate(from, 'MMM', 'en-UK') !== 'Feb'))){
+          formatDate(from, 'MMM', 'en-UK') !== 'Feb'))) {
       febDays = 29;
     } else {
       febDays = 28;
@@ -138,7 +194,7 @@ export class StatsComponent implements OnInit {
     let q = [];
     let year = +formatDate(this.from, 'yyyy', 'en-UK');
     let scope = 0;
-    let previousScope = 0;
+    const previousScope = 0;
     let yearDays: number;
 
 
@@ -160,9 +216,9 @@ export class StatsComponent implements OnInit {
           (formatDate(this.to, 'dd', 'en-UK') >= formatDate(this.from, 'dd', 'en-UK')))) {
 
         let yearScope = +formatDate(this.to, 'yyyy', 'en-UK') - (+formatDate(this.from, 'yyyy', 'en-UK'));
-        if (+formatDate(this.to, 'MM','en-UK') < +formatDate(this.from, 'MM','en-UK') ||
-          (+formatDate(this.to, 'MM','en-UK') === +formatDate(this.from, 'MM','en-UK') &&
-            +formatDate(this.to, 'dd','en-UK') < +formatDate(this.from, 'dd','en-UK'))){
+        if (+formatDate(this.to, 'MM', 'en-UK') < +formatDate(this.from, 'MM', 'en-UK') ||
+          (+formatDate(this.to, 'MM', 'en-UK') === +formatDate(this.from, 'MM', 'en-UK') &&
+            +formatDate(this.to, 'dd', 'en-UK') < +formatDate(this.from, 'dd', 'en-UK'))) {
 
           yearScope--;
 
@@ -185,8 +241,8 @@ export class StatsComponent implements OnInit {
             y: 100 * i * Math.round(Math.random())
           });
         }
-        if (formatDate(this.to, 'dd', 'en-UK') !== formatDate(this.from, 'dd', 'en-UK')){
-          let q2 = this.computeMonthsScope(formatDate(new Date(+formatDate(this.from, 'yyyy', 'en-UK'),
+        if (formatDate(this.to, 'dd', 'en-UK') !== formatDate(this.from, 'dd', 'en-UK')) {
+          const q2 = this.computeMonthsScope(formatDate(new Date(+formatDate(this.from, 'yyyy', 'en-UK'),
             +formatDate(this.from, 'MM', 'en-UK') - 1,
             +formatDate(this.from, 'dd', 'en-UK') + scope), 'yyyy MM dd', 'en-UK'), this.to);
           q = q.concat(q2);

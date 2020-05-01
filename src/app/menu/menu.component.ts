@@ -2,6 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {User} from '../model/User';
 import {DataService} from '../data.service';
+import {Subscription} from 'rxjs';
+import {StatsService} from './stats/classes/stats.service';
 
 @Component({
   selector: 'app-menu',
@@ -14,10 +16,13 @@ export class MenuComponent implements OnInit, OnDestroy {
   points: number;
   action: string;
   subscription: any;
+  favouriteStatsSubscription: Subscription;
+  statsFavourite: string;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private dataService: DataService) {
+              private dataService: DataService,
+              private statsService: StatsService) {
   }
 
   ngOnInit(): void {
@@ -28,7 +33,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     );
     this.route.queryParams.subscribe(
       (params) => {
-        this.action = params['action'];
+        this.action = params.action;
       }
     );
     this.points = this.maxPoints();
@@ -43,10 +48,14 @@ export class MenuComponent implements OnInit, OnDestroy {
       complete => {
       }
     );
-  }
 
+    this.favouriteStatsSubscription = this.statsService.favouriteStatsEventEmitter.subscribe(
+      favourite => this.statsFavourite = favourite
+    );
+  }
   ngOnDestroy(): void {
-    this.subscription.unsubscribe;
+    this.subscription.unsubscribe();
+      this.favouriteStatsSubscription.unsubscribe();
   }
 
   // metoda ktora nam wlasnie tworzy taki routing np  http://localhost:4200/menu?action=rankings

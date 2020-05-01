@@ -19,11 +19,17 @@ export class StatsComponent implements OnInit {
   to: string;
   validDates = true;
   earlierDatesThanPresent = true;
+  exitButton = false;
+  all = true;
+  chartId: number;
+  private heights = [400, 400, 400, 400, 400, 400, 400, 400, 400, 400, 400];
+  private widths = [600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600];
 
   constructor(private service: StatsService) {
   }
 
   ngOnInit(): void {
+    this.chartId = -1;
     this.selectedBookmark = this.favourite;
     this.from = formatDate(new Date(2020, 3, 10), 'yyyy MM dd', 'en-UK');
     this.to = formatDate(new Date(), 'yyyy MM dd', 'en-UK');
@@ -95,6 +101,60 @@ export class StatsComponent implements OnInit {
     }
   }
 
+  decreaseChart() {
+    this.all = true;
+    this.exitButton = false;
+    this.heights[this.chartId] = 400;
+    this.widths[this.chartId] = 600;
+    this.initializeCharts();
+  }
+
+
+  expandChart(chartId: number) {
+    this.all = false;
+    this.exitButton = true;
+    switch (chartId) {
+      case 0:
+        this.chartId = 0;
+        break;
+      case 1:
+        this.chartId = 1;
+        break;
+      case 2:
+        this.chartId = 2;
+        break;
+      case 3:
+        this.chartId = 3;
+        break;
+      case 4:
+        this.chartId = 4;
+        break;
+      case 5:
+        this.chartId = 5;
+        break;
+      case 6:
+        this.chartId = 6;
+        break;
+      case 7:
+        this.chartId = 7;
+        break;
+      case 8:
+        this.chartId = 8;
+        break;
+      case 9:
+        this.chartId = 9;
+        break;
+      case 10:
+        this.chartId = 10;
+        break;
+    }
+
+    this.heights[this.chartId] = 700;
+    this.widths[this.chartId] = 1300;
+    this.initializeCharts();
+
+  }
+
   computeMonthsScope(from: string, to: string, type: string): Array<{ Date, number }> {
     const q = [];
     let febDays: number;
@@ -114,14 +174,14 @@ export class StatsComponent implements OnInit {
       formatDate(this.from, 'dd', 'en-UK') < formatDate(this.to, 'dd', 'en-UK')) {
       scope += +formatDate(to, 'dd', 'en-UK') - (+formatDate(from, 'dd', 'en-UK'));
       for (let i = 0; i <= scope; i++) {
-        if (type === 'financial'){
+        if (type === 'financial') {
           yValue = 100 * i * Math.round(Math.random());
-          if (i === 0){
+          if (i === 0) {
             difference = yValue;
           } else {
-            difference = yValue - q[i-1].y;
+            difference = yValue - q[i - 1].y;
           }
-          if (difference > 0){
+          if (difference > 0) {
             indexLabel = `+${difference}`;
             markerColor = 'green';
             markerType = 'triangle';
@@ -133,7 +193,7 @@ export class StatsComponent implements OnInit {
           q[i] = ({
             x: new Date(+formatDate(this.from, 'yyyy', 'en-UK'), +formatDate(this.from, 'MM', 'en-UK') - 1, +formatDate(this.from, 'dd', 'en-UK') + i),
             y: yValue,
-            indexLabel: indexLabel,markerColor: markerColor, markerType: markerType
+            indexLabel: indexLabel, markerColor: markerColor, markerType: markerType
           });
 
         } else {
@@ -165,14 +225,14 @@ export class StatsComponent implements OnInit {
     }
 
     for (let i = 0; i <= scope; i++) {
-      if (type === 'financial'){
+      if (type === 'financial') {
         yValue = 100 * i * Math.round(Math.random());
-        if (i === 0){
+        if (i === 0) {
           difference = yValue;
         } else {
-          difference = yValue - q[i-1].y;
+          difference = yValue - q[i - 1].y;
         }
-        if (difference > 0){
+        if (difference > 0) {
           indexLabel = `+${difference}`;
           markerColor = 'green';
           markerType = 'triangle';
@@ -184,7 +244,7 @@ export class StatsComponent implements OnInit {
         q[i] = ({
           x: new Date(+formatDate(this.from, 'yyyy', 'en-UK'), +formatDate(this.from, 'MM', 'en-UK') - 1, +formatDate(this.from, 'dd', 'en-UK') + i),
           y: yValue,
-          indexLabel: indexLabel,markerColor: markerColor, markerType: markerType
+          indexLabel: indexLabel, markerColor: markerColor, markerType: markerType
         });
 
       } else {
@@ -221,14 +281,14 @@ export class StatsComponent implements OnInit {
           }
 
           for (let i = previousScope; i <= scope; i++) {
-            if (type === 'financial'){
+            if (type === 'financial') {
               yValue = 100 * i * Math.round(Math.random());
-              if (i === 0){
+              if (i === 0) {
                 difference = yValue;
               } else {
-                difference = yValue - q[i-1].y;
+                difference = yValue - q[i - 1].y;
               }
-              if (difference > 0){
+              if (difference > 0) {
                 indexLabel = `+${difference}`;
                 markerColor = 'green';
                 markerType = 'triangle';
@@ -240,7 +300,7 @@ export class StatsComponent implements OnInit {
               q[i] = ({
                 x: new Date(+formatDate(this.from, 'yyyy', 'en-UK'), +formatDate(this.from, 'MM', 'en-UK') - 1, +formatDate(this.from, 'dd', 'en-UK') + i),
                 y: yValue,
-                indexLabel: indexLabel,markerColor: markerColor, markerType: markerType
+                indexLabel: indexLabel, markerColor: markerColor, markerType: markerType
               });
 
             } else {
@@ -305,7 +365,7 @@ export class StatsComponent implements OnInit {
     let difference: number;
     let type: string;
 
-      if (formatDate(this.from, 'yyyy', 'en-UK') === formatDate(this.to, 'yyyy', 'en-UK')) {
+    if (formatDate(this.from, 'yyyy', 'en-UK') === formatDate(this.to, 'yyyy', 'en-UK')) {
       if (formatDate(this.from, 'MM', 'en-UK') === formatDate(this.to, 'MM', 'en-UK')) {
         for (let i = 0; i <= (+formatDate(this.to, 'dd', 'en-UK') - (+formatDate(this.from, 'dd', 'en-UK'))); i++) {
           q[i] = ({
@@ -313,12 +373,12 @@ export class StatsComponent implements OnInit {
             y: 100 * i * Math.round(Math.random())
           });
           yValue = 100 * i * Math.round(Math.random());
-          if (i === 0){
+          if (i === 0) {
             difference = yValue;
           } else {
-            difference = yValue - q2[i-1].y;
+            difference = yValue - q2[i - 1].y;
           }
-          if (difference > 0){
+          if (difference > 0) {
             indexLabel = `+${difference}`;
             markerColor = 'green';
             markerType = 'triangle';
@@ -330,7 +390,7 @@ export class StatsComponent implements OnInit {
           q2[i] = ({
             x: new Date(+formatDate(this.from, 'yyyy', 'en-UK'), +formatDate(this.from, 'MM', 'en-UK') - 1, +formatDate(this.from, 'dd', 'en-UK') + i),
             y: yValue,
-            indexLabel: indexLabel,markerColor: markerColor, markerType: markerType
+            indexLabel: indexLabel, markerColor: markerColor, markerType: markerType
           });
 
         }
@@ -372,12 +432,12 @@ export class StatsComponent implements OnInit {
             y: 100 * i * Math.round(Math.random())
           });
           yValue = 100 * i * Math.round(Math.random());
-          if (i === 0){
+          if (i === 0) {
             difference = yValue;
           } else {
-            difference = yValue - q2[i-1].y;
+            difference = yValue - q2[i - 1].y;
           }
-          if (difference > 0){
+          if (difference > 0) {
             indexLabel = `+${difference}`;
             markerColor = 'green';
             markerType = 'triangle';
@@ -389,7 +449,7 @@ export class StatsComponent implements OnInit {
           q2[i] = ({
             x: new Date(+formatDate(this.from, 'yyyy', 'en-UK'), +formatDate(this.from, 'MM', 'en-UK') - 1, +formatDate(this.from, 'dd', 'en-UK') + i),
             y: yValue,
-            indexLabel: indexLabel,markerColor: markerColor, markerType: markerType
+            indexLabel: indexLabel, markerColor: markerColor, markerType: markerType
           });
 
         }
@@ -416,6 +476,8 @@ export class StatsComponent implements OnInit {
 
     const chart = new CanvasJS.Chart('chartContainer', {
       animationEnabled: true,
+      height: this.heights[0],
+      width: this.widths[0],
       theme: 'light2',
       title: {
         text: 'User scores'
@@ -444,6 +506,8 @@ export class StatsComponent implements OnInit {
 
     const chart2 = new CanvasJS.Chart('chartContainer2', {
       animationEnabled: true,
+      height: this.heights[1],
+      width: this.widths[1],
       theme: 'light2',
       title: {
         text: 'All User Ranking Points'
@@ -464,6 +528,7 @@ export class StatsComponent implements OnInit {
         }
       },
       data: [{
+        indexLabelFontSize: 8,
         type: 'line',
         dataPoints: q2
       }]
@@ -473,6 +538,8 @@ export class StatsComponent implements OnInit {
 
     const chart3 = new CanvasJS.Chart('chartContainer3', {
       animationEnabled: true,
+      height: this.heights[2],
+      width: this.widths[2],
       theme: 'light2',
       title: {
         text: 'Challenge User Ranking Points'
@@ -493,6 +560,7 @@ export class StatsComponent implements OnInit {
         }
       },
       data: [{
+        indexLabelFontSize: 8,
         type: 'line',
         dataPoints: q2
       }]
@@ -504,19 +572,18 @@ export class StatsComponent implements OnInit {
     let q4 = q;
     let q5 = q;
 
-    for (let i = 0; i < q.length; i++){
+    for (let i = 0; i < q.length; i++) {
       q3[i].y += Math.round(Math.random() + 50);
       q4[i].y += Math.round(Math.random() + 150);
       q5[i].y += Math.round(Math.random() + 300);
-      console.log(q3[i].y)
-      console.log(q4[i].y)
-      console.log(q5[i].y)
     }
 
     const chart4 = new CanvasJS.Chart("chartContainer4", {
       animationEnabled: true,
+      height: this.heights[3],
+      width: this.widths[3],
       theme: 'light2',
-      title:{
+      title: {
         text: "Amount of players vs guests"
       },
       axisX: {
@@ -526,12 +593,12 @@ export class StatsComponent implements OnInit {
       axisY: {
         title: "Amount of users"
       },
-      legend:{
+      legend: {
         verticalAlign: "top",
         horizontalAlign: "center",
         dockInsidePlotArea: true,
       },
-      toolTip:{
+      toolTip: {
         shared: true
       },
       data: [{
@@ -558,6 +625,8 @@ export class StatsComponent implements OnInit {
 
     const chart5 = new CanvasJS.Chart("chartContainer5", {
       animationEnabled: true,
+      height: this.heights[4],
+      width: this.widths[4],
       theme: 'light2',
       title: {
         text: "Incidence of logon"
@@ -580,8 +649,10 @@ export class StatsComponent implements OnInit {
 
     const chart6 = new CanvasJS.Chart("chartContainer6", {
       animationEnabled: true,
+      height: this.heights[5],
+      width: this.widths[5],
       theme: 'light2',
-      title:{
+      title: {
         text: "Amount of logged players"
       },
       axisX: {
@@ -604,39 +675,39 @@ export class StatsComponent implements OnInit {
         markerSize: 0,
         name: "min and max amount of logged players",
         showInLegend: true,
-       toolTipContent: "{x}<br><span style=\"color:#6D77AC\">Amount of logged players: </span><br>Min: {y[1]}<br>Max: {y[0]}",
+        toolTipContent: "{x}<br><span style=\"color:#6D77AC\">Amount of logged players: </span><br>Min: {y[1]}<br>Max: {y[0]}",
         dataPoints: [
-          { x: new Date(2017, 6, 1), y: [30, 19] },
-          { x: new Date(2017, 6, 2), y: [30, 21] },
-          { x: new Date(2017, 6, 3), y: [29, 21] },
-          { x: new Date(2017, 6, 4), y: [28, 20] },
-          { x: new Date(2017, 6, 5), y: [29, 20] },
-          { x: new Date(2017, 6, 6), y: [29, 20] },
-          { x: new Date(2017, 6, 7), y: [27, 21] },
-          { x: new Date(2017, 6, 8), y: [26, 20] },
-          { x: new Date(2017, 6, 9), y: [30, 20] },
-          { x: new Date(2017, 6, 10), y: [30, 21] },
-          { x: new Date(2017, 6, 11), y: [30, 21] },
-          { x: new Date(2017, 6, 12),y: [29, 21] },
-          { x: new Date(2017, 6, 13),y: [27, 20] },
-          { x: new Date(2017, 6, 14),y: [27, 20] },
-          { x: new Date(2017, 6, 15),y: [25, 20] },
-          { x: new Date(2017, 6, 16),y: [29, 20] },
-          { x: new Date(2017, 6, 17),y: [28, 20] },
-          { x: new Date(2017, 6, 18),y: [27, 21] },
-          { x: new Date(2017, 6, 19),y: [27, 21] },
-          { x: new Date(2017, 6, 20),y: [29, 21] },
-          { x: new Date(2017, 6, 21),y: [29, 20] },
-          { x: new Date(2017, 6, 22),y: [31, 20] },
-          { x: new Date(2017, 6, 23),y: [30, 21] },
-          { x: new Date(2017, 6, 24),y: [30, 20] },
-          { x: new Date(2017, 6, 25),y: [31, 21] },
-          { x: new Date(2017, 6, 26),y: [30, 21] },
-          { x: new Date(2017, 6, 27),y: [31, 21] },
-          { x: new Date(2017, 6, 28),y: [31, 21] },
-          { x: new Date(2017, 6, 29),y: [31, 21] },
-          { x: new Date(2017, 6, 30), y: [31, 21] },
-          { x: new Date(2017, 6, 31), y: [31, 22] }
+          {x: new Date(2017, 6, 1), y: [30, 19]},
+          {x: new Date(2017, 6, 2), y: [30, 21]},
+          {x: new Date(2017, 6, 3), y: [29, 21]},
+          {x: new Date(2017, 6, 4), y: [28, 20]},
+          {x: new Date(2017, 6, 5), y: [29, 20]},
+          {x: new Date(2017, 6, 6), y: [29, 20]},
+          {x: new Date(2017, 6, 7), y: [27, 21]},
+          {x: new Date(2017, 6, 8), y: [26, 20]},
+          {x: new Date(2017, 6, 9), y: [30, 20]},
+          {x: new Date(2017, 6, 10), y: [30, 21]},
+          {x: new Date(2017, 6, 11), y: [30, 21]},
+          {x: new Date(2017, 6, 12), y: [29, 21]},
+          {x: new Date(2017, 6, 13), y: [27, 20]},
+          {x: new Date(2017, 6, 14), y: [27, 20]},
+          {x: new Date(2017, 6, 15), y: [25, 20]},
+          {x: new Date(2017, 6, 16), y: [29, 20]},
+          {x: new Date(2017, 6, 17), y: [28, 20]},
+          {x: new Date(2017, 6, 18), y: [27, 21]},
+          {x: new Date(2017, 6, 19), y: [27, 21]},
+          {x: new Date(2017, 6, 20), y: [29, 21]},
+          {x: new Date(2017, 6, 21), y: [29, 20]},
+          {x: new Date(2017, 6, 22), y: [31, 20]},
+          {x: new Date(2017, 6, 23), y: [30, 21]},
+          {x: new Date(2017, 6, 24), y: [30, 20]},
+          {x: new Date(2017, 6, 25), y: [31, 21]},
+          {x: new Date(2017, 6, 26), y: [30, 21]},
+          {x: new Date(2017, 6, 27), y: [31, 21]},
+          {x: new Date(2017, 6, 28), y: [31, 21]},
+          {x: new Date(2017, 6, 29), y: [31, 21]},
+          {x: new Date(2017, 6, 30), y: [31, 21]},
+          {x: new Date(2017, 6, 31), y: [31, 22]}
         ]
       }]
     });
@@ -646,7 +717,7 @@ export class StatsComponent implements OnInit {
 
     function addAverages() {
       let dps = [];
-      for(let i = 0; i < chart6.options.data[0].dataPoints.length; i++) {
+      for (let i = 0; i < chart6.options.data[0].dataPoints.length; i++) {
         dps.push({
           x: chart6.options.data[0].dataPoints[i].x,
           y: (chart6.options.data[0].dataPoints[i].y[0] + chart6.options.data[0].dataPoints[i].y[1]) / 2
@@ -666,6 +737,8 @@ export class StatsComponent implements OnInit {
 
     const chart7 = new CanvasJS.Chart("chartContainer7", {
       animationEnabled: true,
+      height: this.heights[6],
+      width: this.widths[6],
       theme: 'light2',
       title: {
         text: "Parts of a day of biggest website traffic"
@@ -693,14 +766,16 @@ export class StatsComponent implements OnInit {
     });
     chart7.render();
 
-    for (let i of q){
+    for (let i of q) {
       i.y = Math.floor(Math.random() * (100 + 1));
     }
 
     const chart8 = new CanvasJS.Chart("chartContainer8", {
       animationEnabled: true,
+      height: this.heights[7],
+      width: this.widths[7],
       theme: 'light2',
-      title:{
+      title: {
         text: "Customer Satisfaction Based on Reviews"
       },
       axisY: {
@@ -720,6 +795,8 @@ export class StatsComponent implements OnInit {
 
     let chart9 = new CanvasJS.Chart("chartContainer9", {
       animationEnabled: true,
+      height: this.heights[8],
+      width: this.widths[8],
       theme: 'light2',
       title: {
         text: "Quantity of invitations by effect"
@@ -739,7 +816,7 @@ export class StatsComponent implements OnInit {
         dockInsidePlotArea: true,
       },
       data: [{
-        type:"line",
+        type: "line",
         name: "All",
         showInLegend: true,
         markerSize: 0,
@@ -764,6 +841,8 @@ export class StatsComponent implements OnInit {
 
     let chart10 = new CanvasJS.Chart("chartContainer10", {
       animationEnabled: true,
+      height: this.heights[9],
+      width: this.widths[9],
       theme: 'light2',
       title: {
         text: "Quantity of Singleplayer and Multiplayer games"
@@ -783,27 +862,29 @@ export class StatsComponent implements OnInit {
         dockInsidePlotArea: true,
       },
       data: [{
-        type:"line",
+        type: "line",
         name: "Singleplayer",
         showInLegend: true,
         markerSize: 0,
         dataPoints: q5
-  },
-    {
-      type: "line",
-      name: "Multiplayer",
-      showInLegend: true,
-      markerSize: 0,
-      dataPoints: q
-    }]
-  });
+      },
+        {
+          type: "line",
+          name: "Multiplayer",
+          showInLegend: true,
+          markerSize: 0,
+          dataPoints: q
+        }]
+    });
     chart10.render();
 
 
     const chart11 = new CanvasJS.Chart("chartContainer11", {
       animationEnabled: true,
+      height: this.heights[10],
+      width: this.widths[10],
       theme: 'light2',
-      title:{
+      title: {
         text: "Values of bets through time"
       },
       axisX: {
@@ -828,37 +909,37 @@ export class StatsComponent implements OnInit {
         showInLegend: true,
         toolTipContent: "{x}<br><span style=\"color:#6D77AC\">Value of bet: </span><br>Min: {y[1]}<br>Max: {y[0]}",
         dataPoints: [
-          { x: new Date(2017, 6, 1), y: [30, 19] },
-          { x: new Date(2017, 6, 2), y: [30, 21] },
-          { x: new Date(2017, 6, 3), y: [29, 21] },
-          { x: new Date(2017, 6, 4), y: [28, 20] },
-          { x: new Date(2017, 6, 5), y: [29, 20] },
-          { x: new Date(2017, 6, 6), y: [29, 20] },
-          { x: new Date(2017, 6, 7), y: [27, 21] },
-          { x: new Date(2017, 6, 8), y: [26, 20] },
-          { x: new Date(2017, 6, 9), y: [30, 20] },
-          { x: new Date(2017, 6, 10), y: [30, 21] },
-          { x: new Date(2017, 6, 11), y: [30, 21] },
-          { x: new Date(2017, 6, 12),y: [29, 21] },
-          { x: new Date(2017, 6, 13),y: [27, 20] },
-          { x: new Date(2017, 6, 14),y: [27, 20] },
-          { x: new Date(2017, 6, 15),y: [25, 20] },
-          { x: new Date(2017, 6, 16),y: [29, 20] },
-          { x: new Date(2017, 6, 17),y: [28, 20] },
-          { x: new Date(2017, 6, 18),y: [27, 21] },
-          { x: new Date(2017, 6, 19),y: [27, 21] },
-          { x: new Date(2017, 6, 20),y: [29, 21] },
-          { x: new Date(2017, 6, 21),y: [29, 20] },
-          { x: new Date(2017, 6, 22),y: [31, 20] },
-          { x: new Date(2017, 6, 23),y: [30, 21] },
-          { x: new Date(2017, 6, 24),y: [30, 20] },
-          { x: new Date(2017, 6, 25),y: [31, 21] },
-          { x: new Date(2017, 6, 26),y: [30, 21] },
-          { x: new Date(2017, 6, 27),y: [31, 21] },
-          { x: new Date(2017, 6, 28),y: [31, 21] },
-          { x: new Date(2017, 6, 29),y: [31, 21] },
-          { x: new Date(2017, 6, 30), y: [31, 21] },
-          { x: new Date(2017, 6, 31), y: [31, 22] }
+          {x: new Date(2017, 6, 1), y: [30, 19]},
+          {x: new Date(2017, 6, 2), y: [30, 21]},
+          {x: new Date(2017, 6, 3), y: [29, 21]},
+          {x: new Date(2017, 6, 4), y: [28, 20]},
+          {x: new Date(2017, 6, 5), y: [29, 20]},
+          {x: new Date(2017, 6, 6), y: [29, 20]},
+          {x: new Date(2017, 6, 7), y: [27, 21]},
+          {x: new Date(2017, 6, 8), y: [26, 20]},
+          {x: new Date(2017, 6, 9), y: [30, 20]},
+          {x: new Date(2017, 6, 10), y: [30, 21]},
+          {x: new Date(2017, 6, 11), y: [30, 21]},
+          {x: new Date(2017, 6, 12), y: [29, 21]},
+          {x: new Date(2017, 6, 13), y: [27, 20]},
+          {x: new Date(2017, 6, 14), y: [27, 20]},
+          {x: new Date(2017, 6, 15), y: [25, 20]},
+          {x: new Date(2017, 6, 16), y: [29, 20]},
+          {x: new Date(2017, 6, 17), y: [28, 20]},
+          {x: new Date(2017, 6, 18), y: [27, 21]},
+          {x: new Date(2017, 6, 19), y: [27, 21]},
+          {x: new Date(2017, 6, 20), y: [29, 21]},
+          {x: new Date(2017, 6, 21), y: [29, 20]},
+          {x: new Date(2017, 6, 22), y: [31, 20]},
+          {x: new Date(2017, 6, 23), y: [30, 21]},
+          {x: new Date(2017, 6, 24), y: [30, 20]},
+          {x: new Date(2017, 6, 25), y: [31, 21]},
+          {x: new Date(2017, 6, 26), y: [30, 21]},
+          {x: new Date(2017, 6, 27), y: [31, 21]},
+          {x: new Date(2017, 6, 28), y: [31, 21]},
+          {x: new Date(2017, 6, 29), y: [31, 21]},
+          {x: new Date(2017, 6, 30), y: [31, 21]},
+          {x: new Date(2017, 6, 31), y: [31, 22]}
         ]
       }]
     });
@@ -868,7 +949,7 @@ export class StatsComponent implements OnInit {
 
     function addAverages11() {
       let dps = [];
-      for(let i = 0; i < chart11.options.data[0].dataPoints.length; i++) {
+      for (let i = 0; i < chart11.options.data[0].dataPoints.length; i++) {
         dps.push({
           x: chart11.options.data[0].dataPoints[i].x,
           y: (chart11.options.data[0].dataPoints[i].y[0] + chart11.options.data[0].dataPoints[i].y[1]) / 2

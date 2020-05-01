@@ -3,7 +3,7 @@
 
 <!-- Sidebar menu -->
     <!--TODO responsiveness, hide sidebar on sm-->
-    <div class="sidebar ">
+    <div class="sidebar sticky-top">
       <div class="profile media">
         <div class="avatar">
           <img src="assets/img/avatar.png" class="img-responsive center-block" alt="Logo">
@@ -15,17 +15,17 @@
         </div>
       </div>
       <br><br>
-        <div class="left-navigation">
-          <ul class="list">
-            <li type="button" (click)="redirectTo('game')">Singleplayer</li>
-            <li type="button" (click)="redirectTo('waitingRoom')" >Multiplayer</li>
-            <li type="button" (click)="redirectTo('friends')" >Friends</li>
-            <li type="button" (click)="redirectTo('rankings')">Rankings</li>
-            <li type="button" (click)="redirectTo('stats')">Stats</li>
-            <li type="button" (click)="redirectTo('setting')">Settings</li>
-            <li type="button">Log out</li>
+        <nav class="left-navigation">
+          <ul class="nav nav-tabs navbar-nav">
+            <li class="btn" type="button" [ngClass]="{'active': action === 'game'}" (click)="redirectTo('game')">Singleplayer</li>
+            <li class="btn" type="button" [ngClass]="{'active': action === 'waitingRoom'}" (click)="redirectTo('waitingRoom')" >Multiplayer</li>
+            <li class="btn" type="button" [ngClass]="{'active': action === 'friends'}" (click)="redirectTo('friends')" >Friends</li>
+            <li class="btn" type="button" [ngClass]="{'active': action === 'rankings'}" (click)="redirectTo('rankings')">Rankings</li>
+            <li class="btn" type="button" [ngClass]="{'active': action === 'stats'}" (click)="redirectTo('stats')">Stats</li>
+            <li class="btn" type="button" [ngClass]="{'active': action === 'setting'}" (click)="redirectTo('setting')">Settings</li>
+            <li class="btn" type="button">Log out</li>
           </ul>
-        </div>
+        </nav>
     </div>
 
 <!-- Pages content -->

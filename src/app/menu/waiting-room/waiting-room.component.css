@@ -31,5 +31,16 @@ select {
   color: green;
 }
 
+
 .btn-light {
+  margin-left: 10px;
 }
+
+.fixed-bottom{
+  max-width: 1000px;
+}
+
+.child-bar{
+  background-color: #E9ECEF;
+}
+

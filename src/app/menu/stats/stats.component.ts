@@ -30,11 +30,16 @@ export class StatsComponent implements OnInit {
 
   ngOnInit(): void {
     this.chartId = -1;
+
     this.selectedBookmark = this.favourite;
     this.from = formatDate(new Date(2020, 3, 10), 'yyyy MM dd', 'en-UK');
     this.to = formatDate(new Date(), 'yyyy MM dd', 'en-UK');
 
     this.initializeCharts();
+    this.role = 'admin';
+    if (this.role === 'user'){
+      this.selectedBookmark = 'User';
+    }
   }
 
   changeBookmark(bookmark: string) {
@@ -567,6 +572,10 @@ export class StatsComponent implements OnInit {
     });
 
     chart3.render();
+
+    if (this.role === 'user'){
+      return;
+    }
 
     let q3 = q;
     let q4 = q;

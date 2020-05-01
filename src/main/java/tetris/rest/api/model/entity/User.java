@@ -95,8 +95,5 @@ public class User {
         return username;
     }
 
-    public void setName(String username) {
-        this.username = username;
-    }
 
 }

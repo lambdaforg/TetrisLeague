@@ -50,14 +50,6 @@ public class Game {
         this.score = score;
     }
 
-    public Integer getLine() {
-        return scoreLines;
-    }
-
-    public void setLine(Integer lines) {
-        this.scoreLines = lines;
-    }
-
     public Integer getLevel() {
         return level;
     }

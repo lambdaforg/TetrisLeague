@@ -23,7 +23,9 @@ export class WaitingRoomComponent implements OnInit {
   }
 
   public createRoom() {
-    this.modalService.open(RoomModalComponent);
+    this.modalService.open(RoomModalComponent, {
+      backdrop: 'static'
+    });
   }
 
   public joinRoom() {

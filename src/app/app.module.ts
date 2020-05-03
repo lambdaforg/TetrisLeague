@@ -16,6 +16,7 @@ import {FriendsComponent} from './menu/friends/friends.component';
 import {ModalDismissReasons, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {LeaveRoomDialog, RoomModalComponent} from './menu/waiting-room/room-modal/room-modal.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {RoomModalComponent, LeaveRoomDialogComponent} from './menu/waiting-room/room-modal/room-modal.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent},
@@ -40,7 +41,7 @@ const appRoutes: Routes = [
     WaitingRoomComponent,
     FriendsComponent,
     RoomModalComponent,
-    LeaveRoomDialog
+    LeaveRoomDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -54,4 +55,5 @@ const appRoutes: Routes = [
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {
+}

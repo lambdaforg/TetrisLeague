@@ -23,9 +23,11 @@ export class WaitingRoomComponent implements OnInit {
   }
 
   public createRoom() {
-    const modalRef = this.modalService.open(RoomModalComponent);
+    this.modalService.open(RoomModalComponent);
+  }
 
-
+  public joinRoom() {
+    this.modalService.open(RoomModalComponent);
   }
 
 }

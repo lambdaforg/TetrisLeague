@@ -1,27 +1,27 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { SettingsComponent } from './menu/settings/settings.component';
-import { RankingsComponent } from './menu/rankings/rankings.component';
-import { StatsComponent } from './menu/stats/stats.component';
-import { HeaderComponent } from './header/header.component';
-import { MenuComponent } from './menu/menu.component';
+import {AppComponent} from './app.component';
+import {LoginComponent} from './login/login.component';
+import {RegisterComponent} from './register/register.component';
+import {SettingsComponent} from './menu/settings/settings.component';
+import {RankingsComponent} from './menu/rankings/rankings.component';
+import {StatsComponent} from './menu/stats/stats.component';
+import {HeaderComponent} from './header/header.component';
+import {MenuComponent} from './menu/menu.component';
 import {RouterModule, Routes} from '@angular/router';
-import { BoardComponent } from './game/board/board.component';
+import {BoardComponent} from './game/board/board.component';
 import {WaitingRoomComponent} from './menu/waiting-room/waiting-room.component';
 import {FriendsComponent} from './menu/friends/friends.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule} from '@angular/forms';
 import {ModalDismissReasons, NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {LeaveRoomDialog, RoomModalComponent} from './menu/waiting-room/room-modal/room-modal.component';
+import {RoomModalComponent, LeaveRoomDialogComponent} from './menu/waiting-room/room-modal/room-modal.component';
 
 const appRoutes: Routes = [
-  { path: 'login', component: LoginComponent},
-  { path: 'register', component: RegisterComponent},
-  { path: 'menu', component: MenuComponent},
-  { path: '**', redirectTo : '/login'}
+  {path: 'login', component: LoginComponent},
+  {path: 'register', component: RegisterComponent},
+  {path: 'menu', component: MenuComponent},
+  {path: '**', redirectTo: '/login'}
 
 
 ];
@@ -40,7 +40,7 @@ const appRoutes: Routes = [
     WaitingRoomComponent,
     FriendsComponent,
     RoomModalComponent,
-    LeaveRoomDialog
+    LeaveRoomDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -53,4 +53,5 @@ const appRoutes: Routes = [
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {
+}

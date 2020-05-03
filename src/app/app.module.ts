@@ -13,6 +13,8 @@ import {RouterModule, Routes} from '@angular/router';
 import { BoardComponent } from './game/board/board.component';
 import {WaitingRoomComponent} from './menu/waiting-room/waiting-room.component';
 import {FriendsComponent} from './menu/friends/friends.component';
+import {ModalDismissReasons, NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {LeaveRoomDialog, RoomModalComponent} from './menu/waiting-room/room-modal/room-modal.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 const appRoutes: Routes = [
@@ -36,7 +38,9 @@ const appRoutes: Routes = [
     MenuComponent,
     BoardComponent,
     WaitingRoomComponent,
-    FriendsComponent
+    FriendsComponent,
+    RoomModalComponent,
+    LeaveRoomDialog
   ],
   imports: [
     BrowserModule,
@@ -45,8 +49,9 @@ const appRoutes: Routes = [
     RouterModule.forRoot(
       appRoutes
     ),
+    NgbModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

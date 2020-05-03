@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-// import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {Component, OnInit} from '@angular/core';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {RoomModalComponent} from './room-modal/room-modal.component';
 
 @Component({
   selector: 'app-waiting-room',
@@ -10,7 +11,8 @@ export class WaitingRoomComponent implements OnInit {
 
   selectedNavbar: string;
 
-  constructor() { }
+  constructor(private modalService: NgbModal) {
+  }
 
   ngOnInit(): void {
     this.selectedNavbar = 'filter';
@@ -20,8 +22,12 @@ export class WaitingRoomComponent implements OnInit {
     this.selectedNavbar = selectedNavbar;
   }
 
-  openCreatedRoom(createdRoomModal) {
-    // this.modalService.open(createdRoomModal);
+  public createRoom() {
+    const modalRef = this.modalService.open(RoomModalComponent);
+
+
   }
 
 }
+
+

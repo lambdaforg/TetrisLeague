@@ -73,7 +73,7 @@
         </select>
         <label class="col-form-label" for="password-input">Password:</label>
         <input class="form-control bet-input mr-sm-2" type="password" placeholder="" id="password-input">
-        <button class="btn btn-light btn-success" (click)="openCreatedRoom(createdRoomModal)">Create room</button>
+        <button class="btn btn-light btn-success" (click)="createRoom()">Create room</button>
       </form>
     </nav>
   </div>
@@ -121,17 +121,4 @@
   </div>
 
 </div>
-
-<!--  TODO joined and created room modals  -->
-<ng-template #createdRoomModal let-modal>
-  <div class="modal-header">
-    <h5>Waiting for players...</h5>
-  </div>
-  <div class="modal-body">
-    list of players
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn-danger">Leave</button>
-  </div>
-</ng-template>
 

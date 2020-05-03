@@ -10,7 +10,7 @@ import {StatsComponent} from './menu/stats/stats.component';
 import {HeaderComponent} from './header/header.component';
 import {MenuComponent} from './menu/menu.component';
 import {RouterModule, Routes} from '@angular/router';
-import {BoardComponent} from './game/board/board.component';
+import {BoardComponent, GameResultModalComponent} from './game/board/board.component';
 import {WaitingRoomComponent} from './menu/waiting-room/waiting-room.component';
 import {FriendsComponent} from './menu/friends/friends.component';
 import {FormsModule} from '@angular/forms';
@@ -40,7 +40,8 @@ const appRoutes: Routes = [
     WaitingRoomComponent,
     FriendsComponent,
     RoomModalComponent,
-    LeaveRoomDialogComponent
+    LeaveRoomDialogComponent,
+    GameResultModalComponent
   ],
   imports: [
     BrowserModule,

@@ -17,6 +17,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ModalDismissReasons, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {RoomModalComponent, LeaveRoomDialogComponent} from './menu/waiting-room/room-modal/room-modal.component';
 import {HttpClientModule} from "@angular/common/http";
+import { PasswordRecoveryComponent } from './password-recovery/password-recovery.component';
 
 const appRoutes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -43,7 +44,8 @@ const appRoutes: Routes = [
     FriendsComponent,
     RoomModalComponent,
     LeaveRoomDialogComponent,
-    GameResultModalComponent
+    GameResultModalComponent,
+    PasswordRecoveryComponent
   ],
   imports: [
     BrowserModule,

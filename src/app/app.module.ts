@@ -23,8 +23,8 @@ const appRoutes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'menu', component: MenuComponent},
+  {path: 'password-recovery', component: PasswordRecoveryComponent},
   {path: '**', redirectTo: '/login'}
-
 
 ];
 

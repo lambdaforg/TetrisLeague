@@ -14,16 +14,16 @@ import {BoardComponent, GameResultModalComponent} from './game/board/board.compo
 import {WaitingRoomComponent} from './menu/waiting-room/waiting-room.component';
 import {FriendsComponent} from './menu/friends/friends.component';
 import {FormsModule} from '@angular/forms';
-import {ModalDismissReasons, NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {RoomModalComponent, LeaveRoomDialogComponent} from './menu/waiting-room/room-modal/room-modal.component';
-import { PasswordRecoveryComponent } from './password-recovery/password-recovery.component';
+import {PasswordRecoveryComponent} from './password-recovery/password-recovery.component';
 
 const appRoutes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'menu', component: MenuComponent},
+  {path: 'password-recovery', component: PasswordRecoveryComponent},
   {path: '**', redirectTo: '/login'}
-
 
 ];
 

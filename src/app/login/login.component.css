@@ -1,0 +1,11 @@
+a {
+  cursor:pointer;
+  text-decoration:none;
+  color:dodgerblue;
+}
+
+a:hover {
+  text-decoration:underline;
+  color: blue;
+  /*text-shadow: 1px 1px 1px #555;*/
+}

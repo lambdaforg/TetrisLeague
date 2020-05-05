@@ -13,12 +13,15 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  redirectToRegister(){
+  redirectToRegister() {
     this.router.navigate(['register']);
   }
 
-  redirectToMenu(){
+  redirectToMenu() {
     this.router.navigate(['menu']);
   }
 
+  redirectToPasswordRecovery() {
+    this.router.navigate(['password-recovery']);
+  }
 }

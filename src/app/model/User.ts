@@ -7,7 +7,7 @@ export class User {
 
   points: Array<number> = [];
 
-  Questions: Array<Questions>
+  Questions: Array<Questions> = [];
   answerQuestion1: string;
   answerQuestion2: string;
 

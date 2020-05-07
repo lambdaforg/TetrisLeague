@@ -1,6 +1,6 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {User} from './model/User';
-import {Observable, of} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -20,9 +20,22 @@ export class DataService {
       user1.points.push(0);
       this.users.push(user1);
   }
+    createUser(user: User): Observable<User>{
+    user.id = this.users.length + 1;
+     this.users.push(user);
+    return of(user);
+  }
     getUser(id: number): Observable<User>{
         return of(this.users.find(p => p.id === id ));
     }
+    getUserByLogin(login: string, password: string): Observable<User> {
+      const user = this.users.find(p => p.login === login);
+      if (user !== undefined && user.password === password) {
+        return of(user);
+      }
+      return of(null);
+    }
+
     updateUser(user: User): Observable<User>{
      let user1 = this.users.find(p => p.id === user.id);
       user1.points = user.points;

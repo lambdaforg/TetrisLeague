@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {User} from '../model/User';
 import {DataService} from '../data.service';
@@ -10,8 +10,9 @@ import {DataService} from '../data.service';
 })
 export class MenuComponent implements OnInit, OnDestroy {
 
-
+  @Input()
   user: User;
+
   points: number;
   action: string
   subscription: any;
@@ -21,11 +22,13 @@ export class MenuComponent implements OnInit, OnDestroy {
               private dataService: DataService) {}
 
   ngOnInit(): void {
-    this.dataService.getUser(0).subscribe(
-      next => {
-              this.user = next;
-      }
-    );
+    if(this.user == null) {
+      this.dataService.getUser(0).subscribe(
+        next => {
+          this.user = next;
+        }
+      );
+    }
     this.route.queryParams.subscribe(
       (params) => {
         this.action = params['action'];

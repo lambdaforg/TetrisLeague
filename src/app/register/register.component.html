@@ -1,44 +1,64 @@
+<script src="../../../../RoomBookingClient/src/app/admin/rooms/room-edit/room-edit.component.ts"></script>
 <div class="container-fluid">
-  <div class="row justify-content-center">
-    <div class="">
-      <form class="form-container">
-        <div class="form-group">
+  <div class="row justify-content-center ">
+      <form class="form-container col-md-2"  [formGroup]="formRegister">
+        <div class="form-group text-center">
           <h4>Create new account</h4>
         </div>
         <div class="form-group">
-          <input type="login" class="form-control" id="inputLogin" placeholder="Login">
-        </div>
-        <div class="form-group">
-          <input type="password" class="form-control" id="inputPassword" placeholder="Password">
-        </div>
-        <div class="form-group">
-          <input type="password" class="form-control" id="inputConfirmPassword"
-                 placeholder="Confirm password">
-        </div>
-        <div class="form-group">
-          <h5 data-toggle="tooltip" data-placement="right" title="it will help you if you forget your password">Security questions</h5>
-          <p>Select and two questions<br /> and answer</p>
-          <div class="form-group">
-            <select class="form-control">
-              <option *ngFor="let question of questions |  keyvalue">{{question.value}}</option>
-            </select>
-            <input type="text" class="form-control" placeholder="Answer">
+          <input type="login" class="form-control" id="inputLogin" placeholder="Login" formControlName="name">
+          <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+          <div *ngIf="name.errors.required">Name is required</div>
+          <div *ngIf="name.errors.minlength">Name must be at least 4 characters long</div>
           </div>
-          <div class="form-group">
-            <select class="form-control">
-              <option *ngFor="let question of questions |  keyvalue">{{question.value}}</option>
-            </select>
-            <input type="text" class="form-control" placeholder="Answer">
+    </div>
+
+        <div class="form-group">
+          <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password">
+          <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+          <div *ngIf="password.invalid && password.errors.required ">Password is required</div>
+          <div *ngIf="password.invalid && password.errors.minlength">Password must be at least 7 characters long</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <input type="password" class="form-control" id="inputConfirmPassword" placeholder="Confirm password" formControlName="confirmPassword">
+          <div *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)" class="alert alert-danger">
+          <div *ngIf="confirmPassword.invalid && confirmPassword.errors.required">Confirm password is required</div>
+          <div *ngIf="confirmPassword.invalid && f.confirmPassword.errors.mustMatch">Passwords must match</div>
           </div>
         </div>
         <div class="form-group">
-          <button type="submit" class="btn btn-primary btn-block">Register</button>
+          <h5 data-toggle="tooltip" data-placement="right" title="it will help you if you forget your password" class="text-center mb-3">Security questions</h5>
+          <p>Select two questions and answer</p>
+          <div class="form-group">
+            <select class="form-control" formControlName="question1">
+              <option *ngFor="let question of questions |  keyvalue">{{question.value}}</option>
+            </select>
+            <input type="text" class="form-control" placeholder="Answer"  formControlName="answer1">
+            <div *ngIf="answer1.invalid && (answer1.dirty || answer1.touched)" class="alert alert-danger">
+              <div *ngIf="answer1.errors.required">First answer is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <select class="form-control" formControlName="question2">
+              <option *ngFor="let question of questions |  keyvalue">{{question.value}}</option>
+            </select>
+            <input type="text" class="form-control" placeholder="Answer"  formControlName="answer2">
+            <div *ngIf="answer2.invalid && (answer2.dirty || answer2.touched)" class="alert alert-danger">
+              <div *ngIf="answer2.errors.required">Second answer is required</div>
+            </div>
+          </div>
         </div>
         <div class="form-group">
+          <button type="button" class="btn btn-primary btn-block" (click)="submit()" [disabled]="!formRegister.valid">Register</button>
+        </div>
+        <div class="form-group text-center">
           <label>You already have an account?</label>
-          <button type="submit" class="btn btn-secondary btn-block" (click)="redirectToLogin()">Login</button>
+          <button type="button" class="btn btn-secondary btn-block" (click)="redirectToLogin()">Login</button>
+
         </div>
       </form>
-    </div>
+
   </div>
 </div>

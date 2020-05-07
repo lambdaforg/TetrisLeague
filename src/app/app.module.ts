@@ -16,6 +16,7 @@ import {FriendsComponent} from './menu/friends/friends.component';
 import {FormsModule} from '@angular/forms';
 import {ModalDismissReasons, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {RoomModalComponent, LeaveRoomDialogComponent} from './menu/waiting-room/room-modal/room-modal.component';
+import {HttpClientModule} from "@angular/common/http";
 
 const appRoutes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -46,6 +47,7 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     FormsModule,
+    HttpClientModule,
     RouterModule.forRoot(
       appRoutes
     ),

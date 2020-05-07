@@ -36,11 +36,13 @@ export class MenuComponent implements OnInit, OnDestroy {
         this.action = params.action;
       }
     );
-    this.points = this.maxPoints();
+    this.dataService.getMaximumPoints(this.user.id).subscribe(
+      next => this.points = next
+    );
     this.subscription = this.dataService.event.subscribe(
       next => {
         this.user = next;
-        this.points = this.maxPoints();
+        // this.points = this.maxPoints();
       },
       error => {
         // Handle error
@@ -55,15 +57,11 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-      this.favouriteStatsSubscription.unsubscribe();
+    this.favouriteStatsSubscription.unsubscribe();
   }
 
   // metoda ktora nam wlasnie tworzy taki routing np  http://localhost:4200/menu?action=rankings
   redirectTo(pathAction: string) {
     this.router.navigate(['menu'], {queryParams: {action: pathAction}});
-  }
-
-  maxPoints(): number {
-    return this.dataService.getMaximumPoints(this.user.id);
   }
 }

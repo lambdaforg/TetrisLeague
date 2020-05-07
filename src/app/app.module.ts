@@ -13,9 +13,8 @@ import {RouterModule, Routes} from '@angular/router';
 import {BoardComponent, GameResultModalComponent} from './game/board/board.component';
 import {WaitingRoomComponent} from './menu/waiting-room/waiting-room.component';
 import {FriendsComponent} from './menu/friends/friends.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ModalDismissReasons, NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {LeaveRoomDialog, RoomModalComponent} from './menu/waiting-room/room-modal/room-modal.component';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RoomModalComponent, LeaveRoomDialogComponent} from './menu/waiting-room/room-modal/room-modal.component';
 import {HttpClientModule} from "@angular/common/http";
 
@@ -27,6 +26,7 @@ const appRoutes: Routes = [
 
 
 ];
+
 
 @NgModule({
   declarations: [

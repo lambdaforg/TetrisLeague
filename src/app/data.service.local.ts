@@ -1,7 +1,6 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {User} from './model/User';
 import {Observable, of} from 'rxjs';
-import {environment} from "../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -12,15 +11,27 @@ export class DataService {
   event: EventEmitter<User> = new EventEmitter<User>();
 
   constructor() {
-    console.log(environment.restUrl);
+    //console.log(environment.restUrl);
     this.users = new Array<User>();
     const user1 = new User();
     user1.id = 0;
     user1.password = 'test';
     user1.login = 'test1';
-    user1.name = "Username";
+    user1.name = 'Username';
     user1.points.push(0);
     this.users.push(user1);
+  }
+  createUser(user: User): Observable<User>{
+    user.id = this.users.length + 1;
+    this.users.push(user);
+    return of(user);
+  }
+  getUserByLogin(login: string, password: string): Observable<User> {
+    const user = this.users.find(p => p.login === login);
+    if (user !== undefined && user.password === password) {
+      return of(user);
+    }
+    return of(null);
   }
   getUser(id: number): Observable<User>{
     return of(this.users.find(p => p.id === id ));

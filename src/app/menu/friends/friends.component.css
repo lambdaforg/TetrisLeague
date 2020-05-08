@@ -1,0 +1,22 @@
+
+.status-offline{
+  color: firebrick;
+}
+
+.status-online{
+  color: green;
+}
+
+.fa{
+  margin-right: 3px;
+}
+
+.accept-btn{
+  color: green;
+  margin-bottom: 0px;
+}
+.decline-btn{
+  color: firebrick;
+}
+
+

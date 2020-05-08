@@ -19,7 +19,7 @@
           Na obecna chwile nie moge ogarnac zeby nie powiekszalo sie formularz gdy wystapi ponizszy blad takze komentuje
               <div *ngIf="password.errors.minlength">Password is too short</div>
             </div> !-->
-            <a class="link" href="#">Forgot password?</a>
+            <a class="link" (click)="redirectToPasswordRecovery()">Forgot password?</a>
           </div>
           <div class="form-group">
             <button type="button" class="btn btn-primary btn-block" (click)="submit()" [disabled]="!loginForm.valid">Login</button>

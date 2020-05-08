@@ -3,8 +3,12 @@ import {BLOCK_SIZE, COLORS, COLS, KEY, LEVEL, LINES_PER_LEVEL, POINTS, ROWS} fro
 import {IPiece, Piece} from '../classes/piece';
 import {GameService} from '../classes/game.service';
 import {DataService} from '../../data.service';
-import {formatNumber} from "@angular/common";
-import {User} from "../../model/User";
+import {formatNumber} from '@angular/common';
+import {User} from '../../model/User';
+import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {LeaveRoomDialogComponent} from '../../menu/waiting-room/room-modal/room-modal.component';
+
+// import {privateDecrypt} from 'crypto';
 
 @Component({
   selector: 'app-board',
@@ -12,11 +16,11 @@ import {User} from "../../model/User";
   styleUrls: ['./board.component.css']
 })
 export class BoardComponent implements OnInit {
-  @ViewChild('board', { static: true })
+  @ViewChild('board', {static: true})
   canvas: ElementRef<HTMLCanvasElement>;
   @ViewChild('current', {static: true})
   canvasCurrent: ElementRef<HTMLCanvasElement>;
-  @ViewChild('next', { static: true })
+  @ViewChild('next', {static: true})
   canvasNext: ElementRef<HTMLCanvasElement>;
 
   @Input()
@@ -36,10 +40,10 @@ export class BoardComponent implements OnInit {
   level: number;
 
   moves = {
-    [KEY.LEFT]: (p: IPiece): IPiece => ({ ...p, x: p.x - 1 }),
-    [KEY.RIGHT]: (p: IPiece): IPiece => ({ ...p, x: p.x + 1 }),
-    [KEY.DOWN]: (p: IPiece): IPiece => ({ ...p, y: p.y + 1 }),
-    [KEY.SPACE]: (p: IPiece): IPiece => ({ ...p, y: p.y + 1 }),
+    [KEY.LEFT]: (p: IPiece): IPiece => ({...p, x: p.x - 1}),
+    [KEY.RIGHT]: (p: IPiece): IPiece => ({...p, x: p.x + 1}),
+    [KEY.DOWN]: (p: IPiece): IPiece => ({...p, y: p.y + 1}),
+    [KEY.SPACE]: (p: IPiece): IPiece => ({...p, y: p.y + 1}),
     [KEY.UP]: (p: IPiece): IPiece => this.service.rotate(p)
   };
 
@@ -70,7 +74,9 @@ export class BoardComponent implements OnInit {
   }
 
   constructor(private service: GameService,
-              private dataService: DataService) {}
+              private dataService: DataService,
+              private modalService: NgbModal) {
+  }
 
   ngOnInit() {
     this.initBoard();
@@ -84,12 +90,13 @@ export class BoardComponent implements OnInit {
     // Calculate size of canvas from constants.
     this.ctx.canvas.width = COLS * BLOCK_SIZE;
     this.ctx.canvas.height = ROWS * BLOCK_SIZE;
-    this.ctx.fillStyle = "#000000";
-    this.ctx.fillRect(0,0,this.ctx.canvas.width, this.ctx.canvas.height);
+    this.ctx.fillStyle = '#000000';
+    this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     // Scale so we don't need to give size on every draw.
     this.ctx.scale(BLOCK_SIZE, BLOCK_SIZE);
     this.drawGrid(1);
   }
+
   initCurrent() {
     this.ctxCurrent = this.canvasCurrent.nativeElement.getContext('2d');
 
@@ -107,8 +114,9 @@ export class BoardComponent implements OnInit {
     this.ctxNext.canvas.width = 4 * BLOCK_SIZE;
     this.ctxNext.canvas.height = 4 * BLOCK_SIZE;
 
-    this.ctxNext.scale(BLOCK_SIZE, BLOCK_SIZE );
+    this.ctxNext.scale(BLOCK_SIZE, BLOCK_SIZE);
   }
+
   play() {
     this.resetGame();
 
@@ -123,17 +131,18 @@ export class BoardComponent implements OnInit {
     }
     this.animate();
   }
-  drawGrid(s: number){
+
+  drawGrid(s: number) {
     this.ctx.strokeStyle = '#373d42';
     this.ctx.lineWidth = 0.10;
-    this.ctx.beginPath()
-    for (let x = 0; x <=  this.ctx.canvas.width ; x += s) {
-      this.ctx.moveTo(x, 0)
-      this.ctx.lineTo(x, this.ctx.canvas.height )
+    this.ctx.beginPath();
+    for (let x = 0; x <= this.ctx.canvas.width; x += s) {
+      this.ctx.moveTo(x, 0);
+      this.ctx.lineTo(x, this.ctx.canvas.height);
     }
-    for (let y = 0; y <= this.ctx.canvas.height ; y += s) {
-      this.ctx.moveTo(0, y)
-      this.ctx.lineTo( this.ctx.canvas.width , y)
+    for (let y = 0; y <= this.ctx.canvas.height; y += s) {
+      this.ctx.moveTo(0, y);
+      this.ctx.lineTo(this.ctx.canvas.width, y);
     }
     this.ctx.stroke();
   }
@@ -143,7 +152,7 @@ export class BoardComponent implements OnInit {
     this.lines = 0;
     this.level = 0;
     this.board = this.getEmptyBoard();
-    this.time = { start: 0, elapsed: 0, level: LEVEL[this.level] };
+    this.time = {start: 0, elapsed: 0, level: LEVEL[this.level]};
   }
 
   animate(now = 0) {
@@ -164,9 +173,9 @@ export class BoardComponent implements OnInit {
 
   draw() {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-    this.ctx.fillStyle = "#000000";
-    this.ctx.fillRect(0,0,this.ctx.canvas.width, this.ctx.canvas.height);
-    this.ctx.stroke()
+    this.ctx.fillStyle = '#000000';
+    this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+    this.ctx.stroke();
     this.piece.draw();
     this.drawBoard();
   }
@@ -244,6 +253,8 @@ export class BoardComponent implements OnInit {
     this.user.points.push(this.points);
     this.dataService.event.emit(this.user);
 
+    this.showGameResults();
+
     this.dataService.updateUser(this.user).subscribe(
       next => {
         this.user = next;
@@ -255,6 +266,58 @@ export class BoardComponent implements OnInit {
   }
 
   getEmptyBoard(): number[][] {
-    return Array.from({ length: ROWS }, () => Array(COLS).fill(0));
+    return Array.from({length: ROWS}, () => Array(COLS).fill(0));
+  }
+
+  private showGameResults() {
+    const modalRef = this.modalService.open(GameResultModalComponent,
+      {
+        size: 'sm',
+        keyboard: true,
+        centered: true
+      });
+
+    modalRef.componentInstance.initializeModal(this.points, this.lines, this.level);
+
+    modalRef.result.then((result) => {
+      if (result === 'play') {
+        this.play();
+      }
+    });
+  }
+}
+
+@Component({
+  template: `
+    <div class="modal-header">
+      <h4 class="modal-title">Game results</h4>
+    </div>
+    <div class="modal-body">
+      <div class="row ml-3">Score: {{ points }}</div>
+      <div class="row ml-3">Lines: {{ lines }}</div>
+      <div class="row ml-3">Level: {{ level }}</div>
+    </div>
+    <div class="modal-footer justify-content-center">
+      <button (click)="playAgain()" class="play-button btn btn-success">Play again</button>
+    </div>
+  `
+})
+export class GameResultModalComponent {
+
+  points: number;
+  lines: number;
+  level: number;
+
+  constructor(public activeModal: NgbActiveModal) {
+  }
+
+  playAgain() {
+    this.activeModal.close('play');
+  }
+
+  private initializeModal(points: number, lines: number, level: number) {
+    console.log(this.points = points);
+    this.lines = lines;
+    this.level = level;
   }
 }

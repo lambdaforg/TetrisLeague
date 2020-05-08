@@ -1,17 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {Router, RouterModule} from '@angular/router';
+import {Router} from '@angular/router';
 import {Questions, User} from '../model/User';
 import {
-  AbstractControl,
   FormBuilder,
-  FormControl,
   FormGroup,
-  ValidationErrors,
-  ValidatorFn,
   Validators
 } from "@angular/forms";
 import {MustMatch} from "../model/form/MustMatch";
-import {DataService} from "../data.service";
+import {DataService} from "../data.service.local";
 
 @Component({
   selector: 'app-register',

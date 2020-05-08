@@ -1,90 +1,93 @@
-<!--  Top navbar  -->
-<nav class="navbar navbar-expand-md navbar-light sticky-top">
+<div *ngIf="message">{{message}}</div>
+<div *ngIf="dataLoaded">
+  <!--  Top navbar  -->
+  <nav class="navbar navbar-expand-md navbar-light sticky-top">
 
-  <!--  TODO: fix collapsing   -->
-  <button class="navbar-toggler" data-toggler="collapse" data-target="#collapse-target">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+    <!--  TODO: fix collapsing   -->
+    <button class="navbar-toggler" data-toggler="collapse" data-target="#collapse-target">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-  <div class="collapse navbar-collapse" id="collapse-target">
-    <ul class="nav navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link active" href="#friends" data-toggle="tab">My friends</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#invitations" data-toggle="tab">Invitations</a>
-      </li>
-    </ul>
+    <div class="collapse navbar-collapse" id="collapse-target">
+      <ul class="nav navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" href="#friends" data-toggle="tab">My friends</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#invitations" data-toggle="tab">Invitations</a>
+        </li>
+      </ul>
+      <form class="form-inline">
+        <input class="form-control ml-sm-5 mr-sm-2 w-50" type="text" placeholder="Nickname">
+        <button class="btn btn-light my-2 my-sm-0" type="button">Invite</button>
+      </form>
+    </div>
     <form class="form-inline">
-      <input class="form-control ml-sm-5 mr-sm-2 w-50" type="text" placeholder="Nickname">
-      <button class="btn btn-light my-2 my-sm-0" type="button">Invite</button>
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
-  </div>
-  <form class="form-inline">
-    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-  </form>
-</nav>
+  </nav>
 
-<!--  tables  -->
-<div class="tab-content">
+  <!--  tables  -->
+  <div class="tab-content">
 
-  <div class="tab-pane active" id="friends">
-    <table class="table">
-      <thead class="thead-light">
-      <tr>
-        <th scope="col">Nr</th>
-        <th scope="col">Nick</th>
-        <th scope="col">Status</th>
-        <th scope="col"></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td scope="row">1</td>
-        <td>Mark</td>
-        <td><i class="fa fa-circle status-online"></i>Online</td>
-        <td class="btn btn-light">Play Duel</td>
-      </tr>
-      <tr>
-        <td scope="row">2</td>
-        <td>Jacob</td>
-        <td><i class="fa fa-circle status-offline"></i>Offline</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td scope="row">3</td>
-        <td>Larry</td>
-        <td><i class="fa fa-circle status-offline"></i>Offline</td>
-        <td></td>
-      </tr>
-      <tr>
+    <div class="tab-pane active" id="friends">
+      <table class="table">
+        <thead class="thead-light">
+        <tr>
+          <th scope="col">Nr</th>
+          <th scope="col">Nick</th>
+          <th scope="col">Status</th>
+          <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let relation of friends">
+          <td scope="row">{{relation.id}}</td>
+          <td>{{relation.id}}</td>
+          <td><i class="fa fa-circle status-online"></i>Online</td>
+          <td class="btn btn-light">Play Duel</td>
+        </tr>
+        <!--<tr>-->
+        <!--<td scope="row">2</td>-->
+        <!--<td>Jacob</td>-->
+        <!--<td><i class="fa fa-circle status-offline"></i>Offline</td>-->
+        <!--<td></td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+        <!--<td scope="row">3</td>-->
+        <!--<td>Larry</td>-->
+        <!--<td><i class="fa fa-circle status-offline"></i>Offline</td>-->
+        <!--<td></td>-->
+        <!--</tr>-->
+        <!--<tr>-->
 
-      </tr>
-      </tbody>
-    </table>
-  </div>
+        <!--</tr>-->
+        </tbody>
+      </table>
+    </div>
 
-  <div class="tab-pane" id="invitations">
-    <table class="table">
-      <thead class="thead-light">
-      <tr>
-        <th scope="col">Nick</th>
-        <th></th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>Tom</td>
-<!--        <td>-->
-<!--          <div class="btn btn-light accept-btn">Accept</div>-->
-<!--          <div class="btn btn-light decline-btn">Decline</div>-->
-<!--        </td>-->
-        <td class="btn btn-light accept-btn">Accept</td>
-        <td class="btn btn-light decline-btn">Decline</td>
-      </tr>
-      </tbody>
-    </table>
+    <div class="tab-pane" id="invitations">
+      <table class="table">
+        <thead class="thead-light">
+        <tr>
+          <th scope="col">Nick</th>
+          <th></th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>Tom</td>
+          <!--        <td>-->
+          <!--          <div class="btn btn-light accept-btn">Accept</div>-->
+          <!--          <div class="btn btn-light decline-btn">Decline</div>-->
+          <!--        </td>-->
+          <td class="btn btn-light accept-btn">Accept</td>
+          <td class="btn btn-light decline-btn">Decline</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

@@ -56,12 +56,12 @@ export class RegisterComponent implements OnInit {
   submit(){
     this.user.login = this.name.value;
     this.user.password = this.password.value;
-    this.user.points = [];
-    this.user.answerQuestion1 = this.answer1.value;
-    this.user.answerQuestion2 = this.answer2.value;
-    this.user.name = this.name.value;
-    this.user.Questions.push(this.formRegister.get('question1').value);
-    this.user.Questions.push(this.formRegister.get('question2').value);
+    this.user.rankingsPoints = 0;
+    this.user.answer1 = this.answer1.value;
+    this.user.answer2 = this.answer2.value;
+    this.user.username = this.name.value;
+    this.user.question1 = this.formRegister.get('question1').value;
+    this.user.question2 = this.formRegister.get('question2').value;
 
     this.dataService.createUser(this.user).subscribe(
       (good) =>{

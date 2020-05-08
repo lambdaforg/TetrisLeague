@@ -6,6 +6,8 @@ import {HttpClient} from "@angular/common/http";
 import {Game} from "./model/Game";
 import {MultiplayerGame} from "./model/MultiplayerGame";
 import {FriendRelation} from "./model/FriendRelation";
+import {map} from "rxjs/operators";
+
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +20,22 @@ export class DataService {
     console.log(environment.restUrl);
 
   }
+
+  createUser(newUser: User, password: string): Observable<User>{
+    // const fullUser = {id: newUser.id, username: newUser.name, rankingsPoints: 2000, created_at: Date.valueOf(new Date()), password: password};
+    // return this.http.post<User>(environment.restUrl + '/api/users', fullUser);
+    return of(null);
+  }
+  getUserByLogin(login: string, password: string): Observable<User> {
+    // const user = this.users.find(p => p.login === login);
+    // if (user !== undefined && user.password === password) {
+    //   return of(user);
+    // }
+    return of(null);
+  }
+
   getUser(id: number): Observable<User>{
-    return this.http.get<User>(environment.restUrl + '/api/users' + id);
+    return this.http.get<User>(environment.restUrl + '/api/users/' + id).pipe(map( data => {return User.fromHttp(data);}));
   }
 
   getAllUsers(): Observable<Array<User>>{
@@ -30,7 +46,7 @@ export class DataService {
     return this.http.put<User>(environment.restUrl + '/api/users', user);
   }
 
-  updatePhoto(user: User): Observable<User>{
+  updateAvatar(user: User): Observable<User>{
     return of(null);
   }
 
@@ -38,9 +54,9 @@ export class DataService {
     return this.http.get(environment.restUrl + '/api/users/resetPassword/' + id);
   }
 
-  getMaximumPoints(id: number): Observable<number>{
-    return of(null);
-  }
+  // getMaximumScore(id: number): Observable<number>{
+  //   return this.http.get();
+  // }
 
   getGames(): Observable<Array<Game>>{
     return this.http.get<Array<Game>>(environment.restUrl + '/api/games');
@@ -62,8 +78,18 @@ export class DataService {
     return this.http.get<Array<MultiplayerGame>>(environment.restUrl + '/multiplayerGame');
   }
 
-  getAllFriends():Observable<FriendRelation>{
-    return this.http.get<FriendRelation>(environment.restUrl + '/api/friends');
+  getAllFriends(id: number):Observable<Array<User>>{
+    return this.http.get<Array<User>>(environment.restUrl + '/api/users/getfriends/' + id)
+      .pipe(
+        map(
+          data => {
+                const friends = new Array<User>();
+                for(const friend of data){
+                  friends.push(User.fromHttp(friend));
+                }
+            return friends;
+          }
+        )
+      );
   }
 }
-

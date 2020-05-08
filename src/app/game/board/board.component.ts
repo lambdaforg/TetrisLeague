@@ -3,10 +3,12 @@ import {BLOCK_SIZE, COLORS, COLS, KEY, LEVEL, LINES_PER_LEVEL, POINTS, ROWS} fro
 import {IPiece, Piece} from '../classes/piece';
 import {GameService} from '../classes/game.service';
 import {DataService} from '../../data.service';
-import {formatNumber} from '@angular/common';
+import {formatDate, formatNumber} from '@angular/common';
 import {User} from '../../model/User';
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {LeaveRoomDialogComponent} from '../../menu/waiting-room/room-modal/room-modal.component';
+import {Game} from "../../model/Game";
+import {error} from "selenium-webdriver";
 
 // import {privateDecrypt} from 'crypto';
 
@@ -25,6 +27,8 @@ export class BoardComponent implements OnInit {
 
   @Input()
   user: User;
+
+  game: Game;
 
   ctx: CanvasRenderingContext2D;
   ctxCurrent: CanvasRenderingContext2D;
@@ -130,6 +134,23 @@ export class BoardComponent implements OnInit {
       cancelAnimationFrame(this.requestId);
     }
     this.animate();
+    this.game = new Game();
+    this.game.id = 19;
+    this.game.user = this.user;
+    this.game.multiplayerGame = null;
+    this.game.date = formatDate(new Date(), 'yyyy-MM-dd', 'en-UK');
+    this.game.score = null;
+    this.game.scoreLines = null;
+    this.game.level = null;
+    this.game.gameTime = formatDate(new Date(), 'HH:mm:ss', 'en-UK');
+    this.dataService.createGame(this.game).subscribe(
+      next => {
+        console.log(next);
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   drawGrid(s: number) {
@@ -250,14 +271,18 @@ export class BoardComponent implements OnInit {
     this.ctx.fillStyle = 'red';
     this.ctx.fillText('GAME OVER', 1.8, 4);
 
-    this.user.points.push(this.points);
+    // this.user.points.push(this.points);
     this.dataService.event.emit(this.user);
 
     this.showGameResults();
 
-    this.dataService.updateUser(this.user).subscribe(
+    this.game.score = this.points;
+    this.game.scoreLines = this.lines;
+    this.game.level = this.level;
+
+    this.dataService.updateGame(this.game).subscribe(
       next => {
-        this.user = next;
+        // this.game = next;
       },
       error => {
       }

@@ -92,4 +92,32 @@ export class DataService {
         )
       );
   }
+  getFriendsByStatus(id: number, status: string){
+      return this.http.get<Array<User>>(environment.restUrl + '/api/friends/getinvitations/' + id + '/' + status)
+        .pipe(
+          map(
+            data =>{
+              const friends = new Array<User>();
+              for(const friend of data){
+                friends.push(User.fromHttp(friend));
+              }
+              return friends;
+            }
+          )
+        );
+  }
+  getFriendRelation(id: number, idFrom: number){
+    return this.http.get<FriendRelation>(environment.restUrl + '/api/friends/' + id + '/' + idFrom)
+      .pipe(
+        map(
+          data =>{
+            return FriendRelation.fromHttp(data);
+          }
+        )
+      );
+  }
+  updateFriendRelation(friendRelation: FriendRelation): Observable<FriendRelation> {
+    return this.http.put<FriendRelation>(environment.restUrl + '/api/friends', friendRelation);
+  }
+
 }

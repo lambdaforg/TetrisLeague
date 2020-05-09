@@ -77,14 +77,14 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td>Tom</td>
+        <tr *ngFor="let invite of invitations">
+          <td>{{invite.username}}</td>
           <!--        <td>-->
           <!--          <div class="btn btn-light accept-btn">Accept</div>-->
           <!--          <div class="btn btn-light decline-btn">Decline</div>-->
           <!--        </td>-->
-          <td class="btn btn-light accept-btn">Accept</td>
-          <td class="btn btn-light decline-btn">Decline</td>
+          <td class="btn btn-light accept-btn" (click)="resposneInvite(invite.id,'Accepted')">Accept</td>
+          <td class="btn btn-light decline-btn" (click)="resposneInvite(invite.id,'Denied')">Decline</td>
         </tr>
         </tbody>
       </table>

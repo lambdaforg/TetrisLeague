@@ -42,7 +42,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   loadData(){
     this.message = 'Loading data...';
 
-    this.dataService.getUser(2).subscribe(
+    this.dataService.getUser(0).subscribe(
       next => {
         this.user = next;
         //this.dataService.getGames().subscribe(

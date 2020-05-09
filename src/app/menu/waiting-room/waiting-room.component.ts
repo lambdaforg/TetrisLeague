@@ -31,12 +31,12 @@ export class WaitingRoomComponent implements OnInit {
     const modalRef = this.modalService.open(RoomModalComponent, {
       backdrop: 'static'
     });
-
     modalRef.componentInstance.user = this.user;
   }
 
   public joinRoom() {
-    this.modalService.open(RoomModalComponent);
+    const modalRef = this.modalService.open(RoomModalComponent);
+    modalRef.componentInstance.user = this.user;
   }
 
 }

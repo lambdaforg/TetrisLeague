@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgbActiveModal, NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
 import {User} from '../../../model/User';
 
-
 // dialog shown when player wants to leave the room
 @Component({
   template: `

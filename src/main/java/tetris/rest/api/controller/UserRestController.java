@@ -45,7 +45,6 @@ public class UserRestController {
 
         return users;
     }
-
     @GetMapping("/{id}")
     public AngularUser getUser(@PathVariable("id") Integer id){
             return new AngularUser(userRepository.findById(id).get());

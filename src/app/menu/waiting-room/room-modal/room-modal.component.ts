@@ -1,5 +1,6 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgbActiveModal, NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
+import {User} from '../../../model/User';
 
 
 // dialog shown when player wants to leave the room
@@ -11,10 +12,14 @@ import {NgbActiveModal, NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstr
     <div class="modal-body">
       <p>Are you sure you want to leave the room?</p>
     </div>
-    <div class="modal-footer btn-group">
-      <button type="button" class="btn btn-outline-success" style="margin-right: 100px" (click)="confirmLeavingRoom( false )">Cancel
-      </button>
-      <button type="button" class="btn btn-outline-danger" (click)="confirmLeavingRoom( true )">Leave</button>
+    <div class="modal-footer row">
+      <div class="col">
+        <button type="button" class="btn btn-outline-success pull-left" (click)="confirmLeavingRoom( false )">Cancel
+        </button>
+      </div>
+      <div class="col">
+        <button type="button" class="btn btn-outline-danger pull-right" (click)="confirmLeavingRoom( true )">Leave</button>
+      </div>
     </div>
   `
 })
@@ -37,12 +42,16 @@ export class LeaveRoomDialogComponent {
 })
 export class RoomModalComponent implements OnInit {
 
+  @Input()
+  user: User;
+
   constructor(config: NgbModalConfig, private modalService: NgbModal, public activeModal: NgbActiveModal) {
     config.backdrop = 'static';
     config.keyboard = true;
   }
 
   ngOnInit(): void {
+    console.log(this.user);
   }
 
   leave() {

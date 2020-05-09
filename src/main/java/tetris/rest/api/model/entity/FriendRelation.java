@@ -6,7 +6,7 @@ import javax.persistence.*;
 public class FriendRelation {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @ManyToOne
     private User senderUser;

@@ -7,6 +7,8 @@ import tetris.rest.api.data.FriendRelationRepository;
 import tetris.rest.api.data.UserRepository;
 import tetris.rest.api.model.entity.FriendRelation;
 import tetris.rest.api.model.entity.Game;
+import tetris.rest.api.model.entity.User;
+import tetris.rest.api.model.entity.angular.AgnularRelation;
 import tetris.rest.api.model.entity.angular.AngularUser;
 
 import java.util.ArrayList;
@@ -40,10 +42,23 @@ public class FriendRelationController {
     public FriendRelation updateFriendRelation(@RequestBody FriendRelation updatedFriendRelation){
         FriendRelation originalFriendRelation = friendRelationRepository.findById(updatedFriendRelation.getId()).get();
         originalFriendRelation.setStatus(updatedFriendRelation.getStatus());
-        System.out.println(updatedFriendRelation.getId());
-        System.out.println(updatedFriendRelation.getStatus());
         friendRelationRepository.save(originalFriendRelation);
         return originalFriendRelation;
+    }
+    @PostMapping("/byusername")
+    public FriendRelation addNewFriendRelationByUsername(@RequestBody AgnularRelation agnularRelation){
+            AngularUser senderUser = agnularRelation.getUser();
+            FriendRelation newFriendRelation = agnularRelation.getFriendRelation();
+            User receiverUser = userRepository.findByUsername(senderUser.getUsername());
+            if(receiverUser != null) {
+                if(getInvitations(receiverUser.getId(), "Invited").isEmpty()){
+                newFriendRelation.setReceiverUser(receiverUser);
+                newFriendRelation.setSenderUser(userRepository.findByUsername(newFriendRelation.getSenderUser().getUsername()));
+                friendRelationRepository.save(newFriendRelation);
+                /*TO DO response*/
+                }
+            }
+            return newFriendRelation;
     }
     @PostMapping
     public FriendRelation addNewFriendRelation(@RequestBody FriendRelation newFriendRelation){

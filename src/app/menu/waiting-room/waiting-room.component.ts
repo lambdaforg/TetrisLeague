@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {RoomModalComponent} from './room-modal/room-modal.component';
+import {User} from '../../model/User';
 
 @Component({
   selector: 'app-waiting-room',
@@ -8,6 +9,9 @@ import {RoomModalComponent} from './room-modal/room-modal.component';
   styleUrls: ['./waiting-room.component.css']
 })
 export class WaitingRoomComponent implements OnInit {
+
+  @Input()
+  user: User;
 
   selectedNavbar: string;
 
@@ -23,9 +27,12 @@ export class WaitingRoomComponent implements OnInit {
   }
 
   public createRoom() {
-    this.modalService.open(RoomModalComponent, {
+    console.log(this.user);
+    const modalRef = this.modalService.open(RoomModalComponent, {
       backdrop: 'static'
     });
+
+    modalRef.componentInstance.user = this.user;
   }
 
   public joinRoom() {

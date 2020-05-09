@@ -52,7 +52,7 @@ export class BoardComponent implements OnInit {
   };
 
 
-  //To do another class Key Handler
+  // To do another class Key Handler
   @HostListener('window:keydown', ['$event'])
   keyEvent(event: KeyboardEvent) {
     if (event.keyCode === KEY.ESC) {

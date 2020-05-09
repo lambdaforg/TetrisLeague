@@ -54,9 +54,9 @@ export class DataService {
     return this.http.get(environment.restUrl + '/api/users/resetPassword/' + id);
   }
 
-  // getMaximumScore(id: number): Observable<number>{
-  //   return this.http.get();
-  // }
+  getMaximumScore(id: number): Observable<number>{
+    return this.http.get<number>(environment.restUrl + '/api/games/getMaximumScore/' + id);
+  }
 
   getGames(): Observable<Array<Game>>{
     return this.http.get<Array<Game>>(environment.restUrl + '/api/games');
@@ -75,7 +75,7 @@ export class DataService {
   }
 
   getAllMultiplayerGames(): Observable<Array<MultiplayerGame>>{
-    return this.http.get<Array<MultiplayerGame>>(environment.restUrl + '/multiplayerGame');
+    return this.http.get<Array<MultiplayerGame>>(environment.restUrl + '/api/multiplayerGame');
   }
 
   getAllFriends(id: number):Observable<Array<User>>{
@@ -92,6 +92,7 @@ export class DataService {
         )
       );
   }
+
   getFriendsByStatus(id: number, status: string){
       return this.http.get<Array<User>>(environment.restUrl + '/api/friends/getinvitations/' + id + '/' + status)
         .pipe(
@@ -120,4 +121,15 @@ export class DataService {
     return this.http.put<FriendRelation>(environment.restUrl + '/api/friends', friendRelation);
   }
 
+  getGeneralBestScores():Observable<Array<Game>>{
+    return this.http.get<Array<Game>>(environment.restUrl + '/api/games/getGeneralBestScores');
+  }
+
+  getPeriodBestScores(date1:string, date2:string):Observable<Array<Game>>{
+    return this.http.get<Array<Game>>(environment.restUrl + '/api/games/getPeriodBestScores/' + date1 + '/' + date2);
+  }
+
+  // getRankingsPoints(){
+  //
+  // }
 }

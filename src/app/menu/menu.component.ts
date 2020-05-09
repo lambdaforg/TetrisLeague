@@ -23,7 +23,6 @@ export class MenuComponent implements OnInit, OnDestroy {
   statsFavourite: string;
   dataLoaded = false;
   message = '';
-  games : Array<Game>;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -45,12 +44,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.dataService.getUser(0).subscribe(
       next => {
         this.user = next;
-        //this.dataService.getGames().subscribe(
-       //   next => {
-         //   this.games = next
-        //    this.getMaxPoints();
-       //  }
-      //  );
+        this.getMaxPoints();
         this.dataLoaded = true;
         this.message = '';
       },
@@ -79,14 +73,11 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   getMaxPoints(){
-    // const userGames = this.games.filter(game => game.user === this.user);
-    // let max = userGames[0].score;
-    // for (const i of userGames){
-    //   if (i.score > max){
-    //     max = i.score;
-    //   }
-    // }
-    this.maxScore = 5;
+    this.dataService.getMaximumScore(this.user.id).subscribe(
+      next => {
+        this.maxScore = next;
+      }
+  );
   }
 
   // metoda ktora nam wlasnie tworzy taki routing np  http://localhost:4200/menu?action=rankings

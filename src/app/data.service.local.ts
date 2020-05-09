@@ -1,6 +1,9 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {User} from './model/User';
 import {Observable, of} from 'rxjs';
+import {Game} from "./model/Game";
+import {environment} from "../environments/environment";
+import {MultiplayerGame} from "./model/MultiplayerGame";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +14,6 @@ export class DataService {
   event: EventEmitter<User> = new EventEmitter<User>();
 
   constructor() {
-    //console.log(environment.restUrl);
     this.users = new Array<User>();
     const user1 = new User();
     user1.id = 0;
@@ -36,13 +38,28 @@ export class DataService {
   getUser(id: number): Observable<User>{
     return of(this.users.find(p => p.id === id ));
   }
+
+  getAllUsers(): Observable<Array<User>>{
+    return of(null);
+  }
+
   updateUser(user: User): Observable<User>{
     let user1 = this.users.find(p => p.id === user.id);
     user1.rankingsPoints = user.rankingsPoints;
     user1.password = user.password;
     return of(user1);
   }
-   getMaximumPoints(id: number): Observable<number>{
+
+  updateAvatar(user: User): Observable<User>{
+    return of(null);
+  }
+
+  resetUserPassword(id: number) : Observable<any>  {
+    return of(null);
+  }
+
+
+  getMaximumScore(id: number): Observable<number>{
    /*  let arrays = this.users.find(p => p.id === id).scores;
      let max = arrays[0];
      for(let i = 0 ; i < arrays.length; i++){
@@ -54,4 +71,39 @@ export class DataService {
      return of(0);
   }
 
-}
+  getGames(): Observable<Array<Game>>{
+    return of(null);
+  }
+
+  createGame(game: Game): Observable<Game>{
+    return of(null);
+  }
+
+  joinGame(id: number): Observable<Game>{
+    return of(null);
+  }
+
+  updateGame(game: Game): Observable<Game>{
+    return of(null);
+  }
+
+  getAllMultiplayerGames(): Observable<Array<MultiplayerGame>>{
+    return of(null);
+  }
+
+  getAllFriends(id: number):Observable<Array<User>> {
+    return of(null);
+  }
+
+  getGeneralBestScores():Observable<Array<Game>>{
+    return of(null);
+  }
+
+  getPeriodBestScores():Observable<Array<Game>>{
+    return of(null);
+  }
+
+  // getRankingsPoints(){
+  //
+  // }
+  }

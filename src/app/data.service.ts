@@ -120,6 +120,9 @@ export class DataService {
   updateFriendRelation(friendRelation: FriendRelation): Observable<FriendRelation> {
     return this.http.put<FriendRelation>(environment.restUrl + '/api/friends', friendRelation);
   }
+  createFriendRelation(user: User, friendRelation: FriendRelation){
+    return this.http.post<FriendRelation>(environment.restUrl + '/api/friends/byusername', { user, friendRelation});
+  }
 
   getGeneralBestScores():Observable<Array<Game>>{
     return this.http.get<Array<Game>>(environment.restUrl + '/api/games/getGeneralBestScores');

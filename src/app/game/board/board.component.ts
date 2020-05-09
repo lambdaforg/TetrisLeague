@@ -7,8 +7,8 @@ import {formatDate, formatNumber} from '@angular/common';
 import {User} from '../../model/User';
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {LeaveRoomDialogComponent} from '../../menu/waiting-room/room-modal/room-modal.component';
-import {Game} from "../../model/Game";
-import {error} from "selenium-webdriver";
+import {Game} from '../../model/Game';
+import {error} from 'selenium-webdriver';
 
 // import {privateDecrypt} from 'crypto';
 
@@ -300,6 +300,7 @@ export class BoardComponent implements OnInit {
         size: 'sm',
         keyboard: true,
         centered: true
+
       });
 
     modalRef.componentInstance.initializeModal(this.points, this.lines, this.level);
@@ -322,8 +323,13 @@ export class BoardComponent implements OnInit {
       <div class="row ml-3">Lines: {{ lines }}</div>
       <div class="row ml-3">Level: {{ level }}</div>
     </div>
-    <div class="modal-footer justify-content-center">
-      <button (click)="playAgain()" class="play-button btn btn-success">Play again</button>
+    <div class="modal-footer row">
+      <div class="col">
+        <button (click)="activeModal.close()" class="btn btn-danger pull-left" data-orientation="cancel">Quit</button>
+      </div>
+      <div class="col">
+        <button (click)="playAgain()" class="play-button btn btn-success pull-right" ngbAutofocus>Play again</button>
+      </div>
     </div>
   `
 })

@@ -119,5 +119,8 @@ export class DataService {
   updateFriendRelation(friendRelation: FriendRelation): Observable<FriendRelation> {
     return this.http.put<FriendRelation>(environment.restUrl + '/api/friends', friendRelation);
   }
+  createFriendRelation(user: User, friendRelation: FriendRelation){
+    return this.http.post<FriendRelation>(environment.restUrl + '/api/friends/byusername', { user, friendRelation});
+  }
 
 }

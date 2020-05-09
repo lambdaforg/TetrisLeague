@@ -17,14 +17,14 @@
           <a class="nav-link" href="#invitations" data-toggle="tab">Invitations</a>
         </li>
       </ul>
-      <form class="form-inline">
-        <input class="form-control ml-sm-5 mr-sm-2 w-50" type="text" placeholder="Nickname">
-        <button class="btn btn-light my-2 my-sm-0" type="button">Invite</button>
+      <form class="form-inline" [formGroup]="friendForm">
+        <input class="form-control ml-sm-5 mr-sm-2 w-50" type="text" placeholder="Nickname" formControlName="inviteName">
+        <button class="btn btn-light my-2 my-sm-0" type="button"  (click)="inviteUser()" [disabled]="inviteName.invalid">Invite</button>
       </form>
     </div>
-    <form class="form-inline">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    <form class="form-inline" [formGroup]="friendForm">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" formControlName="inputName">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="searchUser()" [disabled]="inputName.invalid">Search</button>
     </form>
   </nav>
 
@@ -42,11 +42,13 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let relation of friends">
-          <td scope="row">{{relation.id}}</td>
+        <tr *ngFor="let relation of friends; let indexOfElement = index" [ngClass]="{'alert alert-success': isSearching && indexOfElement === 0}">
+
+          <td scope="row">{{indexOfElement + 1}}</td>
           <td>{{relation.username}}</td>
           <td><i class="fa fa-circle status-online"></i>Online</td>
           <td class="btn btn-light">Play Duel</td>
+
         </tr>
         <!--<tr>-->
         <!--<td scope="row">2</td>-->

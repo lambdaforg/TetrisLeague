@@ -15,9 +15,12 @@ import {map} from "rxjs/operators";
 export class DataService {
 
   event: EventEmitter<User> = new EventEmitter<User>();
+  user: User;
+
 
   constructor(private http: HttpClient) {
     console.log(environment.restUrl);
+    this.user = null;
 
   }
 
@@ -31,7 +34,22 @@ export class DataService {
     // if (user !== undefined && user.password === password) {
     //   return of(user);
     // }
-    return of(null);
+    /**TO DO JWT**/
+    const user1 = new User();
+    user1.login = login;
+    user1.password = password;
+    console.log(user1);
+    return this.http.post<User>(environment.restUrl + '/api/users/getauth', user1).pipe(
+      map(data => {
+        if (data !== null) {
+        console.log(data);
+        return User.fromHttp(data);
+        }
+        return null;
+        }
+      )
+    );
+
   }
 
   getUser(id: number): Observable<User>{

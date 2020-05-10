@@ -38,18 +38,27 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.favouriteStatsSubscription.unsubscribe();
   }
 
-  loadData(){
-    this.message = 'Loading data...';
-
-    this.dataService.getUser(0).subscribe(
-      next => {
-        this.user = next;
+  loadData() {
+      this.message = 'Loading data...';
+      if (this.dataService.user !== null) {
+        this.user = this.dataService.user;
         this.getMaxPoints();
         this.dataLoaded = true;
         this.message = '';
-      },
-      error => this.message = 'Sorry - the data could not be loaded.'
-    );
+     }
+      else{
+        this.router.navigate(['login']);
+      }
+    /*
+     this.dataService.getUser(0).subscribe(
+        next => {
+          this.user = next;
+          this.getMaxPoints();
+          this.dataLoaded = true;
+          this.message = '';
+        },
+        error => this.message = 'Sorry - the data could not be loaded.'
+      );*/
     this.route.queryParams.subscribe(
       (params) => {
         this.action = params.action;
@@ -83,5 +92,9 @@ export class MenuComponent implements OnInit, OnDestroy {
   // metoda ktora nam wlasnie tworzy taki routing np  http://localhost:4200/menu?action=rankings
   redirectTo(pathAction: string) {
     this.router.navigate(['menu'], {queryParams: {action: pathAction}});
+  }
+  logOut(){
+    this.dataService.user = null;
+    this.router.navigate(['login']);
   }
 }

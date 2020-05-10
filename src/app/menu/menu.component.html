@@ -25,7 +25,7 @@
             <li class="btn" type="button" [ngClass]="{'active': action === 'rankings'}" (click)="redirectTo('rankings')">Rankings</li>
             <li class="btn" type="button" [ngClass]="{'active': action === 'stats'}" (click)="redirectTo('stats')">Stats</li>
             <li class="btn" type="button" [ngClass]="{'active': action === 'setting'}" (click)="redirectTo('setting')">Settings</li>
-            <li class="btn" type="button">Log out</li>
+            <li class="btn" type="button" (click)='logOut()'>Log out</li>
           </ul>
         </nav>
       </div>

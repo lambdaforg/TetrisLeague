@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {FormGroup, FormBuilder,Validators} from "@angular/forms";
 import {User} from "../model/User";
-import {DataService} from "../data.service.local";
+import {DataService} from "../data.service";
 
 @Component({
   selector: 'app-login',
@@ -31,15 +31,24 @@ export class LoginComponent implements OnInit {
   get password(){ return this.loginForm.get('password');}
 
   submit(){
-      this.dataService.getUserByLogin(this.login.value, this.password.value).subscribe(
-        (good) =>{
+     this.dataService.getUserByLogin(this.login.value, this.password.value).subscribe(
+        (good) => {
           //to do logowanie
-          if(good !== null)
+          if (good !== null) {
+          this.dataService.user = good;
           this.redirectToMenu();
+        }
 
         }
       );
+   /*   this.dataService.getUser(0).subscribe(   (good) => {
+        //to do logowanie
+        if (good !== null) {
+          this.dataService.user = User.fromHttp(good);
+          this.redirectToMenu();
+        }
 
+      });*/
   }
 
   redirectToRegister() {
@@ -53,4 +62,5 @@ export class LoginComponent implements OnInit {
   redirectToPasswordRecovery() {
     this.router.navigate(['password-recovery']);
   }
+
 }

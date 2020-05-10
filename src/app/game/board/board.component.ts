@@ -20,8 +20,8 @@ import {error} from 'selenium-webdriver';
 export class BoardComponent implements OnInit {
   @ViewChild('board', {static: true})
   canvas: ElementRef<HTMLCanvasElement>;
-  @ViewChild('current', {static: true})
-  canvasCurrent: ElementRef<HTMLCanvasElement>;
+  // @ViewChild('current', {static: true})
+  // canvasCurrent: ElementRef<HTMLCanvasElement>;
   @ViewChild('next', {static: true})
   canvasNext: ElementRef<HTMLCanvasElement>;
 
@@ -31,7 +31,7 @@ export class BoardComponent implements OnInit {
   game: Game;
 
   ctx: CanvasRenderingContext2D;
-  ctxCurrent: CanvasRenderingContext2D;
+  // ctxCurrent: CanvasRenderingContext2D;
   ctxNext: CanvasRenderingContext2D;
 
   board: number[][];
@@ -84,7 +84,7 @@ export class BoardComponent implements OnInit {
 
   ngOnInit() {
     this.initBoard();
-    this.initCurrent();
+    // this.initCurrent();
     this.initNext();
     this.resetGame();
   }
@@ -101,15 +101,15 @@ export class BoardComponent implements OnInit {
     this.drawGrid(1);
   }
 
-  initCurrent() {
-    this.ctxCurrent = this.canvasCurrent.nativeElement.getContext('2d');
-
-    // Calculate size of canvas from constants.
-    this.ctxCurrent.canvas.width = 4 * BLOCK_SIZE;
-    this.ctxCurrent.canvas.height = 4 * BLOCK_SIZE;
-
-    this.ctxCurrent.scale(BLOCK_SIZE, BLOCK_SIZE);
-  }
+  // initCurrent() {
+  //   this.ctxCurrent = this.canvasCurrent.nativeElement.getContext('2d');
+  //
+  //   // Calculate size of canvas from constants.
+  //   this.ctxCurrent.canvas.width = 4 * BLOCK_SIZE;
+  //   this.ctxCurrent.canvas.height = 4 * BLOCK_SIZE;
+  //
+  //   this.ctxCurrent.scale(BLOCK_SIZE, BLOCK_SIZE);
+  // }
 
   initNext() {
     this.ctxNext = this.canvasNext.nativeElement.getContext('2d');
@@ -126,7 +126,7 @@ export class BoardComponent implements OnInit {
 
     this.next = new Piece(this.ctx);
     this.piece = new Piece(this.ctx);
-    this.piece.drawNext(this.ctxCurrent);
+    // this.piece.drawNext(this.ctxCurrent);
     this.next.drawNext(this.ctxNext);
     this.time.start = performance.now();
     // If we have an old game running a game then cancel the old
@@ -214,7 +214,7 @@ export class BoardComponent implements OnInit {
       }
       this.piece = this.next;
       this.next = new Piece(this.ctx);
-      this.piece.drawNext(this.ctxCurrent);
+      // this.piece.drawNext(this.ctxCurrent);
       this.next.drawNext(this.ctxNext);
     }
     return true;
@@ -323,7 +323,7 @@ export class BoardComponent implements OnInit {
       <div class="row ml-3">Lines: {{ lines }}</div>
       <div class="row ml-3">Level: {{ level }}</div>
     </div>
-    <div class="modal-footer row">
+    <div class="modal-footer row" style="margin: 8px; padding: unset">
       <div class="col">
         <button (click)="activeModal.close()" class="btn btn-danger pull-left" data-orientation="cancel">Quit</button>
       </div>

@@ -1,22 +1,33 @@
-<div class="singleContainer mx-auto">
-  <div class="row justify-content-md-center mt-2">
-    <div class="col">
-      <canvas #current class="current"></canvas>
-    </div>
-    <div class="col-1">
-      <canvas #next class="next"></canvas>
+<div class="mx-auto row">
+  <div class=" mx-auto col">
+    <div class="container pull-right">
+      <div class="row mt-2">
+        <div class="col top-left">
+          <canvas #next class="next pull-left"></canvas>
+        </div>
+        <div class="col top-right">
+          <!--          <canvas #current class="current pull-left"></canvas>-->
+          <!--          <div class="row ml-3">Score: {{ points }}</div>-->
+          <!--          <div class="row ml-3">Lines: {{ lines }}</div>-->
+          <!--          <div class="row ml-3">Level: {{ level }}</div>-->
+          <p>Score: {{ points }}</p>
+          <p>Lines: {{ lines }}</p>
+          <p>Level: {{ level }}</p>
+        </div>
+      </div>
+      <div>
+        <canvas #board class="game-board"></canvas>
+      </div>
+      <div class="text-center">
+        <button (click)="play()" class="play-button btn btn-success">Play</button>
+      </div>
+
     </div>
   </div>
 
-  <div class="grid">
-    <canvas #board class="game-board"></canvas>
+  <div class="col">
+    <div class="container text-center">
+    </div>
   </div>
-
-  <div class="row ml-3">Score: {{ points }}</div>
-  <div class="row ml-3">Lines: {{ lines }}</div>
-  <div class="row ml-3">Level: {{ level }}</div>
-
-  <button (click)="play()" class="play-button btn btn-success">Play</button>
 
 </div>
-

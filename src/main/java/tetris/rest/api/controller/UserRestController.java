@@ -10,8 +10,6 @@ import tetris.rest.api.model.entity.FriendRelation;
 import tetris.rest.api.model.entity.User;
 import tetris.rest.api.model.entity.angular.AngularUser;
 
-import javax.servlet.http.HttpServletResponse;
-
 import static java.util.stream.Collectors.toList;
 
 @RestController
@@ -45,6 +43,16 @@ public class UserRestController {
 
         return users;
     }
+    @PostMapping("/getauth")
+    public AngularUser getUserByAuthorized(@RequestBody User user){
+        User resultUser = userRepository.findByLogin(user.getLogin());
+        if(resultUser != null) {
+            if (resultUser.getPassword().equals(user.getPassword()))
+                return new AngularUser(resultUser);
+        }
+            return null;
+    }
+
     @GetMapping("/{id}")
     public AngularUser getUser(@PathVariable("id") Integer id){
             return new AngularUser(userRepository.findById(id).get());

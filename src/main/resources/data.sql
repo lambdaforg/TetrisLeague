@@ -2,11 +2,13 @@ INSERT IGNORE INTO security_question (id,question) VALUES (0,'What is your favou
 INSERT IGNORE INTO security_question (id,question) VALUES (1,'What is your favourite animal?');
 INSERT IGNORE INTO security_question (id,question) VALUES (2,'What is your favourite dictator?');
 INSERT IGNORE INTO security_question (id,question) VALUES (3,'What is your favourite movie?');
-INSERT IGNORE INTO user (id, answer1, answer2, created_at, password, rankings_points, username, question1_id, question2_id) VALUES (0, 'whale', 'The Hunger Games', '2020-03-20 20:25', 'saj3do$a', 7342, 'mike23', 1, 3);
-INSERT IGNORE INTO user (id, answer1, answer2, created_at, password, rankings_points, username, question1_id, question2_id) VALUES (1, 'Capri', 'crocodile', '2020-03-20 16:08', 'ois5hefi#', 8129, 'tomHouston', 0, 1);
-INSERT IGNORE INTO user (id, answer1, answer2, created_at, password, rankings_points, username, question1_id, question2_id) VALUES (2, 'Ice Age', 'Jamaica', '2020-03-21 08:35', 'ib1ui%sfbs4d', 4321, 'willDim', 3, 0);
-INSERT IGNORE  INTO user (id, answer1, answer2, created_at, password, rankings_points, username, question1_id, question2_id) VALUES (3, 'lion', 'Shrek', '2020-03-22 10:45', 'ksn2dds6cs', 3845, 'giGinella', 1, 3);
-INSERT IGNORE INTO user (id, answer1, answer2, created_at, password, rankings_points, username, question1_id, question2_id) VALUES (4, 'Paris', 'koala', '2020-03-23 18:16', 'inf5sdds7s', 2982, 'paulAven', 0, 1);
+INSERT IGNORE INTO user (id, answer1, answer2, created_at, password, rankings_points, login,username, question1_id, question2_id) VALUES (0, 'whale', 'The Hunger Games', '2020-03-20 20:25', 'saj3do$a', 7342, 'mike23','mike23', 1, 3);
+INSERT IGNORE INTO user (id, answer1, answer2, created_at, password, rankings_points, login,username, question1_id, question2_id) VALUES (1, 'Capri', 'crocodile', '2020-03-20 16:08', 'ois5hefi#', 8129, 'tomHouston','tomHouston', 0, 1);
+INSERT IGNORE INTO user (id, answer1, answer2, created_at, password, rankings_points, login,username, question1_id, question2_id) VALUES (2, 'Ice Age', 'Jamaica', '2020-03-21 08:35', 'ib1ui%sfbs4d', 4321, 'willDim','willDim', 3, 0);
+INSERT IGNORE  INTO user (id, answer1, answer2, created_at, password, rankings_points, login,username, question1_id, question2_id) VALUES (3, 'lion', 'Shrek', '2020-03-22 10:45', 'ksn2dds6cs', 3845, 'giGinella','giGinella', 1, 3);
+INSERT IGNORE INTO user (id, answer1, answer2, created_at, password, rankings_points, login,username, question1_id, question2_id) VALUES (4, 'Paris', 'koala', '2020-03-23 18:16', 'inf5sdds7s', 2982, 'paulAven','paulAven', 0, 1);
+ INSERT IGNORE INTO user (id, answer1, answer2, created_at, password, rankings_points, login,username, question1_id, question2_id) VALUES (5, 'Florida', 'parrot', '2020-03-24 13:40', 'jnf2sd4ndd', 1549, 'SamFin','SamFin', 0, 1);
+
 INSERT IGNORE INTO game (id, date, game_time, level, score, score_lines, multiplayer_game_id, user_id) VALUES (0, '2020-03-20', '20:27:46', 20, 6455, 316, NULL, 0);
 INSERT IGNORE INTO game (id, date, game_time, level, score, score_lines, multiplayer_game_id, user_id) VALUES (1, '2020-03-20', '16:09:12', 26, 12364, 456, NULL, 1);
 INSERT IGNORE INTO game (id, date, game_time, level, score, score_lines, multiplayer_game_id, user_id) VALUES (2, '2020-03-21', '09:22:46', 9, 468, 80, NULL, 2);
@@ -44,7 +46,6 @@ INSERT IGNORE INTO multiplayer_game (id, bet, number_of_players, winner_id) VALU
  INSERT IGNORE INTO friend_relation (id, status, receiver_user_id, sender_user_id) VALUES (4, 'Accepted', 2, 4);
  INSERT IGNORE INTO friend_relation (id, status, receiver_user_id, sender_user_id) VALUES (5, 'Accepted', 4, 3);
 
- INSERT IGNORE INTO user (id, answer1, answer2, created_at, password, rankings_points, username, question1_id, question2_id) VALUES (5, 'Florida', 'parrot', '2020-03-24 13:40', 'jnf2sd4ndd', 1549, 'SamFin', 0, 1);
 
  INSERT IGNORE INTO friend_relation (id, status, receiver_user_id, sender_user_id) VALUES (6, 'Invited', 3, 1);
 INSERT IGNORE INTO friend_relation (id, status, receiver_user_id, sender_user_id) VALUES (7, 'Invited', 0, 3);

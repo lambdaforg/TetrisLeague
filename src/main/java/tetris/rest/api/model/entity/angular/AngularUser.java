@@ -19,6 +19,7 @@ public class AngularUser {
 
     }
 
+
     public AngularUser(User user) {
         this.id = user.getId();
         this.username = user.getUsername();
@@ -31,7 +32,13 @@ public class AngularUser {
         this.answer2 = user.getAnswer2();
     }
 
+    public String getLogin() {
+        return login;
+    }
 
+    public void setLogin(String login) {
+        this.login = login;
+    }
 
     public int getId() {
         return id;

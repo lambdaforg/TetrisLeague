@@ -12,12 +12,13 @@
       <div class="input-group">
         <div class="custom-file">
           <input type="file" class="custom-file-input" placeholder="Choose file" (change)="onFileSelected($event)">
-          <label class="custom-file-label">Choose file</label>
+          <label class="custom-file-label">{{browsePlaceholder}}</label>
         </div>
         <div class="input-group-prepend">
           <span class="input-group-text btn btn-upload-file" (click)="onUpload()">Upload</span>
         </div>
       </div>
+    <div *ngIf="message" class="alert-warning">{{message}}</div>
     </div>
 
 <!--  Password setting  -->

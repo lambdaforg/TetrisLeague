@@ -1,6 +1,6 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {User} from './model/User';
-import {Observable, of} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
 import {environment} from '../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Game} from './model/Game';
@@ -67,7 +67,7 @@ export class DataService {
     return this.http.put<User>(environment.restUrl + '/api/users', user);
   }
 
-  uploadAvatar(id: number, avatar: File) {
+  uploadAvatar(id: number, avatar: File): Observable<any> {
     console.log(avatar);
     console.log(avatar.type);
     const fdAvatar = new FormData();
@@ -77,7 +77,7 @@ export class DataService {
     } else if (avatar.type === 'image/png') {
       fileName = id.toString() + '.png';
     } else {
-      return null;
+      throwError('Invalid data type');
     }
     fdAvatar.append('avatar', avatar, fileName);
     console.log(fdAvatar);

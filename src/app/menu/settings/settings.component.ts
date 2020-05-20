@@ -13,6 +13,8 @@ export class SettingsComponent implements OnInit {
   user: User;
   selectedFile: File = null;
   avatar: any;
+  message = '';
+  browsePlaceholder = 'Choose file';
 
   @Output()
   avatarChangedEvent = new EventEmitter();
@@ -27,23 +29,29 @@ export class SettingsComponent implements OnInit {
 
 
   onUpload() {
-   this.dataService.uploadAvatar(this.user.id, this.selectedFile).subscribe(
-     res => {
-       this.loadData();
-       this.avatarChangedEvent.emit();
-     }
-   );
+    this.dataService.uploadAvatar(this.user.id, this.selectedFile).subscribe(
+      res => {
+        this.loadData();
+        this.avatarChangedEvent.emit();
+      }, error => {
+        this.message = 'Invalid file extension or size';
+        console.log(error.message);
+      }
+    );
+    this.browsePlaceholder = 'Choose file';
   }
 
   onFileSelected(event) {
     this.selectedFile = event.target.files[0];
+    this.browsePlaceholder = this.selectedFile.name;
   }
 
-  private loadData() {
+  loadData() {
     this.dataService.getAvatar(this.user.id).subscribe(
       data => {
         this.avatar = data;
-        this.loadData();
+        this.message = '';
+        this.browsePlaceholder = 'Choose file';
       }
     );
   }

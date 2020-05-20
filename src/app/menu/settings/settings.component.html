@@ -4,18 +4,18 @@
     <h6>Change avatar</h6>
     <div class="form-group">
       <div class="media">
-        <img id="avatar" class="avatar" src="assets/img/avatar.png">
+        <img id="avatar" class="avatar" [src]="avatar">
         <div class="media-body">
           <!-- Place to specify image  -->
         </div>
       </div>
       <div class="input-group">
         <div class="custom-file">
-          <input type="file" class="custom-file-input" placeholder="Choose file">
+          <input type="file" class="custom-file-input" placeholder="Choose file" (change)="onFileSelected($event)">
           <label class="custom-file-label">Choose file</label>
         </div>
         <div class="input-group-prepend">
-          <span class="input-group-text btn btn-upload-file">Upload</span>
+          <span class="input-group-text btn btn-upload-file" (click)="onUpload()">Upload</span>
         </div>
       </div>
     </div>

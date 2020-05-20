@@ -50,7 +50,7 @@ export class DataService {
     return of(user1);
   }
 
-  updateAvatar(user: User): Observable<User>{
+  updateUserAvatar(id: number, avatar: File): Observable<User>{
     return of(null);
   }
 

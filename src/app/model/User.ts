@@ -14,7 +14,7 @@ export class User {
   answer1: string;
   answer2: string;
 
-  static fromHttp(user: User) : User {
+  static fromHttp(user: User): User {
     const newUser = new User();
     newUser.id = user.id;
     newUser.username = user.username;

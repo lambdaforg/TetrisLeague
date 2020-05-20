@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit} from '@angular/core';
+import {DataService} from '../../data.service';
+import {User} from '../../model/User';
 
 @Component({
   selector: 'app-settings',
@@ -7,9 +9,39 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SettingsComponent implements OnInit {
 
-  constructor() { }
+  @Input()
+  user: User;
+  selectedFile: File = null;
+  avatar: any;
+  avatarChanged = new EventEmitter();
 
-  ngOnInit(): void {
+  constructor(private dataService: DataService) {
+
   }
 
+  ngOnInit(): void {
+    this.loadData();
+  }
+
+
+  onUpload() {
+   this.dataService.uploadAvatar(this.user.id, this.selectedFile).subscribe(
+     res => {
+       this.loadData();
+     }
+   );
+  }
+
+  onFileSelected(event) {
+    this.selectedFile = event.target.files[0];
+  }
+
+  private loadData() {
+    this.dataService.getAvatar(this.user.id).subscribe(
+      res => {
+        this.avatar = res;
+        this.loadData();
+      }
+    );
+  }
 }

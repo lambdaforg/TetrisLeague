@@ -4,9 +4,9 @@ import {User} from '../model/User';
 import {DataService} from '../data.service';
 import {of, Subscription} from 'rxjs';
 import {StatsService} from './stats/classes/stats.service';
-import {formatDate} from "@angular/common";
-import {Game} from "../model/Game";
-import {max} from "rxjs/operators";
+import {formatDate} from '@angular/common';
+import {Game} from '../model/Game';
+import {max} from 'rxjs/operators';
 
 @Component({
   selector: 'app-menu',
@@ -23,6 +23,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   statsFavourite: string;
   dataLoaded = false;
   message = '';
+  avatar: any;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -33,22 +34,22 @@ export class MenuComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadData();
   }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
     this.favouriteStatsSubscription.unsubscribe();
   }
 
   loadData() {
-      this.message = 'Loading data...';
-      if (this.dataService.user !== null) {
-        this.user = this.dataService.user;
-        this.getMaxPoints();
-        this.dataLoaded = true;
-        this.message = '';
-     }
-      else{
-        this.router.navigate(['login']);
-      }
+    this.message = 'Loading data...';
+    if (this.dataService.user !== null) {
+      this.user = this.dataService.user;
+      this.getMaxPoints();
+      this.dataLoaded = true;
+      this.message = '';
+    } else {
+      this.router.navigate(['login']);
+    }
     /*
      this.dataService.getUser(0).subscribe(
         next => {
@@ -81,19 +82,20 @@ export class MenuComponent implements OnInit, OnDestroy {
     );
   }
 
-  getMaxPoints(){
+  getMaxPoints() {
     this.dataService.getMaximumScore(this.user.id).subscribe(
       next => {
         this.maxScore = next;
       }
-  );
+    );
   }
 
   // metoda ktora nam wlasnie tworzy taki routing np  http://localhost:4200/menu?action=rankings
   redirectTo(pathAction: string) {
     this.router.navigate(['menu'], {queryParams: {action: pathAction}});
   }
-  logOut(){
+
+  logOut() {
     this.dataService.user = null;
     this.router.navigate(['login']);
   }

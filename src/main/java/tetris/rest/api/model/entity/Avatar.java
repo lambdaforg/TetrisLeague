@@ -1,7 +1,6 @@
 package tetris.rest.api.model.entity;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
 
 @Entity
 public class Avatar {
@@ -14,7 +13,15 @@ public class Avatar {
 
     private String type;
 
+    private Integer userId;
+
+    @Lob
+    @Column(length = 1000, columnDefinition="BLOB")
     private byte[] picByte;
+
+    public Avatar() {
+        super();
+    }
 
     public Avatar(String name, String type, byte[] picByte) {
         this.name = name;
@@ -28,6 +35,14 @@ public class Avatar {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getType() {
@@ -46,12 +61,12 @@ public class Avatar {
         this.picByte = picByte;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

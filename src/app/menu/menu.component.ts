@@ -80,6 +80,8 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.favouriteStatsSubscription = this.statsService.favouriteStatsEventEmitter.subscribe(
       favourite => this.statsFavourite = favourite
     );
+
+    this.loadAvatar();
   }
 
   getMaxPoints() {
@@ -98,5 +100,14 @@ export class MenuComponent implements OnInit, OnDestroy {
   logOut() {
     this.dataService.user = null;
     this.router.navigate(['login']);
+  }
+
+  loadAvatar() {
+    this.dataService.getAvatar(this.user.id)
+      .subscribe(
+        data => {
+          this.avatar = data;
+        }
+      );
   }
 }

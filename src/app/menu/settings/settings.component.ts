@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {DataService} from '../../data.service';
 import {User} from '../../model/User';
 
@@ -13,7 +13,9 @@ export class SettingsComponent implements OnInit {
   user: User;
   selectedFile: File = null;
   avatar: any;
-  avatarChanged = new EventEmitter();
+
+  @Output()
+  avatarChangedEvent = new EventEmitter();
 
   constructor(private dataService: DataService) {
 
@@ -28,6 +30,7 @@ export class SettingsComponent implements OnInit {
    this.dataService.uploadAvatar(this.user.id, this.selectedFile).subscribe(
      res => {
        this.loadData();
+       this.avatarChangedEvent.emit();
      }
    );
   }
@@ -38,8 +41,8 @@ export class SettingsComponent implements OnInit {
 
   private loadData() {
     this.dataService.getAvatar(this.user.id).subscribe(
-      res => {
-        this.avatar = res;
+      data => {
+        this.avatar = data;
         this.loadData();
       }
     );

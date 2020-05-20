@@ -1,9 +1,9 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {User} from './model/User';
 import {Observable, of} from 'rxjs';
-import {Game} from "./model/Game";
-import {environment} from "../environments/environment";
-import {MultiplayerGame} from "./model/MultiplayerGame";
+import {Game} from './model/Game';
+import {environment} from '../environments/environment';
+import {MultiplayerGame} from './model/MultiplayerGame';
 
 @Injectable({
   providedIn: 'root'
@@ -23,11 +23,13 @@ export class DataService {
     user1.rankingsPoints = 0;
     this.users.push(user1);
   }
-  createUser(user: User): Observable<User>{
+
+  createUser(user: User): Observable<User> {
     user.id = this.users.length + 1;
     this.users.push(user);
     return of(user);
   }
+
   getUserByLogin(login: string, password: string): Observable<User> {
     const user = this.users.find(p => p.login === login);
     if (user !== undefined && user.password === password) {
@@ -35,75 +37,80 @@ export class DataService {
     }
     return of(null);
   }
-  getUser(id: number): Observable<User>{
-    return of(this.users.find(p => p.id === id ));
+
+  getUser(id: number): Observable<User> {
+    return of(this.users.find(p => p.id === id));
   }
 
-  getAllUsers(): Observable<Array<User>>{
+  getAllUsers(): Observable<Array<User>> {
     return of(null);
   }
 
-  updateUser(user: User): Observable<User>{
-    let user1 = this.users.find(p => p.id === user.id);
+  updateUser(user: User): Observable<User> {
+    const user1 = this.users.find(p => p.id === user.id);
     user1.rankingsPoints = user.rankingsPoints;
     user1.password = user.password;
     return of(user1);
   }
 
-  updateUserAvatar(id: number, avatar: File): Observable<User>{
+  uploadAvatar(id: number, avatar: File) {
     return of(null);
   }
 
-  resetUserPassword(id: number) : Observable<any>  {
+  getAvatar(userId: number): Observable<any> {
+    return of(null);
+  }
+
+  resetUserPassword(id: number): Observable<any> {
     return of(null);
   }
 
 
-  getMaximumScore(id: number): Observable<number>{
-   /*  let arrays = this.users.find(p => p.id === id).scores;
-     let max = arrays[0];
-     for(let i = 0 ; i < arrays.length; i++){
-       if(arrays[i] > max)
-         max = arrays[i];
-     }
-     return of(max);*/
+  getMaximumScore(id: number): Observable<number> {
+    /*  let arrays = this.users.find(p => p.id === id).scores;
+      let max = arrays[0];
+      for(let i = 0 ; i < arrays.length; i++){
+        if(arrays[i] > max)
+          max = arrays[i];
+      }
+      return of(max);*/
 
-     return of(0);
+    return of(0);
   }
 
-  getGames(): Observable<Array<Game>>{
+  getGames(): Observable<Array<Game>> {
     return of(null);
   }
 
-  createGame(game: Game): Observable<Game>{
+  createGame(game: Game): Observable<Game> {
     return of(null);
   }
 
-  joinGame(id: number): Observable<Game>{
+  joinGame(id: number): Observable<Game> {
     return of(null);
   }
 
-  updateGame(game: Game): Observable<Game>{
+  updateGame(game: Game): Observable<Game> {
     return of(null);
   }
 
-  getAllMultiplayerGames(): Observable<Array<MultiplayerGame>>{
+  getAllMultiplayerGames(): Observable<Array<MultiplayerGame>> {
     return of(null);
   }
 
-  getAllFriends(id: number):Observable<Array<User>> {
+  getAllFriends(id: number): Observable<Array<User>> {
     return of(null);
   }
 
-  getGeneralBestScores():Observable<Array<Game>>{
+  getGeneralBestScores(): Observable<Array<Game>> {
     return of(null);
   }
 
-  getPeriodBestScores():Observable<Array<Game>>{
+  getPeriodBestScores(): Observable<Array<Game>> {
     return of(null);
   }
 
   // getRankingsPoints(){
   //
   // }
-  }
+}

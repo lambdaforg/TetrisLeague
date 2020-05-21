@@ -2,11 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {User} from '../model/User';
 import {DataService} from '../data.service';
-import {of, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {StatsService} from './stats/classes/stats.service';
-import {formatDate} from '@angular/common';
-import {Game} from '../model/Game';
-import {max} from 'rxjs/operators';
 
 @Component({
   selector: 'app-menu',
@@ -17,6 +14,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   user: User;
   maxScore: number;
+  currentRankingsPoints: number;
   action: string;
   subscription: any;
   favouriteStatsSubscription: Subscription;
@@ -41,15 +39,17 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   loadData() {
-    this.message = 'Loading data...';
-    if (this.dataService.user !== null) {
-      this.user = this.dataService.user;
-      this.getMaxPoints();
-      this.dataLoaded = true;
-      this.message = '';
-    } else {
-      this.router.navigate(['login']);
-    }
+      this.message = 'Loading data...';
+      if (this.dataService.user !== null) {
+        this.user = this.dataService.user;
+        this.loadAvatar();
+        this.getMaxPoints();
+        this.getCurrentRankingsPoints();
+        this.dataLoaded = true;
+        this.message = '';
+     } else {
+        this.router.navigate(['login']);
+      }
     /*
      this.dataService.getUser(0).subscribe(
         next => {
@@ -69,6 +69,7 @@ export class MenuComponent implements OnInit, OnDestroy {
       next => {
         this.user = next;
         this.getMaxPoints();
+        this.getCurrentRankingsPoints();
       },
       error => {
         // Handle error
@@ -81,13 +82,20 @@ export class MenuComponent implements OnInit, OnDestroy {
       favourite => this.statsFavourite = favourite
     );
 
-    this.loadAvatar();
   }
 
   getMaxPoints() {
     this.dataService.getMaximumScore(this.user.id).subscribe(
       next => {
         this.maxScore = next;
+      }
+    );
+  }
+
+  getCurrentRankingsPoints(){
+    this.dataService.getCurrentRankingsPoints(this.user.id).subscribe(
+      next => {
+        this.currentRankingsPoints = next;
       }
     );
   }

@@ -5,7 +5,7 @@ export class Game {
   id: number;
   user: User;
   multiplayerGame: MultiplayerGame;
-  date: string;
+  gameDate: string;
   score: number;
   scoreLines: number;
   level: number;

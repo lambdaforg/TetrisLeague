@@ -121,30 +121,10 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Przemo</td>
-          <td>4321</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Mark</td>
-          <td>4301</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td>Jacob</td>
-          <td>4002</td>
-        </tr>
-        <tr>
-          <th scope="row">4</th>
-          <td>Larry</td>
-          <td>3543</td>
-        </tr>
-        <tr>
-          <th scope="row">5</th>
-          <td>AAAA</td>
-          <td>3495</td>
+        <tr *ngFor="let rankingPoint of bestRankingPoints; index as i">
+          <th scope="row">{{i + 1}}</th>
+          <td>{{rankingPoint.user.username}}</td>
+          <td>RP{{rankingPoint.value}}</td>
         </tr>
         </tbody>
       </table>

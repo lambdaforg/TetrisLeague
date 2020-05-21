@@ -1,9 +1,9 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {User} from './model/User';
 import {Observable, of} from 'rxjs';
-import {Game} from './model/Game';
-import {environment} from '../environments/environment';
-import {MultiplayerGame} from './model/MultiplayerGame';
+import {Game} from "./model/Game";
+import {MultiplayerGame} from "./model/MultiplayerGame";
+import {RankingPoint} from "./model/RankingPoint";
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,6 @@ export class DataService {
     user1.password = 'test';
     user1.login = 'test1';
     user1.username = 'Username';
-    user1.rankingsPoints = 0;
     this.users.push(user1);
   }
 
@@ -47,17 +46,12 @@ export class DataService {
   }
 
   updateUser(user: User): Observable<User> {
-    const user1 = this.users.find(p => p.id === user.id);
-    user1.rankingsPoints = user.rankingsPoints;
+    let user1 = this.users.find(p => p.id === user.id);
     user1.password = user.password;
     return of(user1);
   }
 
-  uploadAvatar(id: number, avatar: File) {
-    return of(null);
-  }
-
-  getAvatar(userId: number): Observable<any> {
+  updateAvatar(user: User): Observable<User> {
     return of(null);
   }
 
@@ -110,7 +104,7 @@ export class DataService {
     return of(null);
   }
 
-  // getRankingsPoints(){
-  //
-  // }
+  getRankingsPoints(): Observable<Array<RankingPoint>> {
+    return of(null);
+  }
 }

@@ -2,7 +2,6 @@
 export class User {
   id: number;
   username: string;
-  rankingsPoints: number;
   login: string;
   password: string;
 
@@ -18,7 +17,6 @@ export class User {
     const newUser = new User();
     newUser.id = user.id;
     newUser.username = user.username;
-    newUser.rankingsPoints = user.rankingsPoints;
     newUser.created_At = user.created_At;
     newUser.question1 = SecurityQuestion.fromHttp(user.question1);
     newUser.question2 = SecurityQuestion.fromHttp(user.question2);

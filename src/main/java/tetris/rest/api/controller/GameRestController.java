@@ -36,8 +36,7 @@ public class GameRestController {
     private List<Game> addGameToBestScores(List<Game> bestScoresById, Game game) {
         Integer currentUserId = game.getUser().getId();
         if (!bestScoresById.isEmpty()) {
-            Integer finalCurrentUserId = currentUserId;
-            if (bestScoresById.stream().filter(game1 -> game1.getUser().getId().equals(finalCurrentUserId)).toArray().length == 0) {
+            if (bestScoresById.stream().filter(game1 -> game1.getUser().getId().equals(currentUserId)).toArray().length == 0) {
                 bestScoresById.add(game);
             }
         } else {
@@ -74,7 +73,7 @@ public class GameRestController {
         Collections.reverse(sortedScoresByScore);
         for (Game game : sortedScoresByScore) {
             try {
-                d2 = sdf.parse(game.getDate().toString());
+                d2 = sdf.parse(game.getGameDate().toString());
             } catch (ParseException e) {
                 e.printStackTrace();
             }

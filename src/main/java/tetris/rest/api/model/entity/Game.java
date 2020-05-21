@@ -15,7 +15,7 @@ public class Game {
     private MultiplayerGame multiplayerGame;
     @Basic
     @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
+    private Date gameDate;
     private Integer score;
     private Integer scoreLines;
     private Integer level;
@@ -37,12 +37,12 @@ public class Game {
         this.gameTime = gameTime;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getGameDate() {
+        return gameDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setGameDate(Date gameDate) {
+        this.gameDate = gameDate;
     }
 
     public Integer getScore() {

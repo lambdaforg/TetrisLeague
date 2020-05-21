@@ -62,7 +62,6 @@ public class UserRestController {
     public AngularUser updateUser(@RequestBody AngularUser updatedUser) {
         User originalUser = userRepository.findById(updatedUser.getId()).get();
         originalUser.setUsername(updatedUser.getUsername());
-        originalUser.setRankingsPoints(updatedUser.getRankingsPoints());
         return new AngularUser(userRepository.save(originalUser));
     }
     @PostMapping

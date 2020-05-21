@@ -1,14 +1,12 @@
 package tetris.rest.api.controller;
 
-import net.bytebuddy.description.method.ParameterList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tetris.rest.api.data.FriendRelationRepository;
 import tetris.rest.api.data.UserRepository;
 import tetris.rest.api.model.entity.FriendRelation;
-import tetris.rest.api.model.entity.Game;
 import tetris.rest.api.model.entity.User;
-import tetris.rest.api.model.entity.angular.AgnularRelation;
+import tetris.rest.api.model.entity.angular.AngularRelation;
 import tetris.rest.api.model.entity.angular.AngularUser;
 
 import java.util.ArrayList;
@@ -46,9 +44,9 @@ public class FriendRelationController {
         return originalFriendRelation;
     }
     @PostMapping("/byusername")
-    public FriendRelation addNewFriendRelationByUsername(@RequestBody AgnularRelation agnularRelation){
-            AngularUser senderUser = agnularRelation.getUser();
-            FriendRelation newFriendRelation = agnularRelation.getFriendRelation();
+    public FriendRelation addNewFriendRelationByUsername(@RequestBody AngularRelation angularRelation){
+            AngularUser senderUser = angularRelation.getUser();
+            FriendRelation newFriendRelation = angularRelation.getFriendRelation();
             User receiverUser = userRepository.findByUsername(senderUser.getUsername());
             if(receiverUser != null) {
                 if(getInvitations(receiverUser.getId(), "Invited").isEmpty()){

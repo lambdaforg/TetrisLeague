@@ -3,7 +3,7 @@ package tetris.rest.api.model.entity.angular;
 import tetris.rest.api.model.entity.FriendRelation;
 import tetris.rest.api.model.entity.User;
 
-public class AgnularRelation {
+public class AngularRelation {
     private AngularUser user;
     private FriendRelation friendRelation;
 

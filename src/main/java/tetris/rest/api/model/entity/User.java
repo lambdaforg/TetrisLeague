@@ -14,7 +14,6 @@ public class User {
     private String username;
     private String login;
     private String password;
-    private Integer rankingsPoints;
     @Basic
     @Temporal(TemporalType.TIMESTAMP)
     private Date created_At;
@@ -28,11 +27,6 @@ public class User {
     private String answer1;
     private String answer2;
 
-
-    public Integer getRankingsPoints() {
-        return rankingsPoints;
-    }
-
     public void setUsername(String username) {
         this.username = username;
     }
@@ -45,9 +39,6 @@ public class User {
         this.password = password;
     }
 
-    public void setRankingsPoints(Integer rankingsPoints) {
-        this.rankingsPoints = rankingsPoints;
-    }
 
     public Date getCreated_At() {
         return created_At;

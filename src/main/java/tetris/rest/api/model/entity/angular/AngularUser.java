@@ -8,7 +8,6 @@ public class AngularUser {
     private int id;
     private String username;
     private String login;
-    private Integer rankingsPoints;
     private Date created_At;
     private SecurityQuestion question1;
     private SecurityQuestion question2;
@@ -24,7 +23,6 @@ public class AngularUser {
         this.id = user.getId();
         this.username = user.getUsername();
         this.login = user.getLogin();
-        this.rankingsPoints = user.getRankingsPoints();
         this.created_At = user.getCreated_At();
         this.question1 = user.getQuestion1();
         this.question2 = user.getQuestion2();
@@ -54,14 +52,6 @@ public class AngularUser {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public Integer getRankingsPoints() {
-        return rankingsPoints;
-    }
-
-    public void setRankingsPoints(Integer rankingsPoints) {
-        this.rankingsPoints = rankingsPoints;
     }
 
     public Date getCreated_At() {
@@ -112,7 +102,6 @@ public class AngularUser {
         user.setCreated_At(created_At);
         user.setQuestion1(question1);
         user.setQuestion2(question2);
-        user.setRankingsPoints(rankingsPoints);
         return user;
     }
 }

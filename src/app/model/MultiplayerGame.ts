@@ -5,4 +5,5 @@ export class MultiplayerGame {
   winner: User;
   numberOfPlayers: number;
   bet: number;
+  duel: boolean;
 }

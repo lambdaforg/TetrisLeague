@@ -1,8 +1,8 @@
 <nav class="navbar navbar-expand-md navbar-light sticky-top">
-  <button *ngIf="role === 'admin'" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapse_target">
+  <button *ngIf="role.roleName === 'admin'" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapse_target">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div *ngIf="role === 'admin'" class="collapse navbar-collapse" id="collapse_target">
+  <div *ngIf="role.roleName === 'admin'" class="collapse navbar-collapse" id="collapse_target">
     <ul class="navbar-nav active">
       <li class="nav-item">
         <a class="nav-link clickable" (click)="changeBookmark('User')">User</a>
@@ -25,7 +25,7 @@
       <input class="form-control-sm form-control mr-sm-2" type="search" placeholder="{{this.to}}" aria-label="Search"
              [(ngModel)]="to" name="name2" (change)="checkIfDatesAreValid()" required #toDate = "ngModel">
       <button class="btn btn-outline-success my-2 my-sm-0" (click)="searchInterval()" [disabled]="statsForm.invalid || !validDates || !earlierDatesThanPresent">Search</button>
-      <button *ngIf="role === 'admin'" class="btn btn-outline-success my-2 my-sm-0" (click)="setFavoutite()">Set favourite</button>
+      <button *ngIf="role.roleName === 'admin'" class="btn btn-outline-success my-2 my-sm-0" (click)="setFavoutite()">Set favourite</button>
     </div>
   </form>
 </nav>
@@ -40,13 +40,13 @@
   <div [hidden]="!all && chartId !== 1" (click)="expandChart(1)" class="float-left" id="chartContainer2" style="height: 400px; width: 50%;"></div>
   <div [hidden]="!all && chartId !== 2" (click)="expandChart(2)" class="float-left" id="chartContainer3" style="height: 400px; width: 50%;"></div>
 </div>
-<div [hidden]="selectedBookmark !== 'Website Traffic' || role !== 'admin'">
+<div [hidden]="selectedBookmark !== 'Website Traffic' || role.roleName !== 'admin'">
   <div [hidden]="!all && chartId !== 3" (click)="expandChart(3)" class="float-left" id="chartContainer4" style="height: 400px; width: 50%;"></div>
   <div [hidden]="!all && chartId !== 4" (click)="expandChart(4)" class="float-left" id="chartContainer5" style="height: 400px; width: 50%;"></div>
   <div [hidden]="!all && chartId !== 5" (click)="expandChart(5)" class="float-left" id="chartContainer6" style="height: 400px; width: 50%;"></div>
   <div [hidden]="!all && chartId !== 6" (click)="expandChart(6)" class="float-left" id="chartContainer7" style="height: 400px; width: 50%;"></div>
 </div>
-<div [hidden]="selectedBookmark !== 'Customers Activity and Satisfaction' || role !== 'admin'">
+<div [hidden]="selectedBookmark !== 'Customers Activity and Satisfaction' || role.roleName !== 'admin'">
   <div [hidden]="!all && chartId !== 7" (click)="expandChart(7)" class="float-left" id="chartContainer8" style="height: 400px; width: 50%;"></div>
   <div [hidden]="!all && chartId !== 8" (click)="expandChart(8)" class="float-left" id="chartContainer9" style="height: 400px; width: 50%;"></div>
   <div [hidden]="!all && chartId !== 9" (click)="expandChart(9)" class="float-left" id="chartContainer10" style="height: 400px; width: 50%;"></div>

@@ -12,6 +12,7 @@ public class MultiplayerGame {
     private User winner;
     private Integer numberOfPlayers;
     private Integer bet;
+    private String status;
 
     public Integer getId() {
         return id;
@@ -43,5 +44,13 @@ public class MultiplayerGame {
 
     public void setBet(Integer bet) {
         this.bet = bet;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

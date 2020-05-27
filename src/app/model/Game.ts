@@ -1,5 +1,5 @@
-import {User} from "./User";
-import {MultiplayerGame} from "./MultiplayerGame";
+import {User} from './User';
+import {MultiplayerGame} from './MultiplayerGame';
 
 export class Game {
   id: number;
@@ -10,5 +10,4 @@ export class Game {
   scoreLines: number;
   level: number;
   gameTime: string;
-
 }

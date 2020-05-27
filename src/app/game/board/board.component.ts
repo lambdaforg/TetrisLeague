@@ -28,6 +28,9 @@ export class BoardComponent implements OnInit {
   @Input()
   user: User;
 
+  @Input()
+  isMultiplayer: boolean;
+
   game: Game;
 
   ctx: CanvasRenderingContext2D;

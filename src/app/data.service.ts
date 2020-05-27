@@ -7,7 +7,7 @@ import {Game} from './model/Game';
 import {MultiplayerGame} from './model/MultiplayerGame';
 import {FriendRelation} from './model/FriendRelation';
 import {map} from 'rxjs/operators';
-import {RankingPoint} from "./model/RankingPoint";
+import {RankingPoint} from './model/RankingPoint';
 
 
 @Injectable({
@@ -183,11 +183,15 @@ export class DataService {
     return this.http.get<Array<Game>>(environment.restUrl + '/api/games/getPeriodBestScores/' + date1 + '/' + date2);
   }
 
-  getCurrentRankingsPoints(id:number) :Observable<number>{
+  getCurrentRankingsPoints(id: number): Observable<number> {
     return this.http.get<number>(environment.restUrl + '/api/rankingPoints/' + id);
   }
 
-  getRankingsPoints(): Observable<Array<RankingPoint>>{
+  getRankingsPoints(): Observable<Array<RankingPoint>> {
     return this.http.get<Array<RankingPoint>>(environment.restUrl + '/api/rankingPoints/getBestRankingPoints');
+  }
+
+  getAllPendingMultiplayerGames(): Observable<Array<MultiplayerGame>> {
+    return this.http.get<Array<MultiplayerGame>>(environment.restUrl + '/api/rankingPoints/getPendingMultiplayerGames');
   }
 }

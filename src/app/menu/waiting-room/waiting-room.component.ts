@@ -3,6 +3,8 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {RoomModalComponent} from './room-modal/room-modal.component';
 import {User} from '../../model/User';
 import {Router} from '@angular/router';
+import {MultiplayerGame} from '../../model/MultiplayerGame';
+import {DataService} from '../../data.service';
 
 @Component({
   selector: 'app-waiting-room',
@@ -15,16 +17,30 @@ export class WaitingRoomComponent implements OnInit {
   user: User;
 
   selectedNavbar: string;
+  games: Array<MultiplayerGame>;
 
   @Output()
   gameStartedEvent = new EventEmitter();
 
   constructor(private modalService: NgbModal,
-              private router: Router) {
+              private router: Router,
+              private dataService: DataService) {
   }
 
   ngOnInit(): void {
     this.selectedNavbar = 'filter';
+  }
+
+  loadData() {
+    this.dataService.getAllPendingMultiplayerGames()
+      .subscribe(
+      next => {
+        this.games = next;
+      }, error => {
+        console.log(error.message);
+        }
+    );
+
   }
 
   changeNavbar(selectedNavbar: string) {

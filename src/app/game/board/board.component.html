@@ -1,19 +1,19 @@
+<div class="container">
+  <div class="row mt-2">
+  <div class="col top-left">
+    <canvas #next class="next pull-left"></canvas>
+  </div>
+  <div class="col top-right">
+    <p>Score: {{ points }}</p>
+    <p>Lines: {{ lines }}</p>
+    <p>Level: {{ level }}</p>
+  </div>
+</div>
+<div>
+  <canvas #board class="game-board"></canvas>
+</div>
+<div class="text-center">
+  <button (click)="play()" class="play-button btn btn-success">Play</button>
+</div>
+</div>
 
-    <div class="container pull-right">
-      <div class="row mt-2">
-        <div class="col top-left">
-          <canvas #next class="next pull-left"></canvas>
-        </div>
-        <div class="col top-right">
-          <p>Score: {{ points }}</p>
-          <p>Lines: {{ lines }}</p>
-          <p>Level: {{ level }}</p>
-        </div>
-      </div>
-      <div>
-        <canvas #board class="game-board"></canvas>
-      </div>
-      <div class="text-center">
-        <button (click)="play()" class="play-button btn btn-success">Play</button>
-      </div>
-    </div>

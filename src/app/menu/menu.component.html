@@ -16,15 +16,29 @@
             <h6 class="points2">RP{{currentRankingsPoints}}</h6>
           </div>
         </div>
-        <br><br>
+        <br>
+        <br>
         <nav class="left-navigation">
           <ul class="nav nav-tabs navbar-nav">
-            <li class="btn" type="button" [ngClass]="{'active': action === 'game'}" (click)="redirectTo('game')">Singleplayer</li>
-            <li class="btn" type="button" [ngClass]="{'active': action === 'waitingRoom'}" (click)="redirectTo('waitingRoom')" >Multiplayer</li>
-            <li class="btn" type="button" [ngClass]="{'active': action === 'friends'}" (click)="redirectTo('friends')" >Friends</li>
-            <li class="btn" type="button" [ngClass]="{'active': action === 'rankings'}" (click)="redirectTo('rankings')">Rankings</li>
-            <li class="btn" type="button" [ngClass]="{'active': action === 'stats'}" (click)="redirectTo('stats')">Stats</li>
-            <li class="btn" type="button" [ngClass]="{'active': action === 'setting'}" (click)="redirectTo('setting')">Settings</li>
+            <li class="btn" type="button" [ngClass]="{'active': action === 'game'}" (click)="redirectTo('game')">
+              Singleplayer
+            </li>
+            <li class="btn"
+                type="button" [ngClass]="{'active': action === 'waitingRoom'}" (click)="redirectTo('waitingRoom')" >
+              Multiplayer
+            </li>
+            <li class="btn" type="button" [ngClass]="{'active': action === 'friends'}" (click)="redirectTo('friends')" >
+              Friends
+            </li>
+            <li class="btn"
+                type="button" [ngClass]="{'active': action === 'rankings'}" (click)="redirectTo('rankings')">Rankings
+            </li>
+            <li class="btn" type="button" [ngClass]="{'active': action === 'stats'}" (click)="redirectTo('stats')">
+              Stats
+            </li>
+            <li class="btn" type="button" [ngClass]="{'active': action === 'setting'}" (click)="redirectTo('setting')">
+              Settings
+            </li>
             <li class="btn" type="button" (click)='logOut()'>Log out</li>
           </ul>
         </nav>
@@ -34,12 +48,14 @@
       <div class="page-content col">
         <div class="mx-auto row" *ngIf="action === 'game' || action == null">
           <div class=" mx-auto col">
-            <app-board [user] = "user"></app-board>
+            <div class="pull-right">
+              <app-board [user] = "user" [isMultiplayer]="false"></app-board>
+            </div>
           </div>
-        <div class="col">
+          <div class="col">
+          </div>
         </div>
-        </div>
-      <app-waiting-room *ngIf="action === 'waitingRoom'" [user] = "user" (gameStartedEvent)="startMultiplayerGame()"></app-waiting-room>
+        <app-waiting-room *ngIf="action === 'waitingRoom'" [user] = "user" (gameStartedEvent)="startMultiplayerGame()"></app-waiting-room>
         <app-friends *ngIf="action === 'friends'" [user] = "user"></app-friends>
         <app-rankings *ngIf="action === 'rankings'"></app-rankings>
         <app-settings *ngIf="action === 'setting'" [user]="user" (avatarChangedEvent)="loadAvatar()"></app-settings>

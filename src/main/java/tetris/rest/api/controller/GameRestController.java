@@ -115,6 +115,18 @@ public class GameRestController {
         return gameRepository.save(newGame);
     }
 
+    // returns all pending multiplayer games
+    @GetMapping("/getPendingMultiplayerGames")
+    public List<MultiplayerGame> getPendingMultiplayerGames() {
+        Set<MultiplayerGame> pendingMultiplayerGames = getAllGames()
+                .stream()
+                .filter(game -> game.getMultiplayerGame() != null)
+                .map(Game::getMultiplayerGame)
+                .filter(mG -> mG.getStatus().equals("pending"))
+                .collect(Collectors.toSet());
+        return List.copyOf(pendingMultiplayerGames);
+    }
+
 }
 
 

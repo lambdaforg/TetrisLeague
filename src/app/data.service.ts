@@ -192,6 +192,6 @@ export class DataService {
   }
 
   getAllPendingMultiplayerGames(): Observable<Array<MultiplayerGame>> {
-    return this.http.get<Array<MultiplayerGame>>(environment.restUrl + '/api/rankingPoints/getPendingMultiplayerGames');
+    return this.http.get<Array<MultiplayerGame>>(environment.restUrl + '/api/multiplayer-games/getPendingMultiplayerGames');
   }
 }

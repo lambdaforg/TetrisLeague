@@ -6,7 +6,7 @@ export class MultiplayerGame {
   winner: User;
   numberOfPlayers: number;
   bet: number;
-  players: Array<User>;
+  usersIds: Array<number>;
   status: string;
   duel: boolean;
 }

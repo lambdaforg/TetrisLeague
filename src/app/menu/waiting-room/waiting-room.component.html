@@ -93,26 +93,12 @@
           <th></th>
         </tr>
         </thead>
-        <tbody *ngFor="let game from games; let index = index" [ngClass]="{'alert alert-success': index === 0}">
-        <tr>
+        <tbody>
+        <tr *ngFor="let game of games; let index = index">
           <th scope="row">{{index + 1}}</th>
-          <td>{{game.host.name}}</td>
-          <td>{{game.players.size}} / {{game.numberOfPlayers}}</td>
+          <td>{{game.host.username}}</td>
+          <td>{{game.usersIds.length}} / {{game.numberOfPlayers}}</td>
           <td>{{game.bet}}</td>
-          <td class="btn btn-light" (click)="joinRoom()">Join<i class="fa fa-lock"></i></td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>3 / 4</td>
-          <td>100 RP</td>
-          <td class="btn btn-light" (click)="joinRoom()">Join<i class="fa fa-unlock"></i></td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td>Larry</td>
-          <td>1 / 2</td>
-          <td>250 RP</td>
           <td class="btn btn-light" (click)="joinRoom()">Join<i class="fa fa-lock"></i></td>
         </tr>
         </tbody>

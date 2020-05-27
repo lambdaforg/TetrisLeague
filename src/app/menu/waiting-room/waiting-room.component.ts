@@ -29,12 +29,14 @@ export class WaitingRoomComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedNavbar = 'filter';
+    this.loadData();
   }
 
   loadData() {
     this.dataService.getAllPendingMultiplayerGames()
       .subscribe(
       next => {
+        console.log(next);
         this.games = next;
       }, error => {
         console.log(error.message);

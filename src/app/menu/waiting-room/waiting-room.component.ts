@@ -1,7 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {RoomModalComponent} from './room-modal/room-modal.component';
 import {User} from '../../model/User';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-waiting-room',
@@ -15,7 +16,11 @@ export class WaitingRoomComponent implements OnInit {
 
   selectedNavbar: string;
 
-  constructor(private modalService: NgbModal) {
+  @Output()
+  gameStartedEvent = new EventEmitter();
+
+  constructor(private modalService: NgbModal,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -32,6 +37,12 @@ export class WaitingRoomComponent implements OnInit {
       backdrop: 'static'
     });
     modalRef.componentInstance.user = this.user;
+    modalRef.result.then(
+      (result) => {
+        if (result === 'start') {
+          this.gameStartedEvent.emit();
+        }
+      });
   }
 
   public joinRoom() {

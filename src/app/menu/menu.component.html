@@ -32,11 +32,19 @@
 
       <!-- Pages content -->
       <div class="page-content col">
-        <app-board *ngIf="action === 'game' || action == null" [user] = "user"></app-board>
-        <app-waiting-room *ngIf="action === 'waitingRoom'" [user] = "user"></app-waiting-room>
+        <div class="mx-auto row" *ngIf="action === 'game' || action == null">
+          <div class=" mx-auto col">
+            <app-board [user] = "user"></app-board>
+          </div>
+        <div class="col">
+        </div>
+        </div>
+      <app-waiting-room *ngIf="action === 'waitingRoom'" [user] = "user" (gameStartedEvent)="startMultiplayerGame()"></app-waiting-room>
         <app-friends *ngIf="action === 'friends'" [user] = "user"></app-friends>
         <app-rankings *ngIf="action === 'rankings'"></app-rankings>
         <app-settings *ngIf="action === 'setting'" [user]="user" (avatarChangedEvent)="loadAvatar()"></app-settings>
+        <app-stats *ngIf="action === 'stats'" [favourite]="statsFavourite"></app-stats>
+        <app-multiplayer-boards *ngIf="action === 'multiplayer'" [user]="user"></app-multiplayer-boards>
         <app-stats *ngIf="action === 'stats'" [favourite]="statsFavourite" [role]="user.role"></app-stats>
       </div>
     </div>

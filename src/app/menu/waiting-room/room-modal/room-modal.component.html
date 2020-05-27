@@ -1,16 +1,19 @@
-<div class="modal-header">
-  <h5>Waiting for players...</h5>
-</div>
-<div class="modal-body">
-  <table>
-    <tbody>
-    <tr>
-      <td>1. </td>
-      <td>{{user.username}}</td>
-    </tr>
-    </tbody>
-  </table>
-</div>
-<div class="modal-footer justify-content-start">
-  <button type="button" class="btn btn-outline-danger" (click)="leave()">Leave</button>
+<div>
+  <div class="modal-header">
+    <h5>Waiting for players...</h5>
+  </div>
+  <div class="modal-body">
+    <table>
+      <tbody>
+      <tr>
+        <td>1.</td>
+        <td>{{user.username}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="modal-footer justify-content-start">
+    <button type="button" class="btn btn-outline-danger" (click)="leave()">Leave</button>
+    <button type="button" class="btn btn-outline-success" (click)="redirectToMultiplayerGame()">Start</button>
+  </div>
 </div>

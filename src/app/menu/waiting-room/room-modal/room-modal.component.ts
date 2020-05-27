@@ -44,6 +44,8 @@ export class RoomModalComponent implements OnInit {
   @Input()
   user: User;
 
+  waitingForPlayers = true;
+
   constructor(config: NgbModalConfig, private modalService: NgbModal, public activeModal: NgbActiveModal) {
     config.backdrop = 'static';
     config.keyboard = true;
@@ -67,5 +69,9 @@ export class RoomModalComponent implements OnInit {
         this.activeModal.close();
       }
     });
+  }
+
+  redirectToMultiplayerGame() {
+    this.activeModal.close('start');
   }
 }

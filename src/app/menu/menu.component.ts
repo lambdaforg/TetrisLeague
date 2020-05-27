@@ -47,26 +47,25 @@ export class MenuComponent implements OnInit, OnDestroy {
   loadData() {
       this.message = 'Loading data...';
 
-    if (this.tokenStorage.getToken()) {
-      console.log("test");
-      this.isLoggedIn = true;
-      this.user = new User();
-      this.user.username = this.tokenStorage.getUser().username
-      this.user.login = this.user.username;
-      this.user.id = this.tokenStorage.getUser().id;
-      this.loadAvatar();
+      if (this.tokenStorage.getToken()) {
+       console.log('test');
+       this.isLoggedIn = true;
+       this.user = new User();
+       this.user.username = this.tokenStorage.getUser().username
+       this.user.login = this.user.username;
+       this.user.id = this.tokenStorage.getUser().id;
+       this.loadAvatar();
 
-      console.log(this.user);
-      this.roles = this.tokenStorage.getUser().roles;
-      this.getMaxPoints();
-      this.dataLoaded = true;
-      console.log("test");
-      this.message = '';
+       console.log(this.user);
+       this.roles = this.tokenStorage.getUser().roles;
+       this.getMaxPoints();
+       this.dataLoaded = true;
+       console.log('test');
+       this.message = '';
 
-    }
-    else{
-      this.router.navigate(['login']);
-    }
+     } else {
+       this.router.navigate(['login']);
+     }
     /* if (this.dataService.user !== null) {
        this.user = this.dataService.user;
        this.loadAvatar();
@@ -85,13 +84,12 @@ export class MenuComponent implements OnInit, OnDestroy {
        },
        error => this.message = 'Sorry - the data could not be loaded.'
      );*/
-    this.route.queryParams.subscribe(
-      (params) => {
+      this.route.queryParams.subscribe(
+       (params) => {
         this.action = params.action;
-      }
-    );
-    this.subscription = this.dataService.event.subscribe(
-      next => {
+      });
+      this.subscription = this.dataService.event.subscribe(
+       next => {
         this.user = next;
         this.getMaxPoints();
         this.getCurrentRankingsPoints();
@@ -103,10 +101,10 @@ export class MenuComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.favouriteStatsSubscription = this.statsService.favouriteStatsEventEmitter.subscribe(
-      favourite => this.statsFavourite = favourite
-    );
-    console.log("test2");
+      this.favouriteStatsSubscription = this.statsService.favouriteStatsEventEmitter.subscribe(
+       favourite => this.statsFavourite = favourite
+       );
+      console.log('test2');
   }
 
   getMaxPoints() {
@@ -146,4 +144,8 @@ export class MenuComponent implements OnInit, OnDestroy {
       );
   }
 
+  startMultiplayerGame() {
+    this.action = 'multiplayer';
+    this.redirectTo('multiplayer');
+  }
 }

@@ -1,10 +1,7 @@
 package tetris.rest.api.model.entity;
 
-import jdk.dynalink.linker.LinkerServices;
-
 import javax.persistence.*;
-import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
 @Entity
 public class MultiplayerGame {
@@ -101,5 +98,17 @@ public class MultiplayerGame {
 
     public void setPlayerThree(User playerThree) {
         this.playerThree = playerThree;
+    }
+
+    public void addPlayer(User player) {
+        if (playerOne == null) {
+            playerOne = player;
+        } else {
+            if (numberOfPlayers > 2 && playerTwo == null) {
+                playerTwo = player;
+            } else if (numberOfPlayers == 4 && playerThree == null) {
+                playerThree = player;
+            }
+        }
     }
 }

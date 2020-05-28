@@ -138,7 +138,7 @@ export class BoardComponent implements OnInit {
     this.game.id = 19;
     this.game.user = this.user;
     this.game.multiplayerGame = null;
-    this.game.date = formatDate(new Date(), 'yyyy-MM-dd', 'en-UK');
+    this.game.gameDate = formatDate(new Date(), 'yyyy-MM-dd', 'en-UK');
     this.game.score = 0;
     this.game.scoreLines = 0;
     this.game.level = 0;

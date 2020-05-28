@@ -34,18 +34,10 @@ export class User {
     const newUser = new User();
     newUser.id = user.id;
     newUser.username = user.username;
-    newUser.rankingsPoints = user.rankingsPoints;
     newUser.created_At = user.created_At;
     return newUser;
   }
 
-  static friendFromHttp(user: User) : User{
-    const newUser = new User();
-    newUser.id = user.id;
-    newUser.username = user.username;
-    newUser.created_At = user.created_At;
-    return newUser;
-  }
 
 }
 export enum Questions {

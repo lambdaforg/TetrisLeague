@@ -60,20 +60,23 @@
     </nav>
 
     <!--  Room create bar  -->
+    <!-- TODO: validation -->
     <nav class="navbar navbar-expand-md navbar-light child-bar" id="room-create"
          *ngIf="selectedNavbar === 'room-create'">
-      <form class="form-inline">
+      <form class="form-inline" [formGroup]="newGameForm">
         <label class="col-form-label" for="bet-input">Bet:</label>
-        <input class="form-control bet-input" type="number" placeholder="100" id="bet-input">
+        <input class="form-control bet-input" type="number" placeholder="100" id="bet-input" formControlName="bet"
+               required>
         <label class="col-form-label" for="players-number-select">Players:</label>
-        <select class="form-control" id="players-number-select">
-          <option>2</option>
+        <select class="form-control" id="players-number-select" formControlName="numberOfPlayers" required>
+          <option [selected]="true">2</option>
           <option>3</option>
           <option>4</option>
         </select>
         <label class="col-form-label" for="password-input">Password:</label>
         <input class="form-control bet-input mr-sm-2" type="password" placeholder="" id="password-input">
-        <button class="btn btn-light btn-success" (click)="createRoom()">Create room</button>
+        <button class="btn btn-light btn-success" (click)="createRoom()" [disabled]="newGameForm.invalid">Create room
+        </button>
       </form>
     </nav>
   </div>
@@ -89,7 +92,7 @@
           <th scope="col">ID</th>
           <th scope="col">Host</th>
           <th scope="col">Players</th>
-          <th scope="col">Entry fee</th>
+          <th scope="col">Bet</th>
           <th></th>
         </tr>
         </thead>
@@ -97,7 +100,7 @@
         <tr *ngFor="let game of games; let index = index">
           <th scope="row">{{index + 1}}</th>
           <td>{{game.host.username}}</td>
-          <td>{{game.usersIds.length}} / {{game.numberOfPlayers}}</td>
+          <td>{{getCurrentPlayersNumber(game)}} / {{game.numberOfPlayers}}</td>
           <td>{{game.bet}}</td>
           <td class="btn btn-light" (click)="joinRoom()">Join<i class="fa fa-lock"></i></td>
         </tr>

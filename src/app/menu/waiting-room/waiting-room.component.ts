@@ -5,6 +5,7 @@ import {User} from '../../model/User';
 import {Router} from '@angular/router';
 import {MultiplayerGame} from '../../model/MultiplayerGame';
 import {DataService} from '../../data.service';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-waiting-room',
@@ -19,29 +20,32 @@ export class WaitingRoomComponent implements OnInit {
   selectedNavbar: string;
   games: Array<MultiplayerGame>;
 
+  newGameForm: FormGroup;
+
   @Output()
   gameStartedEvent = new EventEmitter();
 
   constructor(private modalService: NgbModal,
               private router: Router,
-              private dataService: DataService) {
+              private dataService: DataService,
+              private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
     this.selectedNavbar = 'filter';
     this.loadData();
+    this.initializeNewGameForm();
   }
 
   loadData() {
     this.dataService.getAllPendingMultiplayerGames()
       .subscribe(
-      next => {
-        console.log(next);
-        this.games = next;
-      }, error => {
-        console.log(error.message);
+        next => {
+          this.games = next;
+        }, error => {
+          console.log(error.message);
         }
-    );
+      );
 
   }
 
@@ -49,23 +53,69 @@ export class WaitingRoomComponent implements OnInit {
     this.selectedNavbar = selectedNavbar;
   }
 
+  // creating new room
   public createRoom() {
-    console.log(this.user);
+    let newGame = new MultiplayerGame(
+      this.user,
+      this.newGameForm.value.numberOfPlayers,
+      this.newGameForm.value.bet
+    );
+    this.dataService.createMultiplayerGame(newGame).subscribe(
+      next => {
+        newGame = next;
+        this.loadData();
+      }
+    );
     const modalRef = this.modalService.open(RoomModalComponent, {
       backdrop: 'static'
     });
+    modalRef.componentInstance.game = newGame;
     modalRef.componentInstance.user = this.user;
     modalRef.result.then(
       (result) => {
         if (result === 'start') {
           this.gameStartedEvent.emit();
+        } else if (result === 'deleted') {
+          this.dataService.deleteMultiplayerGame(newGame.id)
+            .subscribe(
+              next => {
+                if (next) {
+                  this.loadData();
+                }
+              }, e => {
+                console.log(e.message);
+              }
+            );
         }
       });
   }
 
+  // TODO: joining game
   public joinRoom() {
     const modalRef = this.modalService.open(RoomModalComponent);
     modalRef.componentInstance.user = this.user;
+  }
+
+  public getCurrentPlayersNumber(game: MultiplayerGame) {
+    let result = 1;
+    if (game.playerOne != null) {
+      result++;
+      if (game.playerTwo != null) {
+        result++;
+        if (game.playerThree != null) {
+          result++;
+        }
+      }
+    }
+    return result;
+  }
+
+  public initializeNewGameForm() {
+    this.newGameForm = this.formBuilder.group(
+      {
+        bet: [[Validators.required, Validators.min(1)]],
+        numberOfPlayers: [Validators.required]
+      });
   }
 
 }

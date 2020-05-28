@@ -1,6 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgbActiveModal, NgbModal, NgbModalConfig} from '@ng-bootstrap/ng-bootstrap';
 import {User} from '../../../model/User';
+import {MultiplayerGame} from '../../../model/MultiplayerGame';
+import {DataService} from '../../../data.service';
+import {error} from '@angular/compiler/src/util';
 
 // dialog shown when player wants to leave the room
 @Component({
@@ -42,17 +45,24 @@ export class LeaveRoomDialogComponent {
 export class RoomModalComponent implements OnInit {
 
   @Input()
+  game: MultiplayerGame;
+
+  @Input()
   user: User;
 
+  gameDeletedEvent = new EventEmitter();
   waitingForPlayers = true;
 
-  constructor(config: NgbModalConfig, private modalService: NgbModal, public activeModal: NgbActiveModal) {
+  constructor(private config: NgbModalConfig,
+              private modalService: NgbModal,
+              public activeModal: NgbActiveModal,
+              private dataService: DataService) {
     config.backdrop = 'static';
     config.keyboard = true;
   }
 
   ngOnInit(): void {
-    console.log(this.user);
+    console.log(this.game);
   }
 
   leave() {
@@ -63,9 +73,15 @@ export class RoomModalComponent implements OnInit {
         keyboard: true
       }
     );
-
     modalRef.result.then((result) => {
       if (result) {
+
+        // Deleting room if host leaves
+        if (this.game.host === this.user) {
+          this.activeModal.close('deleted');
+        }
+      } else {
+        // TODO: leave game
         this.activeModal.close();
       }
     });

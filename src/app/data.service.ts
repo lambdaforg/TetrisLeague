@@ -194,4 +194,12 @@ export class DataService {
   getAllPendingMultiplayerGames(): Observable<Array<MultiplayerGame>> {
     return this.http.get<Array<MultiplayerGame>>(environment.restUrl + '/api/multiplayer-games/getPendingMultiplayerGames');
   }
+
+  createMultiplayerGame(multiplayerGame: MultiplayerGame): Observable<MultiplayerGame> {
+    return this.http.post<MultiplayerGame>(environment.restUrl + '/api/multiplayer-games', multiplayerGame);
+  }
+
+  deleteMultiplayerGame(gameId: number): Observable<any> {
+    return this.http.delete(environment.restUrl + '/api/multiplayer-games/' + gameId);
+  }
 }

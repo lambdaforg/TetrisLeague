@@ -7,7 +7,19 @@
       <tbody>
       <tr>
         <td>1.</td>
-        <td>{{user.username}}</td>
+        <td>{{game.host.username}}</td>
+      </tr>
+      <tr *ngIf="game.playerOne != null">
+        <td>2.</td>
+        <td>{{game.playerOne.username}}</td>
+      </tr>
+      <tr *ngIf="game.playerTwo != null">
+        <td>3.</td>
+        <td>{{game.playerTwo.username}}</td>
+      </tr>
+      <tr *ngIf="game.playerThree != null">
+        <td>4.</td>
+        <td>{{game.playerThree.username}}</td>
       </tr>
       </tbody>
     </table>

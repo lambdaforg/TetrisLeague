@@ -5,8 +5,14 @@ import javax.persistence.*;
 import java.security.Timestamp;
 import java.sql.Time;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
+@Table(	name = "users",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "login")
+        })
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,7 +28,20 @@ public class User {
     @OneToOne
     private SecurityQuestion question2;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(	name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
+
+    public User(String username, String login, String password) {
+        this.username = username;
+        this.login = login;
+        this.password = password;
+    }
+    public User() {
+    }
 
     private String answer1;
     private String answer2;
@@ -99,6 +118,13 @@ public class User {
 
     public void setLogin(String login) {
         this.login = login;
+    }
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
 }

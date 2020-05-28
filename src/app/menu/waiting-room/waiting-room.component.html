@@ -102,7 +102,7 @@
           <td>{{game.host.username}}</td>
           <td>{{getCurrentPlayersNumber(game)}} / {{game.numberOfPlayers}}</td>
           <td>{{game.bet}}</td>
-          <td class="btn btn-light" (click)="joinRoom()">Join<i class="fa fa-lock"></i></td>
+          <td class="btn btn-light" (click)="joinRoom(game.id)">Join<i class="fa fa-unlock"></i></td>
         </tr>
         </tbody>
       </table>

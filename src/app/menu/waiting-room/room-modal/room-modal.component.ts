@@ -77,12 +77,12 @@ export class RoomModalComponent implements OnInit {
       if (result) {
 
         // Deleting room if host leaves
-        if (this.game.host === this.user) {
+        if (this.game.host.id === this.user.id) {
           this.activeModal.close('deleted');
+        } else {
+          // TODO: leave game
+          this.activeModal.close('leave');
         }
-      } else {
-        // TODO: leave game
-        this.activeModal.close();
       }
     });
   }

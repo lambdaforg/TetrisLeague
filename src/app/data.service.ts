@@ -114,10 +114,6 @@ export class DataService {
     return this.http.post<Game>(environment.restUrl + '/api/games', game);
   }
 
-  joinGame(id: number): Observable<Game> {
-    return this.http.put<Game>(environment.restUrl + '/api/games', id);
-  }
-
   updateGame(game: Game): Observable<Game> {
     return this.http.put<Game>(environment.restUrl + '/api/games', game);
   }
@@ -201,5 +197,13 @@ export class DataService {
 
   deleteMultiplayerGame(gameId: number): Observable<any> {
     return this.http.delete(environment.restUrl + '/api/multiplayer-games/' + gameId);
+  }
+
+  joinMultiplayerGame(gameId: number, userId: number): Observable<MultiplayerGame> {
+    return this.http.put<MultiplayerGame>(environment.restUrl + '/api/multiplayer-games/join/' + gameId, userId);
+  }
+
+  leaveMultiplayerGame(gameId: number, userId: number): Observable<MultiplayerGame> {
+    return this.http.put<MultiplayerGame>(environment.restUrl + '/api/multiplayer-games/leave/' + gameId, userId);
   }
 }

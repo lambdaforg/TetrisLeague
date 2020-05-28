@@ -21,6 +21,7 @@ export class WaitingRoomComponent implements OnInit {
   games: Array<MultiplayerGame>;
 
   newGameForm: FormGroup;
+  multiplayerGame: MultiplayerGame;
 
   @Output()
   gameStartedEvent = new EventEmitter();
@@ -55,45 +56,30 @@ export class WaitingRoomComponent implements OnInit {
 
   // creating new room
   public createRoom() {
-    let newGame = new MultiplayerGame(
+    const newGame = new MultiplayerGame(
       this.user,
       this.newGameForm.value.numberOfPlayers,
       this.newGameForm.value.bet
     );
     this.dataService.createMultiplayerGame(newGame).subscribe(
       next => {
-        newGame = next;
         this.loadData();
+        this.openRoomModal(next);
       }
     );
-    const modalRef = this.modalService.open(RoomModalComponent, {
-      backdrop: 'static'
-    });
-    modalRef.componentInstance.game = newGame;
-    modalRef.componentInstance.user = this.user;
-    modalRef.result.then(
-      (result) => {
-        if (result === 'start') {
-          this.gameStartedEvent.emit();
-        } else if (result === 'deleted') {
-          this.dataService.deleteMultiplayerGame(newGame.id)
-            .subscribe(
-              next => {
-                if (next) {
-                  this.loadData();
-                }
-              }, e => {
-                console.log(e.message);
-              }
-            );
-        }
-      });
   }
 
   // TODO: joining game
-  public joinRoom() {
-    const modalRef = this.modalService.open(RoomModalComponent);
-    modalRef.componentInstance.user = this.user;
+  public joinRoom(gameId: number) {
+    this.dataService.joinMultiplayerGame(gameId, this.user.id)
+      .subscribe(
+        next => {
+          this.multiplayerGame = next;
+          this.loadData();
+          this.openRoomModal(next);
+        }
+      );
+    console.log('after adding player' + this.multiplayerGame);
   }
 
   public getCurrentPlayersNumber(game: MultiplayerGame) {
@@ -115,6 +101,44 @@ export class WaitingRoomComponent implements OnInit {
       {
         bet: [[Validators.required, Validators.min(1)]],
         numberOfPlayers: [Validators.required]
+      });
+  }
+
+  private openRoomModal(game: MultiplayerGame) {
+    console.log('on method start ' + game.id);
+    const modalRef = this.modalService.open(RoomModalComponent, {
+      backdrop: 'static'
+    });
+    console.log('new game ' + game);
+    modalRef.componentInstance.game = game;
+    modalRef.componentInstance.user = this.user;
+    modalRef.result.then(
+      (result) => {
+        if (result === 'start') {
+          this.gameStartedEvent.emit();
+        } else if (result === 'deleted') {
+          console.log('id before deleting ' + game.id);
+          this.dataService.deleteMultiplayerGame(game.id)
+            .subscribe(
+              next => {
+                if (next) {
+                  this.loadData();
+                }
+              }, e => {
+                console.log(e.message);
+              }
+            );
+        } else {
+          console.log('user ' + this.user.id + ' leaves ' + game.id);
+          this.dataService.leaveMultiplayerGame(game.id, this.user.id)
+            .subscribe(
+              next => {
+                this.loadData();
+              }, error => {
+                console.log(error.message);
+              }
+            );
+        }
       });
   }
 

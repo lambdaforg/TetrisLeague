@@ -19,4 +19,16 @@ export class MultiplayerGame {
     this.status = 'pending';
   }
 
+  static fromHttp(multiplayerGame: MultiplayerGame): MultiplayerGame {
+    const newMultiplayerGame = new MultiplayerGame(
+      multiplayerGame.host,
+      multiplayerGame.numberOfPlayers,
+      multiplayerGame.bet
+    );
+    newMultiplayerGame.status = multiplayerGame.status;
+    newMultiplayerGame.playerOne = multiplayerGame.playerOne;
+    newMultiplayerGame.playerTwo = multiplayerGame.playerTwo;
+    newMultiplayerGame.playerThree = multiplayerGame.playerThree;
+    return newMultiplayerGame;
+  }
 }

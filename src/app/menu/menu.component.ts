@@ -54,6 +54,7 @@ export class MenuComponent implements OnInit, OnDestroy {
       this.user.username = this.tokenStorage.getUser().username
       this.user.login = this.user.username;
       this.user.id = this.tokenStorage.getUser().id;
+      this.loadAvatar();
 
       console.log(this.user);
       this.roles = this.tokenStorage.getUser().roles;

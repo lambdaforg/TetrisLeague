@@ -20,9 +20,16 @@ public class MultiplayerGame {
     private Integer bet;
     private String status;
 
+    @ManyToOne
+    private User playerOne;
+
+    @ManyToOne
+    private User playerTwo;
+
+    @ManyToOne
+    private User playerThree;
+
     //@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @ElementCollection
-    private Set<Integer> usersIds;
 
     public Integer getId() {
         return id;
@@ -72,15 +79,27 @@ public class MultiplayerGame {
         this.status = status;
     }
 
-    public Set<Integer> getUsersIds() {
-        return usersIds;
+    public User getPlayerOne() {
+        return playerOne;
     }
 
-    public void setUsersIds(Set<Integer> usersIds) {
-        this.usersIds = usersIds;
+    public void setPlayerOne(User playerOne) {
+        this.playerOne = playerOne;
     }
 
-    public void addUserId(Integer id) {
-        this.usersIds.add(id);
+    public User getPlayerTwo() {
+        return playerTwo;
+    }
+
+    public void setPlayerTwo(User playerTwo) {
+        this.playerTwo = playerTwo;
+    }
+
+    public User getPlayerThree() {
+        return playerThree;
+    }
+
+    public void setPlayerThree(User playerThree) {
+        this.playerThree = playerThree;
     }
 }

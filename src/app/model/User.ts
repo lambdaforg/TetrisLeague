@@ -1,4 +1,6 @@
 // Taki mockup na chwile kiedy jeszcze nie mamy backendu.
+import {Role} from "./Role";
+
 export class User {
   id: number;
   username: string;
@@ -12,6 +14,8 @@ export class User {
   // Questions: Array<Questions> = [];
   answer1: string;
   answer2: string;
+  active: boolean;
+  role: Role;
 
   static fromHttp(user: User): User {
     const newUser = new User();
@@ -20,6 +24,8 @@ export class User {
     newUser.created_At = user.created_At;
     newUser.question1 = SecurityQuestion.fromHttp(user.question1);
     newUser.question2 = SecurityQuestion.fromHttp(user.question2);
+    newUser.active = user.active;
+    newUser.role = Role.fromHttp(user.role);
     newUser.answer1 = user.answer1;
     newUser.answer2 = user.answer2;
     return newUser;
@@ -29,6 +35,14 @@ export class User {
     newUser.id = user.id;
     newUser.username = user.username;
     newUser.rankingsPoints = user.rankingsPoints;
+    newUser.created_At = user.created_At;
+    return newUser;
+  }
+
+  static friendFromHttp(user: User) : User{
+    const newUser = new User();
+    newUser.id = user.id;
+    newUser.username = user.username;
     newUser.created_At = user.created_At;
     return newUser;
   }

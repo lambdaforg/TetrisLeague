@@ -160,7 +160,7 @@ export class DataService {
     return this.http.get<FriendRelation>(environment.restUrl + '/api/friends/' + id + '/' + idFrom)
       .pipe(
         map(
-          data =>{
+          data => {
             return FriendRelation.fromHttp(data);
           }
         )

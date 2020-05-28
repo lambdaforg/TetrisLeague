@@ -33,7 +33,6 @@ export class RegisterComponent implements OnInit {
               private dataService: DataService,
               private authService: AuthService,
               private tokenStorageService: TokenStorageService) { }
-
   ngOnInit(): void {
     if (this.tokenStorageService.getToken()) {
       this.redirectToMenu();
@@ -78,13 +77,15 @@ export class RegisterComponent implements OnInit {
     this.user.question1 = this.formRegister.get('question1').value;
     this.user.question2 = this.formRegister.get('question2').value;
 
-  /*  this.dataService.createUser(this.user).subscribe(
+    /*
+    this.dataService.createUser(this.user).subscribe(
       (good) =>{
         this.dataService.event.emit(good);
         this.router.navigate(['/login']);
       }
 
     )*/
+
     this.authService.register(this.user).subscribe(
       data => {
         console.log(data);

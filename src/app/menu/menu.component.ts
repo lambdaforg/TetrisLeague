@@ -4,11 +4,8 @@ import {User} from '../model/User';
 import {DataService} from '../data.service';
 import {Subscription} from 'rxjs';
 import {StatsService} from './stats/classes/stats.service';
-import {formatDate} from "@angular/common";
-import {Game} from "../model/Game";
-import {max} from "rxjs/operators";
-import {AuthService} from "../services/auth.service";
-import {TokenStorageService} from "../services/token-storage.service";
+import {AuthService} from '../services/auth.service';
+import {TokenStorageService} from '../services/token-storage.service';
 
 @Component({
   selector: 'app-menu',
@@ -26,9 +23,9 @@ export class MenuComponent implements OnInit, OnDestroy {
   statsFavourite: string;
   dataLoaded = false;
   message = '';
+  avatar: any;
   isLoggedIn = false;
   roles: string[] = [];
-  avatar: any;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -55,40 +52,38 @@ export class MenuComponent implements OnInit, OnDestroy {
       this.isLoggedIn = true;
       this.user = new User();
       this.user.username = this.tokenStorage.getUser().username
-      //this.user.rankingsPoints = 0;
-
       this.user.login = this.user.username;
       this.user.id = this.tokenStorage.getUser().id;
 
+      console.log(this.user);
       this.roles = this.tokenStorage.getUser().roles;
       this.getMaxPoints();
       this.dataLoaded = true;
-      this.loadAvatar();
-      this.getMaxPoints();
-      this.getCurrentRankingsPoints();
-      this.dataLoaded = true;
+      console.log("test");
       this.message = '';
+
     }
     else{
       this.router.navigate(['login']);
     }
-     /* if (this.dataService.user !== null) {
-        this.user = this.dataService.user;
-        this.getMaxPoints();
-        this.dataLoaded = true;
-        this.message = '';
-     }*/
-
+    /* if (this.dataService.user !== null) {
+       this.user = this.dataService.user;
+       this.loadAvatar();
+       this.getMaxPoints();
+       this.getCurrentRankingsPoints();
+       this.dataLoaded = true;
+       this.message = '';
+    }*/
     /*
-     this.dataService.getUser(0).subscribe(
-        next => {
-          this.user = next;
-          this.getMaxPoints();
-          this.dataLoaded = true;
-          this.message = '';
-        },
-        error => this.message = 'Sorry - the data could not be loaded.'
-      );*/
+    this.dataService.getUser(0).subscribe(
+       next => {
+         this.user = next;
+         this.getMaxPoints();
+         this.dataLoaded = true;
+         this.message = '';
+       },
+       error => this.message = 'Sorry - the data could not be loaded.'
+     );*/
     this.route.queryParams.subscribe(
       (params) => {
         this.action = params.action;
@@ -110,14 +105,15 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.favouriteStatsSubscription = this.statsService.favouriteStatsEventEmitter.subscribe(
       favourite => this.statsFavourite = favourite
     );
+    console.log("test2");
   }
 
-  getMaxPoints(){
+  getMaxPoints() {
     this.dataService.getMaximumScore(this.user.id).subscribe(
       next => {
         this.maxScore = next;
       }
-  );
+    );
   }
 
   getCurrentRankingsPoints(){
@@ -132,7 +128,8 @@ export class MenuComponent implements OnInit, OnDestroy {
   redirectTo(pathAction: string) {
     this.router.navigate(['menu'], {queryParams: {action: pathAction}});
   }
-  logOut(){
+
+  logOut() {
     this.dataService.user = null;
     this.tokenStorage.signOut();
     this.router.navigate(['login']);
@@ -147,4 +144,5 @@ export class MenuComponent implements OnInit, OnDestroy {
         }
       );
   }
+
 }

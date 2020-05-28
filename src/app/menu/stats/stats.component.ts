@@ -3,6 +3,7 @@ import * as CanvasJS from './../../canvasjs.min';
 import {formatDate} from '@angular/common';
 import {StatsService} from './classes/stats.service';
 import {MONTHS} from './classes/constants';
+import {Role} from "../../model/Role";
 
 @Component({
   selector: 'app-stats',
@@ -14,7 +15,8 @@ export class StatsComponent implements OnInit {
   selectedBookmark: string;
   @Input()
   favourite: string;
-  role: string;
+  @Input()
+  role: Role;
   from: string;
   to: string;
   validDates = true;
@@ -35,11 +37,11 @@ export class StatsComponent implements OnInit {
     this.from = formatDate(new Date(2020, 3, 10), 'yyyy MM dd', 'en-UK');
     this.to = formatDate(new Date(), 'yyyy MM dd', 'en-UK');
 
-    this.initializeCharts();
-    this.role = 'admin';
-    if (this.role === 'user'){
-      this.selectedBookmark = 'User';
+    if (this.role.roleName === 'player'){
+      this.changeBookmark('User');
     }
+
+    this.initializeCharts();
   }
 
   changeBookmark(bookmark: string) {
@@ -48,6 +50,7 @@ export class StatsComponent implements OnInit {
     }
     this.selectedBookmark = bookmark;
     this.initializeCharts();
+
   }
 
   setFavoutite() {
@@ -573,7 +576,7 @@ export class StatsComponent implements OnInit {
 
     chart3.render();
 
-    if (this.role === 'user'){
+    if (this.role.roleName === 'player'){
       return;
     }
 

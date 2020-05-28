@@ -85,6 +85,7 @@ export class FriendsComponent implements OnInit {
     this.dataService.createFriendRelation(user1, friendRelation).subscribe(
      next =>{
        /*To do something */
+       console.log(next);
        console.log("Invited");
      }
     );

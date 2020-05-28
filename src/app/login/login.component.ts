@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {FormGroup, FormBuilder,Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {LoginRequest, User} from "../model/User";
 import {DataService} from "../data.service";
 import {AuthService} from "../services/auth.service";
@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   user: User;
   loginForm: FormGroup;
 
-  loginArray = { name: '', password: ''};
+  loginArray = {name: '', password: ''};
 
   isLoggedIn = false;
   isLoginFailed = false;
@@ -28,12 +28,14 @@ export class LoginComponent implements OnInit {
               private formBuilder: FormBuilder,
               private dataService: DataService,
               private authService: AuthService,
-              private tokenStorage: TokenStorageService) { }
+              private tokenStorage: TokenStorageService) {
+  }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-      login:  [this.loginArray.name, [Validators.required, Validators.minLength(4)]],
-      password:  [this.loginArray.password, [Validators.required, Validators.minLength(7)]]});
+      login: [this.loginArray.name, [Validators.required, Validators.minLength(4)]],
+      password: [this.loginArray.password, [Validators.required, Validators.minLength(7)]]
+    });
 
     if (this.tokenStorage.getToken()) {
       this.isLoggedIn = true;
@@ -41,10 +43,15 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  get login(){ return this.loginForm.get('login');}
-  get password(){ return this.loginForm.get('password');}
+  get login() {
+    return this.loginForm.get('login');
+  }
 
-  submit(){
+  get password() {
+    return this.loginForm.get('password');
+  }
+
+  submit() {
 
     this.authService.login(new LoginRequest(this.login.value, this.password.value)).subscribe(
       data => {
@@ -55,7 +62,7 @@ export class LoginComponent implements OnInit {
         this.isLoggedIn = true;
         this.roles = this.tokenStorage.getUser().roles;
         this.redirectToMenu();
-      //  this.reloadPage();
+        //  this.reloadPage();
       },
       err => {
         this.errorMessage = err.error.message;
@@ -63,24 +70,23 @@ export class LoginComponent implements OnInit {
       }
     );
 
-   /*  this.dataService.getUserByLogin(this.login.value, this.password.value).subscribe(
-        (good) => {
-          //to do logowanie
-          if (good !== null) {
-          this.dataService.user = good;
-          this.redirectToMenu();
-        }
+    /*  this.dataService.getUserByLogin(this.login.value, this.password.value).subscribe(        (good) => {
+           //to do logowanie
+           if (good !== null) {
+           this.dataService.user = good;
+           this.redirectToMenu();
+         }
 
-        }
-      );*/
-   /*   this.dataService.getUser(0).subscribe(   (good) => {
-        //to do logowanie
-        if (good !== null) {
-          this.dataService.user = User.fromHttp(good);
-          this.redirectToMenu();
-        }
+         }
+       );*/
+    /*   this.dataService.getUser(0).subscribe(   (good) => {
+         //to do logowanie
+         if (good !== null) {
+           this.dataService.user = User.fromHttp(good);
+           this.redirectToMenu();
+         }
 
-      });*/
+       });*/
   }
 
   redirectToRegister() {

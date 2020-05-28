@@ -103,7 +103,7 @@ export class DataService {
           data => {
                 const friends = new Array<User>();
                 for(const friend of data){
-                  friends.push(User.fromHttp(friend));
+                  friends.push(User.friendFromHttp(friend));
                 }
             return friends;
           }
@@ -118,7 +118,7 @@ export class DataService {
             data =>{
               const friends = new Array<User>();
               for(const friend of data){
-                friends.push(User.fromHttp(friend));
+                friends.push(User.friendFromHttp(friend));
               }
               return friends;
             }

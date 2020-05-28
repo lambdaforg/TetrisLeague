@@ -7,6 +7,8 @@ import {StatsService} from './stats/classes/stats.service';
 import {formatDate} from "@angular/common";
 import {Game} from "../model/Game";
 import {max} from "rxjs/operators";
+import {AuthService} from "../services/auth.service";
+import {TokenStorageService} from "../services/token-storage.service";
 
 @Component({
   selector: 'app-menu',
@@ -23,11 +25,15 @@ export class MenuComponent implements OnInit, OnDestroy {
   statsFavourite: string;
   dataLoaded = false;
   message = '';
+  isLoggedIn = false;
+  roles: string[] = [];
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private dataService: DataService,
-              private statsService: StatsService) {
+              private statsService: StatsService,
+              private authService: AuthService,
+              private tokenStorage: TokenStorageService) {
   }
 
   ngOnInit(): void {
@@ -40,15 +46,33 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   loadData() {
       this.message = 'Loading data...';
-      if (this.dataService.user !== null) {
+
+    if (this.tokenStorage.getToken()) {
+      console.log("test");
+      this.isLoggedIn = true;
+      this.user = new User();
+      this.user.username = this.tokenStorage.getUser().username
+      this.user.rankingsPoints = 0;
+      this.user.login = this.user.username;
+      this.user.id = this.tokenStorage.getUser().id;
+
+      console.log(this.user);
+      this.roles = this.tokenStorage.getUser().roles;
+      this.getMaxPoints();
+      this.dataLoaded = true;
+      console.log("test");
+      this.message = '';
+    }
+    else{
+      this.router.navigate(['login']);
+    }
+     /* if (this.dataService.user !== null) {
         this.user = this.dataService.user;
         this.getMaxPoints();
         this.dataLoaded = true;
         this.message = '';
-     }
-      else{
-        this.router.navigate(['login']);
-      }
+     }*/
+
     /*
      this.dataService.getUser(0).subscribe(
         next => {
@@ -79,6 +103,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.favouriteStatsSubscription = this.statsService.favouriteStatsEventEmitter.subscribe(
       favourite => this.statsFavourite = favourite
     );
+    console.log("test2");
   }
 
   getMaxPoints(){
@@ -95,6 +120,9 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
   logOut(){
     this.dataService.user = null;
+    this.tokenStorage.signOut();
     this.router.navigate(['login']);
+
   }
+
 }

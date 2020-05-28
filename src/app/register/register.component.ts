@@ -8,6 +8,8 @@ import {
 } from "@angular/forms";
 import {MustMatch} from "../model/form/MustMatch";
 import {DataService} from "../data.service.local";
+import {AuthService} from "../services/auth.service";
+import {TokenStorageService} from "../services/token-storage.service";
 
 @Component({
   selector: 'app-register',
@@ -21,12 +23,22 @@ export class RegisterComponent implements OnInit {
   formRegister: FormGroup;
   register = { name: 'Login', password: 'Password', confirmPassword: 'Password', answer0: '', answer1: '', question1: this.questions.question1, question2: this.questions.question2};
 
+  isSuccessful = false;
+  isSignUpFailed = false;
+  errorMessage = '';
+
 
   constructor(private router: Router,
               private formBuilder: FormBuilder,
-              private dataService: DataService) { }
+              private dataService: DataService,
+              private authService: AuthService,
+              private tokenStorageService: TokenStorageService) { }
 
   ngOnInit(): void {
+    if (this.tokenStorageService.getToken()) {
+      this.redirectToMenu();
+    }
+
     this.user = new User();
 
     this.formRegister = this.formBuilder.group({
@@ -40,6 +52,7 @@ export class RegisterComponent implements OnInit {
     }, {
       validator: MustMatch('password', 'confirmPassword')
     });
+
   }
 
 
@@ -53,6 +66,9 @@ export class RegisterComponent implements OnInit {
   redirectToLogin(){
     this.router.navigate(['login']);
   }
+  redirectToMenu(){
+    this.router.navigate(['menu']);
+  }
   submit(){
     this.user.login = this.name.value;
     this.user.password = this.password.value;
@@ -63,12 +79,25 @@ export class RegisterComponent implements OnInit {
     this.user.question1 = this.formRegister.get('question1').value;
     this.user.question2 = this.formRegister.get('question2').value;
 
-    this.dataService.createUser(this.user).subscribe(
+  /*  this.dataService.createUser(this.user).subscribe(
       (good) =>{
         this.dataService.event.emit(good);
         this.router.navigate(['/login']);
       }
 
-    )
+    )*/
+    this.authService.register(this.user).subscribe(
+      data => {
+        console.log(data);
+        this.isSuccessful = true;
+        this.isSignUpFailed = false;
+      },
+      err => {
+        this.errorMessage = err.error.message;
+        this.isSignUpFailed = true;
+      }
+    );
+
+
   }
 }

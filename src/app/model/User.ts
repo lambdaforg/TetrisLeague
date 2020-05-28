@@ -31,6 +31,14 @@ export class User {
     return newUser;
   }
 
+  static friendFromHttp(user: User) : User{
+    const newUser = new User();
+    newUser.id = user.id;
+    newUser.username = user.username;
+    newUser.created_At = user.created_At;
+    return newUser;
+  }
+
 }
 export enum Questions {
   question1 = 'What is your favourite place?',
@@ -57,4 +65,14 @@ export class SecurityQuestion {
     return newsecurityQuestion;
   }
 
+}
+
+export class LoginRequest {
+  login: string;
+  password: string;
+
+  constructor(login: string, password: string){
+    this.login = login;
+    this.password = password;
+  }
 }

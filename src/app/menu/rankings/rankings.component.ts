@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Game} from '../../model/Game';
 import {DataService} from '../../data.service';
 import {formatDate} from "@angular/common";
+import {RankingPoint} from "../../model/RankingPoint";
 
 @Component({
   selector: 'app-rankings',
@@ -14,6 +15,7 @@ export class RankingsComponent implements OnInit {
   bestScores: Array<Game>;
   dataLoaded = false;
   message = '';
+  bestRankingPoints: Array<RankingPoint>;
 
   constructor(private dataService: DataService) { }
 
@@ -61,6 +63,17 @@ export class RankingsComponent implements OnInit {
         this.dataService.getGeneralBestScores().subscribe(
           next => {
             this.bestScores = next;
+            this.dataLoaded = true;
+            this.message = '';
+          }
+        );
+        break;
+      case 'Ranking Points':
+        this.message = 'Loading data...';
+        this.dataService.getRankingsPoints().subscribe(
+          next => {
+            this.bestRankingPoints = next;
+            console.log(this.bestRankingPoints);
             this.dataLoaded = true;
             this.message = '';
           }

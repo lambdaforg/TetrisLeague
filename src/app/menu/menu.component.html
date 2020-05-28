@@ -8,12 +8,12 @@
       <div class="sidebar sticky-top">
         <div class="profile media">
           <div class="avatar">
-            <img src="assets/img/avatar.png" class="img-responsive center-block" alt="Logo">
+            <img class="img-responsive center-block" alt="Logo" [src]="avatar">
           </div>
           <div class="media-body user-info">
             <h6 class="username">{{user.username}}</h6>
             <h6 class="points1">{{maxScore}}</h6>
-            <h6 class="points2">RP</h6>
+            <h6 class="points2">RP{{currentRankingsPoints}}</h6>
           </div>
         </div>
         <br><br>
@@ -36,7 +36,7 @@
         <app-waiting-room *ngIf="action === 'waitingRoom'" [user] = "user"></app-waiting-room>
         <app-friends *ngIf="action === 'friends'" [user] = "user"></app-friends>
         <app-rankings *ngIf="action === 'rankings'"></app-rankings>
-        <app-settings *ngIf="action === 'setting'"></app-settings>
+        <app-settings *ngIf="action === 'setting'" [user]="user" (avatarChangedEvent)="loadAvatar()"></app-settings>
         <app-stats *ngIf="action === 'stats'" [favourite]="statsFavourite"></app-stats>
       </div>
     </div>

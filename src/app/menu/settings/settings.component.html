@@ -4,20 +4,21 @@
     <h6>Change avatar</h6>
     <div class="form-group">
       <div class="media">
-        <img id="avatar" class="avatar" src="assets/img/avatar.png">
-        <div class="media-body">
-          <!-- Place to specify image  -->
+        <img id="avatar" class="avatar" [src]="avatar">
+        <div class="media-body ml-3 mt-3">
+          <p class="text-info">You can upload jpg/pdf<br>image up to 65KB</p>
         </div>
       </div>
       <div class="input-group">
         <div class="custom-file">
-          <input type="file" class="custom-file-input" placeholder="Choose file">
-          <label class="custom-file-label">Choose file</label>
+          <input type="file" class="custom-file-input" placeholder="Choose file" (change)="onFileSelected($event)">
+          <label class="custom-file-label">{{browsePlaceholder}}</label>
         </div>
         <div class="input-group-prepend">
-          <span class="input-group-text btn btn-upload-file">Upload</span>
+          <span class="input-group-text btn btn-upload-file" (click)="onUpload()">Upload</span>
         </div>
       </div>
+    <div *ngIf="message" class="alert-warning">{{message}}</div>
     </div>
 
 <!--  Password setting  -->

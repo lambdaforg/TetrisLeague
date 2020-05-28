@@ -37,8 +37,8 @@
             "local": {
               "fileReplacements": [
                 {
-                  "replace" : "src/app/data.service.ts",
-                  "with" : "src/app/data.service.local.ts"
+                  "replace": "src/app/data.service.ts",
+                  "with": "src/app/data.service.local.ts"
                 }
               ]
             },
@@ -135,6 +135,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "projektTo2"
 }

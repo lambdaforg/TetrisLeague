@@ -11,6 +11,7 @@ import tetris.rest.api.model.entity.angular.AngularUser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -47,11 +48,11 @@ public class FriendRelationController {
     public FriendRelation addNewFriendRelationByUsername(@RequestBody AngularRelation angularRelation){
             AngularUser senderUser = angularRelation.getUser();
             FriendRelation newFriendRelation = angularRelation.getFriendRelation();
-            User receiverUser = userRepository.findByUsername(senderUser.getUsername());
+            Optional<User> receiverUser = userRepository.findByUsername(senderUser.getUsername());
             if(receiverUser != null) {
-                if(getInvitations(receiverUser.getId(), "Invited").isEmpty()){
-                newFriendRelation.setReceiverUser(receiverUser);
-                newFriendRelation.setSenderUser(userRepository.findByUsername(newFriendRelation.getSenderUser().getUsername()));
+                if(getInvitations(receiverUser.get().getId(), "Invited").isEmpty()){
+                newFriendRelation.setReceiverUser(receiverUser.get());
+                newFriendRelation.setSenderUser(userRepository.findByUsername(newFriendRelation.getSenderUser().getUsername()).get());
                 friendRelationRepository.save(newFriendRelation);
                 /*TO DO response*/
                 }

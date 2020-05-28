@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import tetris.rest.api.data.GameRepository;
 import tetris.rest.api.model.entity.Game;
 
+import javax.validation.constraints.Null;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -29,7 +30,13 @@ public class GameRestController {
 
     @GetMapping("/getMaximumScore/{id}")
     public Integer getMaximumScore(@PathVariable("id") Integer id) {
-        return getAllGames().stream().filter(game -> game.getUser().getId().equals(id)).mapToInt(Game::getScore).max().getAsInt();
+        List<Game> result = getAllGames().stream().filter(game -> game.getUser().getId().equals(id)).collect(Collectors.toList());
+
+        if(!result.isEmpty())
+        {
+            return result.stream().max((game1, game2)-> Integer.compare(game1.getScore().intValue(), game2.getScore().intValue())).get().getScore().intValue();
+        }
+        return 0;
     }
 
     //TODO pomyśleć nad zrobieniem 1 funkcji przyjmującej predykat true dla wszystkich, a warunek dla przedziału czasowego
@@ -95,12 +102,14 @@ public class GameRestController {
         originalGame.setLevel(updatedGame.getLevel());
         originalGame.setScore(updatedGame.getScore());
         originalGame.setScoreLines(updatedGame.getScoreLines());
+        gameRepository.save(originalGame);
         return originalGame;
     }
 
     @PostMapping
     public Game addNewGame(@RequestBody Game newGame) {
-        newGame.setId((int) gameRepository.count());
+       // newGame.setId((int) gameRepository.);
+        newGame.setId(null);
         return gameRepository.save(newGame);
     }
 

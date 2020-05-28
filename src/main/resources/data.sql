@@ -8,6 +8,7 @@ INSERT IGNORE INTO user (id, answer1, answer2, created_at, login, password, user
 INSERT IGNORE INTO user (id, answer1, answer2, created_at, login, password, username, question1_id, question2_id) VALUES (3, 'lion', 'Shrek', '2020-03-22 10:45', 'giGinella', 'ksn2dds6cs', 'giGinella', 1, 3);
 INSERT IGNORE INTO user (id, answer1, answer2, created_at, login, password, username, question1_id, question2_id) VALUES (4, 'Paris', 'koala', '2020-03-23 18:16', 'paulAven', 'inf5sdds7s', 'paulAven', 0, 1);
 INSERT IGNORE INTO user  (id, answer1, answer2, created_at, login, password, username, question1_id, question2_id) VALUES (5, 'whale', 'The Hunger Games', '2020-03-10 00:01', 'test', 'testtest', 'test', 1, 3);
+INSERT IGNORE INTO user (id, answer1, answer2, created_at, login, password, username, question1_id, question2_id) VALUES (6, 'whale', 'The Hunger Games', '2020-03-20 20:25', 'test2', 'testtest', 'test2', 1, 3);
 INSERT IGNORE INTO game (id, game_date, game_time, level, score, score_lines, multiplayer_game_id, user_id) VALUES (0, '2020-03-20', '20:27:46', 20, 6455, 316, NULL, 0);
 INSERT IGNORE INTO game (id, game_date, game_time, level, score, score_lines, multiplayer_game_id, user_id) VALUES (1, '2020-03-20', '16:09:12', 26, 12364, 456, NULL, 1);
 INSERT IGNORE INTO game (id, game_date, game_time, level, score, score_lines, multiplayer_game_id, user_id) VALUES (2, '2020-03-21', '09:22:46', 9, 468, 80, NULL, 2);

@@ -47,8 +47,8 @@ public class MultiplayerGameRestController {
         return multiplayerGameRepository.save(newGame);
     }
 
-    @PutMapping
-    public MultiplayerGame addPlayer(@RequestBody Integer gameId, Integer userId) {
+    @PutMapping("/join/{gameId}")
+    public MultiplayerGame addPlayer(@PathVariable("gameId") Integer gameId, @RequestBody Integer userId) {
         Optional<MultiplayerGame> game = multiplayerGameRepository.findById(gameId);
         if (game.isPresent()) {
             Optional<User> user = userRepository.findById(userId);
@@ -61,9 +61,30 @@ public class MultiplayerGameRestController {
         return null;
     }
 
+    // deletes user from game
+    @PutMapping("/leave/{gameId}")
+    public MultiplayerGame leaveGame(@PathVariable("gameId") Integer gameId, @RequestBody Integer userId) {
+        Optional<MultiplayerGame> game = multiplayerGameRepository.findById(gameId);
+        if (game.isPresent()) {
+            MultiplayerGame updatedGame = game.get();
+            Optional<User> user = userRepository.findById(userId);
+            if (user.isPresent()) {
+                if (updatedGame.getPlayerOne() != null && updatedGame.getPlayerOne().getId().equals(userId)) {
+                    updatedGame.setPlayerOne(null);
+                } else if (updatedGame.getPlayerTwo() != null && updatedGame.getPlayerTwo().getId().equals(userId)) {
+                    updatedGame.setPlayerTwo(null);
+                } else if (updatedGame.getPlayerThree() != null && updatedGame.getPlayerThree().getId().equals(userId)) {
+                    updatedGame.setPlayerThree(null);
+                }
+            }
+            return multiplayerGameRepository.save(updatedGame);
+        }
+        return null;
+    }
+
     @DeleteMapping("/{gameId}")
-    public boolean deleteGame(@PathVariable("gameId") String gameId) {
-        Optional<MultiplayerGame> game = multiplayerGameRepository.findById(Integer.parseInt(gameId));
+    public boolean deleteGame(@PathVariable("gameId") Integer gameId) {
+        Optional<MultiplayerGame> game = multiplayerGameRepository.findById(gameId);
         if (game.isPresent()) {
             multiplayerGameRepository.delete(game.get());
             return true;

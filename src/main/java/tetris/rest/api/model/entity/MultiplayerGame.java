@@ -1,6 +1,7 @@
 package tetris.rest.api.model.entity;
 
 import javax.persistence.*;
+import java.util.Optional;
 
 @Entity
 public class MultiplayerGame {
@@ -9,9 +10,23 @@ public class MultiplayerGame {
     private Integer id;
 
     @ManyToOne
+    private User host;
+    @ManyToOne
     private User winner;
     private Integer numberOfPlayers;
     private Integer bet;
+    private String status;
+
+    @ManyToOne
+    private User playerOne;
+
+    @ManyToOne
+    private User playerTwo;
+
+    @ManyToOne
+    private User playerThree;
+
+    //@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 
     public Integer getId() {
         return id;
@@ -44,4 +59,57 @@ public class MultiplayerGame {
     public void setBet(Integer bet) {
         this.bet = bet;
     }
+
+    public User getHost() {
+        return host;
+    }
+
+    public void setHost(User host) {
+        this.host = host;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public User getPlayerOne() {
+        return playerOne;
+    }
+
+    public void setPlayerOne(User playerOne) {
+        this.playerOne = playerOne;
+    }
+
+    public User getPlayerTwo() {
+        return playerTwo;
+    }
+
+    public void setPlayerTwo(User playerTwo) {
+        this.playerTwo = playerTwo;
+    }
+
+    public User getPlayerThree() {
+        return playerThree;
+    }
+
+    public void setPlayerThree(User playerThree) {
+        this.playerThree = playerThree;
+    }
+
+    public void addPlayer(User player) {
+        if (playerOne == null) {
+            playerOne = player;
+        } else {
+            if (numberOfPlayers > 2 && playerTwo == null) {
+                playerTwo = player;
+            } else if (numberOfPlayers == 4 && playerThree == null) {
+                playerThree = player;
+            }
+        }
+    }
+
 }

@@ -123,33 +123,33 @@ export class DataService {
   }
 
   getAllFriends(id: number): Observable<Array<User>> {
-    return this.http.get<Array<User>>(environment.restUrl + '/api/users/getfriends/' + id)
+    return this.http.get<Array<User>>(environment.restUrl + '/api/friends/getfriends/' + id)
       .pipe(
         map(
           data => {
-                const friends = new Array<User>();
-                for(const friend of data){
-                  friends.push(User.friendFromHttp(friend));
-                }
+            const friends = new Array<User>();
+            for (const friend of data) {
+              friends.push(User.friendFromHttp(friend));
+            }
             return friends;
           }
         )
       );
   }
 
-  getFriendsByStatus(id: number, status: string){
-      return this.http.get<Array<User>>(environment.restUrl + '/api/friends/getinvitations/' + id + '/' + status)
-        .pipe(
-          map(
-            data =>{
-              const friends = new Array<User>();
-              for(const friend of data){
-                friends.push(User.friendFromHttp(friend));
-              }
-              return friends;
+  getFriendsByStatus(id: number, status: string) {
+    return this.http.get<Array<User>>(environment.restUrl + '/api/friends/getinvitations/' + id + '/' + status)
+      .pipe(
+        map(
+          data => {
+            const friends = new Array<User>();
+            for (const friend of data) {
+              friends.push(User.friendFromHttp(friend));
             }
-          )
-        );
+            return friends;
+          }
+        )
+      );
   }
 
   getFriendRelation(id: number, idFrom: number) {

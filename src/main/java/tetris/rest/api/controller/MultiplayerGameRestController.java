@@ -29,17 +29,16 @@ public class MultiplayerGameRestController {
     // returns all pending multiplayer games
     @GetMapping("/getPendingMultiplayerGames")
     public List<MultiplayerGame> getPendingMultiplayerGames() {
-
-//        multiplayerGames.forEach(
-//                g -> {
-//                    if (g.getUsersIds().size() == 0) {
-//                        g.addUserId(g.getHost().getId());
-//                    }
-//                });
         return getAllMultiplayerGames()
                 .stream()
                 .filter(g -> g.getStatus().equals("pending"))
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/{gameId}")
+    public MultiplayerGame getMultiplayerGame(@PathVariable("gameId") Integer gameId) {
+         Optional<MultiplayerGame> game = multiplayerGameRepository.findById(gameId);
+        return game.orElse(null);
     }
 
     @PostMapping

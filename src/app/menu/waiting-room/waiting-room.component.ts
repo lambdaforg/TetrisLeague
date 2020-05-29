@@ -32,6 +32,7 @@ export class WaitingRoomComponent implements OnInit {
               private formBuilder: FormBuilder) {
   }
 
+  // TODO: refreshing data
   ngOnInit(): void {
     this.selectedNavbar = 'filter';
     this.loadData();
@@ -69,7 +70,6 @@ export class WaitingRoomComponent implements OnInit {
     );
   }
 
-  // TODO: joining game
   public joinRoom(gameId: number) {
     this.dataService.joinMultiplayerGame(gameId, this.user.id)
       .subscribe(
@@ -82,28 +82,7 @@ export class WaitingRoomComponent implements OnInit {
     console.log('after adding player' + this.multiplayerGame);
   }
 
-  public getCurrentPlayersNumber(game: MultiplayerGame) {
-    let result = 1;
-    if (game.playerOne != null) {
-      result++;
-      if (game.playerTwo != null) {
-        result++;
-        if (game.playerThree != null) {
-          result++;
-        }
-      }
-    }
-    return result;
-  }
-
-  public initializeNewGameForm() {
-    this.newGameForm = this.formBuilder.group(
-      {
-        bet: [[Validators.required, Validators.min(1)]],
-        numberOfPlayers: [Validators.required]
-      });
-  }
-
+  // opens room modal and handles several results
   private openRoomModal(game: MultiplayerGame) {
     console.log('on method start ' + game.id);
     const modalRef = this.modalService.open(RoomModalComponent, {
@@ -139,6 +118,28 @@ export class WaitingRoomComponent implements OnInit {
               }
             );
         }
+      });
+  }
+
+  public getCurrentPlayersNumber(game: MultiplayerGame) {
+    let result = 1;
+    if (game.playerOne != null) {
+      result++;
+      if (game.playerTwo != null) {
+        result++;
+        if (game.playerThree != null) {
+          result++;
+        }
+      }
+    }
+    return result;
+  }
+
+  public initializeNewGameForm() {
+    this.newGameForm = this.formBuilder.group(
+      {
+        bet: [[Validators.required, Validators.min(1)]],
+        numberOfPlayers: [Validators.required]
       });
   }
 

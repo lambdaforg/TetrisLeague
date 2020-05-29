@@ -206,4 +206,8 @@ export class DataService {
   leaveMultiplayerGame(gameId: number, userId: number): Observable<MultiplayerGame> {
     return this.http.put<MultiplayerGame>(environment.restUrl + '/api/multiplayer-games/leave/' + gameId, userId);
   }
+
+  getMultiplayerGame(gameId: number): Observable<MultiplayerGame> {
+    return this.http.get<MultiplayerGame>(environment.restUrl + '/api/multiplayer-games/' + gameId);
+  }
 }

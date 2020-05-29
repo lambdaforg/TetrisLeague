@@ -50,7 +50,9 @@ export class RoomModalComponent implements OnInit {
   @Input()
   user: User;
 
-  gameDeletedEvent = new EventEmitter();
+  gameId: number;
+  interval: any;
+
   waitingForPlayers = true;
 
   constructor(private config: NgbModalConfig,
@@ -62,7 +64,23 @@ export class RoomModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.game);
+    this.gameId = this.game.id;
+    this.loadData();
+    this.interval = setInterval(
+      () => {
+      this.loadData();
+    }, 2000);
+  }
+
+  loadData() {
+    this.dataService.getMultiplayerGame(this.gameId)
+      .subscribe(
+        next => {
+          this.game = next;
+        }, error1 => {
+          console.log(error1.message);
+        }
+      );
   }
 
   leave() {

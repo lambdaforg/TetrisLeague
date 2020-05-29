@@ -16,7 +16,6 @@ public class MultiplayerGame {
     private Integer numberOfPlayers;
     private Integer bet;
     private String status;
-    private String status;
 
     @ManyToOne
     private User playerOne;

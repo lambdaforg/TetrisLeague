@@ -59,21 +59,7 @@ public class UserRestController {
         return list;
     }
 
-    @GetMapping("/getfriends/{id}")
-    public List<AngularUser> getAllFriends(@PathVariable("id") Integer id) {
-        List<FriendRelation> listRelations = new ArrayList<>();
-        friendRelationRepository.findAllBySenderUser(userRepository.findById(id).get()).forEach(listRelations::add);
-        friendRelationRepository.findAllByReceiverUser(userRepository.findById(id).get()).forEach(listRelations::add);
-        List<AngularUser> users = listRelations.stream().filter(p -> p.getStatus().equals("Accepted")).map( p -> {
-            Integer idReceiver = p.getReceiverUser().getId();
-            if(!idReceiver.equals(id))
-               return  new AngularUser(userRepository.findById(p.getReceiverUser().getId()).get());
-            return new AngularUser(userRepository.findById(p.getSenderUser().getId()).get());
-         }
-        ).collect(toList());
 
-        return users;
-    }
    /* @PostMapping("/getauth")
     public AngularUser getUserByAuthorized(@RequestBody User user){
         User resultUser = userRepository.findByLogin(user.getLogin());

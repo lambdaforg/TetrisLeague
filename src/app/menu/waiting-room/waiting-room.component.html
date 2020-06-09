@@ -60,16 +60,16 @@
     </nav>
 
     <!--  Room create bar  -->
-    <!-- TODO: validation -->
     <nav class="navbar navbar-expand-md navbar-light child-bar" id="room-create"
          *ngIf="selectedNavbar === 'room-create'">
       <form class="form-inline" [formGroup]="newGameForm">
         <label class="col-form-label" for="bet-input">Bet:</label>
-        <input class="form-control bet-input" type="number" placeholder="100" id="bet-input" formControlName="bet"
+        <input class="form-control bet-input" type="number" placeholder="100"  id="bet-input"
+               formControlName="bet"
                required>
         <label class="col-form-label" for="players-number-select">Players:</label>
         <select class="form-control" id="players-number-select" formControlName="numberOfPlayers" required>
-          <option [selected]="true">2</option>
+          <option [selected]="true" [defaultSelected]="true">2</option>
           <option>3</option>
           <option>4</option>
         </select>

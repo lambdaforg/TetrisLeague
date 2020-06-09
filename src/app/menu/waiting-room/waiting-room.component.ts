@@ -138,8 +138,8 @@ export class WaitingRoomComponent implements OnInit {
   public initializeNewGameForm() {
     this.newGameForm = this.formBuilder.group(
       {
-        bet: [[Validators.required, Validators.min(1)]],
-        numberOfPlayers: [Validators.required]
+        bet: [ 100, [Validators.required, Validators.min(1)]],
+        numberOfPlayers: [ 2, Validators.required]
       });
   }
 

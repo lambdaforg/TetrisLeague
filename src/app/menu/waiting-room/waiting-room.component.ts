@@ -91,6 +91,7 @@ export class WaitingRoomComponent implements OnInit {
     console.log('new game ' + game);
     modalRef.componentInstance.game = game;
     modalRef.componentInstance.user = this.user;
+    modalRef.componentInstance.currentPlayersNumber = this.getCurrentPlayersNumber(game);
     modalRef.result.then(
       (result) => {
         if (result === 'start') {

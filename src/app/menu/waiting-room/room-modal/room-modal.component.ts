@@ -50,10 +50,11 @@ export class RoomModalComponent implements OnInit {
   @Input()
   user: User;
 
+  @Input()
+  currentPlayersNumber: number;
+
   gameId: number;
   interval: any;
-
-  waitingForPlayers = true;
 
   constructor(private config: NgbModalConfig,
               private modalService: NgbModal,
@@ -68,8 +69,9 @@ export class RoomModalComponent implements OnInit {
     this.loadData();
     this.interval = setInterval(
       () => {
-      this.loadData();
-    }, 2000);
+        this.loadData();
+        this.redirectToMultiplayerGame();
+      }, 2000);
   }
 
   loadData() {
@@ -98,7 +100,6 @@ export class RoomModalComponent implements OnInit {
         if (this.game.host.id === this.user.id) {
           this.activeModal.close('deleted');
         } else {
-          // TODO: leave game
           this.activeModal.close('leave');
         }
       }
@@ -106,6 +107,10 @@ export class RoomModalComponent implements OnInit {
   }
 
   redirectToMultiplayerGame() {
-    this.activeModal.close('start');
+    if (this.currentPlayersNumber === this.game.numberOfPlayers) {
+      // TODO: change game status from pending to started
+      this.activeModal.close('start');
+    }
   }
+
 }

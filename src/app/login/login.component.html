@@ -1,4 +1,9 @@
 <div class="container-fluid">
+  <div class="row justify-content-center mt-3">
+    <div *ngIf="errorMessage != ''" class="alert alert-danger" role="alert">
+      {{errorMessage}}
+    </div>
+  </div>
   <div class="row justify-content-center">
     <div class="">
       <form class="form-container" [formGroup]="loginForm">

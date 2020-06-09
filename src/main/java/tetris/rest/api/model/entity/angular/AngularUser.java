@@ -9,10 +9,13 @@ public class AngularUser {
     private String username;
     private String login;
     private Date created_At;
-    private SecurityQuestion question1;
-    private SecurityQuestion question2;
+    private String question1;
+    private String question2;
     private String answer1;
     private String answer2;
+
+    private SecurityQuestion q1;
+    private SecurityQuestion q2;
 
     public AngularUser(){
 
@@ -24,10 +27,12 @@ public class AngularUser {
         this.username = user.getUsername();
         this.login = user.getLogin();
         this.created_At = user.getCreated_At();
-        this.question1 = user.getQuestion1();
-        this.question2 = user.getQuestion2();
+        this.question1 = user.getQuestion1().getQuestion();
+        this.question2 = user.getQuestion2().getQuestion();
         this.answer1 = user.getAnswer1();
         this.answer2 = user.getAnswer2();
+        this.q1 = user.getQuestion1();
+        this.q2 = user.getQuestion2();
     }
 
     public String getLogin() {
@@ -62,19 +67,19 @@ public class AngularUser {
         this.created_At = created_At;
     }
 
-    public SecurityQuestion getQuestion1() {
+    public String getQuestion1() {
         return question1;
     }
 
-    public void setQuestion1(SecurityQuestion question1) {
+    public void setQuestion1(String question1) {
         this.question1 = question1;
     }
 
-    public SecurityQuestion getQuestion2() {
+    public String getQuestion2() {
         return question2;
     }
 
-    public void setQuestion2(SecurityQuestion question2) {
+    public void setQuestion2(String question2) {
         this.question2 = question2;
     }
 
@@ -100,8 +105,8 @@ public class AngularUser {
         user.setAnswer1(answer1);
         user.setAnswer2(answer2);
         user.setCreated_At(created_At);
-        user.setQuestion1(question1);
-        user.setQuestion2(question2);
+        user.setQuestion1(q1);
+        user.setQuestion2(q2);
         return user;
     }
 }

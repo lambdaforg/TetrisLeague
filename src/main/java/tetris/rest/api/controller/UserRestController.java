@@ -1,9 +1,6 @@
 package tetris.rest.api.controller;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +13,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import tetris.rest.api.data.FriendRelationRepository;
 import tetris.rest.api.data.RoleRepository;
+import tetris.rest.api.data.SecurityQuestionRepository;
 import tetris.rest.api.data.UserRepository;
-import tetris.rest.api.model.entity.ERole;
-import tetris.rest.api.model.entity.FriendRelation;
-import tetris.rest.api.model.entity.Role;
-import tetris.rest.api.model.entity.User;
+import tetris.rest.api.model.entity.*;
+import tetris.rest.api.model.entity.angular.AngularQuestion;
 import tetris.rest.api.model.entity.angular.AngularUser;
 import tetris.rest.api.payloads.request.LoginRequest;
 import tetris.rest.api.payloads.request.SignupRequest;
@@ -51,6 +47,8 @@ public class UserRestController {
     private PasswordEncoder encoder;
     @Autowired
     private JwtUtils jwtUtils;
+    @Autowired
+    private SecurityQuestionRepository securityQuestionRepository;
 
     @GetMapping
     public List<AngularUser> getAllUsers() {
@@ -98,7 +96,7 @@ public class UserRestController {
 
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+    public ResponseEntity<?> registerUser(@RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByLogin(signUpRequest.getLogin())) {
             return ResponseEntity
                     .badRequest()
@@ -110,8 +108,13 @@ public class UserRestController {
                 signUpRequest.getLogin(),
                 encoder.encode(signUpRequest.getPassword()));
 
+        user.setQuestion1(securityQuestionRepository.findByQuestion(signUpRequest.getQuestion1()).get());
+        user.setQuestion2(securityQuestionRepository.findByQuestion(signUpRequest.getQuestion2()).get());
+        user.setAnswer1(signUpRequest.getAnswer1());
+        user.setAnswer2(signUpRequest.getAnswer2());
+        user.setCreated_At(new Date());
         Set<String> strRoles = signUpRequest.getRole();
-       Set<Role> roles = new HashSet<>();
+        Set<Role> roles = new HashSet<>();
 
         if (strRoles == null) {
             Role userRole = roleRepository.findByName(ERole.ROLE_USER)
@@ -145,6 +148,28 @@ public class UserRestController {
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
+    @PostMapping("/changePassword")
+    public ResponseEntity<?> changePassword(@RequestBody SignupRequest signUpRequest) {
+        if (!userRepository.existsByLogin(signUpRequest.getLogin())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Login is not exist!"));
+        }
+        User user = userRepository.findByLogin(signUpRequest.getLogin()).get();
+        if(!user.getQuestion1().getQuestion().equals(signUpRequest.getQuestion1()) || !user.getQuestion2().getQuestion().equals(signUpRequest.getQuestion2())){
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Taken bad questions!"));
+        }
+        if(!user.getAnswer1().equals(signUpRequest.getAnswer1()) || !user.getAnswer2().equals(signUpRequest.getAnswer2())){
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Bad answers for questions!"));
+        }
+        user.setPassword(encoder.encode(signUpRequest.getPassword()));
+        userRepository.save(user);
+        return ResponseEntity.ok(new MessageResponse("Password changed successfully!"));
+    }
 
 
     @GetMapping("/{id}")
@@ -157,6 +182,12 @@ public class UserRestController {
         User originalUser = userRepository.findById(updatedUser.getId()).get();
         originalUser.setUsername(updatedUser.getUsername());
         return new AngularUser(userRepository.save(originalUser));
+    }
+    @GetMapping("/getQuestions")
+    public List<AngularQuestion> getQuestions(){
+        List<AngularQuestion> list = new ArrayList<AngularQuestion>();
+        securityQuestionRepository.findAll().forEach(question -> list.add(new AngularQuestion(question)));
+        return list;
     }
     @PostMapping
     public AngularUser newUser(@RequestBody AngularUser user){

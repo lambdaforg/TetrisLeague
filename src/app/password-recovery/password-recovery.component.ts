@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {Questions} from '../model/User';
+import {DataService} from "../data.service";
 
 @Component({
   selector: 'app-password-recovery',
@@ -9,13 +10,21 @@ import {Questions} from '../model/User';
 })
 export class PasswordRecoveryComponent implements OnInit {
 
-  questions = Questions;
+  questions: Array<Questions>;
   recoveryState: string;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+              private dataService: DataService) { }
 
   ngOnInit(): void {
     this.recoveryState = 'verification';
+    this.dataService.getAllSecurityQuestions().subscribe(
+      data => {
+        console.log(data);
+        this.questions = data;
+      }
+    )
+    console.log(this.questions);
   }
 
   verifyUser() {

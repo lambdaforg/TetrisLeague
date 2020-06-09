@@ -7,7 +7,7 @@ import {
   Validators
 } from "@angular/forms";
 import {MustMatch} from "../model/form/MustMatch";
-import {DataService} from "../data.service.local";
+import {DataService} from "../data.service";
 import {AuthService} from "../services/auth.service";
 import {TokenStorageService} from "../services/token-storage.service";
 
@@ -19,14 +19,15 @@ import {TokenStorageService} from "../services/token-storage.service";
 export class RegisterComponent implements OnInit {
 
   user: User;
-  questions = Questions;
+  questions: Array<Questions>;
   formRegister: FormGroup;
-  register = { name: 'Login', password: 'Password', confirmPassword: 'Password', answer0: '', answer1: '', question1: this.questions.question1, question2: this.questions.question2};
+  register = { name: 'Login', password: 'Password', confirmPassword: 'Password', answer0: '', answer1: '', question1: Questions, question2: Questions};
 
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = '';
-
+  option1 = '';
+  option2 = '';
 
   constructor(private router: Router,
               private formBuilder: FormBuilder,
@@ -37,6 +38,15 @@ export class RegisterComponent implements OnInit {
     if (this.tokenStorageService.getToken()) {
       this.redirectToMenu();
     }
+    this.dataService.getAllSecurityQuestions().subscribe(
+      data => {
+        this.questions = data;
+        console.log(this.questions.length);
+        this.option1 = this.register.question1.fromHttp(this.questions[0]).question;
+        this.option2 = this.register.question1.fromHttp(this.questions[1]).question;
+
+      }
+    )
 
     this.user = new User();
 
@@ -51,8 +61,7 @@ export class RegisterComponent implements OnInit {
     }, {
       validator: MustMatch('password', 'confirmPassword')
     });
-
-  }
+  };
 
 
   get name() { return this.formRegister.get('name'); }
@@ -76,6 +85,10 @@ export class RegisterComponent implements OnInit {
     this.user.username = this.name.value;
     this.user.question1 = this.formRegister.get('question1').value;
     this.user.question2 = this.formRegister.get('question2').value;
+    this.user.created_At = new Date();
+
+    console.log(typeof (this.formRegister.get('question1').value));
+    console.log(this.user);
 
     /*
     this.dataService.createUser(this.user).subscribe(
@@ -91,6 +104,8 @@ export class RegisterComponent implements OnInit {
         console.log(data);
         this.isSuccessful = true;
         this.isSignUpFailed = false;
+        this.redirectToMenu();
+
       },
       err => {
         this.errorMessage = err.error.message;
@@ -100,4 +115,23 @@ export class RegisterComponent implements OnInit {
 
 
   }
+  isQuestionToHide(question1: Questions, question2: string):Boolean{
+    if(question1.question === question2){
+      return true;
+    }
+    if(question2 === this.option1){
+        return true;
+    }
+      return false;
+  }
+  isQuestionToHide2(question2: Questions, question1: string):Boolean{
+    if(question2.question === question1){
+      return true;
+    }
+    if(question1 === this.option2){
+      return true;
+    }
+    return false;
+  }
+
 }

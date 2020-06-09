@@ -1,5 +1,8 @@
 <script src="../../../../RoomBookingClient/src/app/admin/rooms/room-edit/room-edit.component.ts"></script>
 <div class="container-fluid">
+  <div *ngIf="errorMessage != ''" class="alert alert-danger  justify-content-center" role="alert">
+    {{errorMessage}}
+  </div>
   <div class="row justify-content-center ">
       <form class="form-container col-md-2"  [formGroup]="formRegister">
         <div class="form-group text-center">
@@ -33,7 +36,8 @@
           <p>Select two questions and answer</p>
           <div class="form-group">
             <select class="form-control" formControlName="question1">
-              <option *ngFor="let question of questions |  keyvalue">{{question.value}}</option>
+              <option *ngFor="let question of questions,let i= index" [selected]="i===0"
+                      [hidden]="isQuestionToHide2(formRegister.get('question2').value, question.question) || formRegister.get('question2').value === question.question">{{question.question}}</option>
             </select>
             <input type="text" class="form-control" placeholder="Answer"  formControlName="answer1">
             <div *ngIf="answer1.invalid && (answer1.dirty || answer1.touched)" class="alert alert-danger">
@@ -42,7 +46,8 @@
           </div>
           <div class="form-group">
             <select class="form-control" formControlName="question2">
-              <option *ngFor="let question of questions |  keyvalue">{{question.value}}</option>
+              <option *ngFor="let question of questions, let i=index" [selected]="i===1"
+                      [hidden]="isQuestionToHide(formRegister.get('question1').value, question.question) || formRegister.get('question1').value === question.question">{{question.question}}</option>
             </select>
             <input type="text" class="form-control" placeholder="Answer"  formControlName="answer2">
             <div *ngIf="answer2.invalid && (answer2.dirty || answer2.touched)" class="alert alert-danger">

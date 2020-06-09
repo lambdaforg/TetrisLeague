@@ -9,8 +9,10 @@ export class User {
 
   // points: Array<number> = [];
   created_At: Date;
-  question1: SecurityQuestion;
-  question2: SecurityQuestion;
+  //question1: SecurityQuestion;
+  //question2: SecurityQuestion;
+  question1: string;
+  question2: string;
   // Questions: Array<Questions> = [];
   answer1: string;
   answer2: string;
@@ -22,8 +24,8 @@ export class User {
     newUser.id = user.id;
     newUser.username = user.username;
     newUser.created_At = user.created_At;
-    newUser.question1 = SecurityQuestion.fromHttp(user.question1);
-    newUser.question2 = SecurityQuestion.fromHttp(user.question2);
+    newUser.question1 = user.question1;
+    newUser.question2 = user.question2;
     newUser.active = user.active;
     newUser.role = Role.fromHttp(user.role);
     newUser.answer1 = user.answer1;
@@ -40,13 +42,17 @@ export class User {
 
 
 }
-export enum Questions {
-  question1 = 'What is your favourite place?',
-  question2 = 'What is your favourite animal?',
-  question3 = 'What is your favourite actor?',
-  qusetion4 = 'What is your favourite movie?'
-}
 
+export class Questions{
+  id: number;
+  question: string;
+  static fromHttp(question: Questions): Questions{
+      const newQuestion = new Questions();
+      newQuestion.id = question.id
+      newQuestion.question = question.question;
+      return newQuestion;
+  }
+}
 export class SecurityQuestion {
   id: number;
   question: Questions;

@@ -11,6 +11,7 @@ import {DataService} from "../data.service";
 import {AuthService} from "../services/auth.service";
 import {TokenStorageService} from "../services/token-storage.service";
 
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -21,7 +22,7 @@ export class RegisterComponent implements OnInit {
   user: User;
   questions: Array<Questions>;
   formRegister: FormGroup;
-  register = { name: 'Login', password: 'Password', confirmPassword: 'Password', answer0: '', answer1: '', question1: Questions, question2: Questions};
+  register = { name: '', password: '', confirmPassword: '', answer0: '', answer1: '', question1: Questions, question2: Questions};
 
   isSuccessful = false;
   isSignUpFailed = false;
@@ -86,6 +87,15 @@ export class RegisterComponent implements OnInit {
     this.user.question1 = this.formRegister.get('question1').value;
     this.user.question2 = this.formRegister.get('question2').value;
     this.user.created_At = new Date();
+
+    console.log(typeof (this.formRegister.get('question1').value));
+    if(typeof (this.formRegister.get('question1').value) != typeof('')){
+        this.user.question1 = this.option1;
+    }
+      if(typeof (this.formRegister.get('question2').value) != typeof('')){
+        this.user.question2 = this.option2;
+      }
+
 
     console.log(typeof (this.formRegister.get('question1').value));
     console.log(this.user);

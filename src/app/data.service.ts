@@ -117,20 +117,21 @@ export class DataService {
   updateGame(game: Game): Observable<Game> {
     return this.http.put<Game>(environment.restUrl + '/api/games', game);
   }
-  getAllSecurityQuestions(): Observable<Array<Questions>>{
+
+  getAllSecurityQuestions(): Observable<Array<Questions>> {
     return this.http.get<Array<Questions>>(environment.restUrl + '/api/users/getQuestions')
       .pipe(
         map(
           data => {
             const questions = new Array<Questions>();
-              for(const question of data){
-                console.log(question);
-                questions.push(Questions.fromHttp(question));
-              }
+            for (const question of data) {
+              console.log(question);
+              questions.push(Questions.fromHttp(question));
+            }
             return questions;
           }
         )
-      )
+      );
   }
 
   getAllMultiplayerGames(): Observable<Array<MultiplayerGame>> {
@@ -224,5 +225,13 @@ export class DataService {
 
   getMultiplayerGame(gameId: number): Observable<MultiplayerGame> {
     return this.http.get<MultiplayerGame>(environment.restUrl + '/api/multiplayer-games/' + gameId);
+  }
+
+  changeMultiplayerGameStatus(gameId: number, newStatus: string): Observable<MultiplayerGame> {
+    return this.http.put<MultiplayerGame>(environment.restUrl + '/api/multiplayer-games/changeStatus/' + gameId, newStatus);
+  }
+
+  getCurrentMultiplayerGame(userId: number): Observable<MultiplayerGame> {
+        return this.http.get<MultiplayerGame>(environment.restUrl + '/api/multiplayer-games/getCurrentGame/' + userId);
   }
 }

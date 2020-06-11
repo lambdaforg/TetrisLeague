@@ -50,9 +50,6 @@ export class RoomModalComponent implements OnInit {
   @Input()
   user: User;
 
-  @Input()
-  currentPlayersNumber: number;
-
   gameId: number;
   interval: any;
 
@@ -71,7 +68,7 @@ export class RoomModalComponent implements OnInit {
       () => {
         this.loadData();
         this.redirectToMultiplayerGame();
-      }, 2000);
+      }, 1000);
   }
 
   loadData() {
@@ -107,10 +104,23 @@ export class RoomModalComponent implements OnInit {
   }
 
   redirectToMultiplayerGame() {
-    if (this.currentPlayersNumber === this.game.numberOfPlayers) {
-      // TODO: change game status from pending to started
+    if (this.getCurrentPlayersNumber(this.game) === this.game.numberOfPlayers) {
       this.activeModal.close('start');
     }
+  }
+
+  public getCurrentPlayersNumber(game: MultiplayerGame) {
+    let result = 1;
+    if (game.playerOne != null) {
+      result++;
+      if (game.playerTwo != null) {
+        result++;
+        if (game.playerThree != null) {
+          result++;
+        }
+      }
+    }
+    return result;
   }
 
 }

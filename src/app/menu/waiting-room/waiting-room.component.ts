@@ -23,6 +23,8 @@ export class WaitingRoomComponent implements OnInit {
   newGameForm: FormGroup;
   multiplayerGame: MultiplayerGame;
 
+  interval: any;
+
   @Output()
   gameStartedEvent = new EventEmitter();
 
@@ -32,10 +34,13 @@ export class WaitingRoomComponent implements OnInit {
               private formBuilder: FormBuilder) {
   }
 
-  // TODO: refreshing data
   ngOnInit(): void {
     this.selectedNavbar = 'filter';
     this.loadData();
+    this.interval = setInterval(
+      () => {
+        this.loadData();
+      }, 1000);
     this.initializeNewGameForm();
   }
 
@@ -91,11 +96,17 @@ export class WaitingRoomComponent implements OnInit {
     console.log('new game ' + game);
     modalRef.componentInstance.game = game;
     modalRef.componentInstance.user = this.user;
-    modalRef.componentInstance.currentPlayersNumber = this.getCurrentPlayersNumber(game);
     modalRef.result.then(
       (result) => {
         if (result === 'start') {
-          this.gameStartedEvent.emit();
+          this.dataService.changeMultiplayerGameStatus(game.id, 'started')
+            .subscribe(
+              next => {
+                if (next) {
+                  this.gameStartedEvent.emit();
+                }
+              }
+            );
         } else if (result === 'deleted') {
           console.log('id before deleting ' + game.id);
           this.dataService.deleteMultiplayerGame(game.id)

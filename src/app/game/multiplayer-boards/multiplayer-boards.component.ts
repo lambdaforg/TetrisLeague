@@ -1,5 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {User} from '../../model/User';
+import {DataService} from '../../data.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MultiplayerGame} from '../../model/MultiplayerGame';
 
 @Component({
   selector: 'app-multiplayer-boards',
@@ -11,9 +14,17 @@ export class MultiplayerBoardsComponent implements OnInit {
   @Input()
   user: User;
 
-  constructor() { }
+  multiplayerGame: MultiplayerGame;
+
+  constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
+    this.dataService.getCurrentMultiplayerGame(this.user.id)
+      .subscribe(
+        next => {
+          this.multiplayerGame = next;
+        }
+      );
   }
 
 }

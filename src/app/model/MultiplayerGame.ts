@@ -18,5 +18,4 @@ export class MultiplayerGame {
     this.bet = bet;
     this.status = 'pending';
   }
-
 }

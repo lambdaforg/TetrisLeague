@@ -1,2 +1,18 @@
-
-<app-board [user]="user" [isMultiplayer]="true"><app-board>
+<div class="row"  *ngIf="otherPlayers">
+  <div class="col">
+    <h5>{{user.username}}</h5>
+    <app-board [user]="user" [isMultiplayer]="true"></app-board>
+  </div>
+  <div class="col">
+    <h5>{{otherPlayers[0].username}}</h5>
+    <p>Score: </p>
+  </div>
+  <div class="col" *ngIf="otherPlayers.length > 1">
+    <h5>{{otherPlayers[1].username}}</h5>
+    <p>Score: </p>
+  </div>
+  <div class="col" *ngIf="otherPlayers.length > 2">
+    <h5>{{otherPlayers[2].username}}</h5>
+    <p>Score: </p>
+  </div>
+</div>

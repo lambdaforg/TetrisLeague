@@ -112,4 +112,14 @@ public class MultiplayerGame {
         }
     }
 
+    public boolean hasPlayer(Integer userId) {
+        if (host.getId().equals(userId)) {
+            return true;
+        } else if (playerOne.getId().equals(userId)) {
+            return true;
+        } else if (numberOfPlayers > 2 && playerTwo.getId().equals(userId)) {
+            return true;
+        } else return numberOfPlayers > 3 && playerThree.getId().equals(userId);
+    }
+
 }

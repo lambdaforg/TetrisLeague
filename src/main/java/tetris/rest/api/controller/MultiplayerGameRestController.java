@@ -7,6 +7,7 @@ import tetris.rest.api.data.UserRepository;
 import tetris.rest.api.model.entity.MultiplayerGame;
 import tetris.rest.api.model.entity.User;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,6 +42,16 @@ public class MultiplayerGameRestController {
         return game.orElse(null);
     }
 
+    @GetMapping("/getCurrentGame/{userId}")
+    public MultiplayerGame getCurrentMultiplayerGame(@PathVariable("userId") Integer userId) {
+        Optional<MultiplayerGame> currentGame = getAllMultiplayerGames()
+                .stream()
+                .filter(g -> g.getStatus().equals("started"))
+                .filter(g -> g.hasPlayer(userId))
+                .findFirst();
+        return currentGame.orElse(null);
+    }
+
     @PostMapping
     public MultiplayerGame newMultiplayerGame(@RequestBody MultiplayerGame newGame) {
         return multiplayerGameRepository.save(newGame);
@@ -56,6 +67,17 @@ public class MultiplayerGameRestController {
                 updatedGame.addPlayer(user.get());
                 return multiplayerGameRepository.save(updatedGame);
             }
+        }
+        return null;
+    }
+
+    @PutMapping("/changeStatus/{gameId}")
+    public MultiplayerGame changeStatus(@PathVariable("gameId") Integer gameId, @RequestBody String status) {
+        Optional<MultiplayerGame> game = multiplayerGameRepository.findById(gameId);
+        if (game.isPresent()) {
+            MultiplayerGame updatedGame = game.get();
+            updatedGame.setStatus(status);
+            return multiplayerGameRepository.save(updatedGame);
         }
         return null;
     }

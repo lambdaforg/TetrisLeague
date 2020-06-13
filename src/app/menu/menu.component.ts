@@ -26,6 +26,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   avatar: any;
   isLoggedIn = false;
   roles: string[] = [];
+  multiplayerGameId: number;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -94,7 +95,6 @@ export class MenuComponent implements OnInit, OnDestroy {
             .subscribe(
               next => {
                 if (next) {
-                  console.log(next);
                   if (next.id === +id) {
                   } else {
                     this.router.navigate(['menu'], {queryParams: {action: 'waitingRoom'}});
@@ -162,13 +162,12 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   startMultiplayerGame() {
     this.action = 'multiplayer';
-    let gameId: number;
+    // let gameId: number;
     this.dataService.getCurrentMultiplayerGame(this.user.id)
       .subscribe(
         next => {
-          gameId = next.id;
-          console.log(gameId);
-          this.router.navigate(['menu'], {queryParams: {action: this.action, id: gameId}});
+          this.multiplayerGameId = next.id;
+          this.router.navigate(['menu'], {queryParams: {action: this.action, id: this.multiplayerGameId}});
         }
       );
   }

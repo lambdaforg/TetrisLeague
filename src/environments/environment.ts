@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  restUrl: 'http://localhost:8067'
+  restUrl: 'http://localhost:8067',
+  wsUrl: 'http://localhost:8067/ws'
 };
 
 /*

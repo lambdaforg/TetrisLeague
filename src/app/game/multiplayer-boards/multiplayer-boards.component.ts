@@ -3,6 +3,9 @@ import {User} from '../../model/User';
 import {DataService} from '../../data.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MultiplayerGame} from '../../model/MultiplayerGame';
+import {WebsocketService} from '../../services/websocket.service';
+import {getMatIconFailedToSanitizeLiteralError} from '@angular/material/icon';
+import {MultiplayerService} from '../../services/multiplayer.service';
 
 @Component({
   selector: 'app-multiplayer-boards',
@@ -12,12 +15,17 @@ import {MultiplayerGame} from '../../model/MultiplayerGame';
 export class MultiplayerBoardsComponent implements OnInit {
 
   @Input()
+  multiplayerGameId: number;
+
+  @Input()
   user: User;
 
   multiplayerGame: MultiplayerGame;
   otherPlayers: Array<User>;
+  isInitialized = false;
 
-  constructor(private dataService: DataService) {
+  constructor(private dataService: DataService,
+              private multiplayerService: MultiplayerService) {
   }
 
   ngOnInit(): void {
@@ -26,9 +34,12 @@ export class MultiplayerBoardsComponent implements OnInit {
         next => {
           this.multiplayerGame = next;
           this.otherPlayers = this.getOtherPlayers();
-          console.log(this.otherPlayers);
-        }
-      );
+          this.isInitialized = true;
+          this.receiveMessage();
+        },
+        error => {
+          console.log(error.message);
+        });
   }
 
   getOtherPlayers(): Array<User> {
@@ -48,6 +59,14 @@ export class MultiplayerBoardsComponent implements OnInit {
       }
     }
     return otherPlayers;
+  }
+
+  sendMessage(score: number) {
+    this.multiplayerService.sendMessage(this.multiplayerGame.id, score);
+  }
+
+  receiveMessage(): void {
+    console.log(this.multiplayerService.connect(this.multiplayerGame.id));
   }
 
 }

@@ -1,11 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {User} from '../../model/User';
 import {DataService} from '../../data.service';
-import {ActivatedRoute, Router} from '@angular/router';
 import {MultiplayerGame} from '../../model/MultiplayerGame';
-import {WebsocketService} from '../../services/websocket.service';
-import {getMatIconFailedToSanitizeLiteralError} from '@angular/material/icon';
 import {MultiplayerService} from '../../services/multiplayer.service';
+import {Move} from '../../model/Move';
 
 @Component({
   selector: 'app-multiplayer-boards',
@@ -61,12 +59,12 @@ export class MultiplayerBoardsComponent implements OnInit {
     return otherPlayers;
   }
 
-  sendMessage(score: number) {
-    this.multiplayerService.sendMessage(this.multiplayerGame.id, score);
-  }
-
   receiveMessage(): void {
     console.log(this.multiplayerService.connect(this.multiplayerGame.id));
+  }
+
+  sendMove(move: Move) {
+    //this.multiplayerService.sendMessage(this.multiplayerGame.id, move);
   }
 
 }

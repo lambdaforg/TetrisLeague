@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {BLOCK_SIZE, COLORS, COLS, KEY, LEVEL, LINES_PER_LEVEL, POINTS, ROWS} from '../classes/constants';
 import {IPiece, Piece} from '../classes/piece';
 import {GameService} from '../classes/game.service';
@@ -9,6 +9,8 @@ import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {LeaveRoomDialogComponent} from '../../menu/waiting-room/room-modal/room-modal.component';
 import {Game} from '../../model/Game';
 import {error} from 'selenium-webdriver';
+import {MultiplayerGame} from '../../model/MultiplayerGame';
+import {Move} from '../../model/Move';
 
 // import {privateDecrypt} from 'crypto';
 
@@ -30,6 +32,9 @@ export class BoardComponent implements OnInit {
 
   @Input()
   isMultiplayer: boolean;
+
+  @Input()
+  multiplayerGame: MultiplayerGame;
 
   game: Game;
 
@@ -54,6 +59,9 @@ export class BoardComponent implements OnInit {
     [KEY.UP]: (p: IPiece): IPiece => this.service.rotate(p)
   };
 
+  move: Move;
+  @Output()
+  moveEvent = new EventEmitter<Move>();
 
   // To do another class Key Handler
   @HostListener('window:keydown', ['$event'])
@@ -70,11 +78,17 @@ export class BoardComponent implements OnInit {
           this.points += POINTS.HARD_DROP;
           this.piece.move(p);
           p = this.moves[KEY.DOWN](this.piece);
+          // if (this.isMultiplayer) {
+          //   this.emitMoveEvent();
+          // }
         }
       } else if (this.service.valid(p, this.board)) {
         this.piece.move(p);
         if (event.keyCode === KEY.DOWN) {
           this.points += POINTS.SOFT_DROP;
+          // if (this.isMultiplayer) {
+          //   this.emitMoveEvent();
+          // }
         }
       }
     }
@@ -90,6 +104,9 @@ export class BoardComponent implements OnInit {
     // this.initCurrent();
     this.initNext();
     this.resetGame();
+    if (this.isMultiplayer) {
+      this.initMultiplayer();
+    }
   }
 
   initBoard() {
@@ -140,7 +157,7 @@ export class BoardComponent implements OnInit {
     this.game = new Game();
     this.game.id = 19;
     this.game.user = this.user;
-    this.game.multiplayerGame = null;
+    this.game.multiplayerGame = this.multiplayerGame;
     this.game.gameDate = formatDate(new Date(), 'yyyy-MM-dd', 'en-UK');
     this.game.score = 0;
     this.game.scoreLines = 0;
@@ -210,6 +227,9 @@ export class BoardComponent implements OnInit {
     if (this.service.valid(p, this.board)) {
       this.piece.move(p);
     } else {
+      if (this.isMultiplayer) {
+        this.emitMoveEvent();
+      }
       this.freeze();
       this.clearLines();
       if (this.piece.y === 0) {
@@ -267,6 +287,7 @@ export class BoardComponent implements OnInit {
     this.drawGrid(1);
   }
 
+  // TODO: if multiplayer send event when game ended
   gameOver() {
     cancelAnimationFrame(this.requestId);
     this.ctx.fillStyle = 'black';
@@ -278,7 +299,9 @@ export class BoardComponent implements OnInit {
     // this.user.points.push(this.points);
     this.dataService.event.emit(this.user);
 
-    this.showGameResults();
+    if (!this.isMultiplayer) {
+      this.showGameResults();
+    }
 
     this.game.score = this.points;
     this.game.scoreLines = this.lines;
@@ -299,6 +322,21 @@ export class BoardComponent implements OnInit {
     return Array.from({length: ROWS}, () => Array(COLS).fill(0));
   }
 
+  private initMultiplayer() {
+    this.move = new Move();
+    this.move.userId = this.user.id;
+    this.move.score = 0;
+    this.move.level = 0;
+    this.move.scoreLines = 0;
+  }
+
+  private emitMoveEvent() {
+    this.move.score = this.points;
+    this.move.scoreLines = this.lines;
+    this.move.level = this.level;
+    this.moveEvent.emit(this.move);
+  }
+
   private showGameResults() {
     const modalRef = this.modalService.open(GameResultModalComponent,
       {
@@ -316,6 +354,8 @@ export class BoardComponent implements OnInit {
       }
     });
   }
+
+
 }
 
 @Component({

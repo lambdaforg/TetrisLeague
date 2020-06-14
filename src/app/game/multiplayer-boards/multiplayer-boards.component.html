@@ -1,8 +1,8 @@
-<div class="row"  *ngIf="otherPlayers">
+<div class="row" *ngIf="otherPlayers && multiplayerGame !== null">
   <div class="col">
     <h5>{{user.username}}</h5>
-    <app-board [user]="user" [isMultiplayer]="true"></app-board>
-    <button (click)="sendMessage(1000)">Test</button>
+    <app-board [user]="user" [isMultiplayer]="true" [multiplayerGame]="multiplayerGame"
+               (moveEvent)="sendMove($event)"></app-board>
   </div>
   <div class="col">
     <h5>{{otherPlayers[0].username}}</h5>

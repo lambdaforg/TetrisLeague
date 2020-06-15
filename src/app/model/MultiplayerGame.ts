@@ -12,10 +12,11 @@ export class MultiplayerGame {
   status: string;
   duel: boolean;
 
-  constructor(host: User, numberOfPlayers: number, bet: number) {
+  constructor(host: User, numberOfPlayers: number, bet: number, duel: boolean) {
     this.host = host;
     this.numberOfPlayers = numberOfPlayers;
     this.bet = bet;
     this.status = 'pending';
+    this.duel = duel;
   }
 }

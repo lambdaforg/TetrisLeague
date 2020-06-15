@@ -65,7 +65,8 @@ export class WaitingRoomComponent implements OnInit {
     const newGame = new MultiplayerGame(
       this.user,
       this.newGameForm.value.numberOfPlayers,
-      this.newGameForm.value.bet
+      this.newGameForm.value.bet,
+      false
     );
     this.dataService.createMultiplayerGame(newGame).subscribe(
       next => {

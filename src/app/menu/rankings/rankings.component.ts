@@ -3,6 +3,7 @@ import {Game} from '../../model/Game';
 import {DataService} from '../../data.service';
 import {formatDate} from "@angular/common";
 import {RankingPoint} from "../../model/RankingPoint";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-rankings',
@@ -11,19 +12,27 @@ import {RankingPoint} from "../../model/RankingPoint";
 })
 export class RankingsComponent implements OnInit {
 
+  pointsForm: FormGroup;
+  searchInput: string;
+  isSearching = false;
   currentBookmark: string;
   bestScores: Array<Game>;
   dataLoaded = false;
   message = '';
+  shortage = '';
   bestRankingPoints: Array<RankingPoint>;
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService,
+              private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.changeBookmark('Today');
   }
 
+  get inputName(){ return this.pointsForm.get('inputName');}
+
   changeBookmark(bookmark: string){
+    this.shortage = '';
     this.currentBookmark = bookmark;
     switch (this.currentBookmark) {
       case 'Today':
@@ -31,8 +40,17 @@ export class RankingsComponent implements OnInit {
         this.dataService.getPeriodBestScores(formatDate(new Date(), 'yyyy-MM-dd', 'en-UK'), formatDate(new Date(), 'yyyy-MM-dd', 'en-UK')).subscribe(
           next => {
             this.bestScores = next;
+            console.log(next);
+            this.pointsForm = this.formBuilder.group(
+              {
+                inputName: [this.searchInput, [Validators.required, Validators.minLength(4)]]
+              }
+            );
             this.dataLoaded = true;
             this.message = '';
+            if (next.length === 0){
+              this.shortage = 'There is not any today best score yet';
+            }
           }
         );
         break;
@@ -44,6 +62,9 @@ export class RankingsComponent implements OnInit {
             this.bestScores = next;
             this.dataLoaded = true;
             this.message = '';
+            if (next.length === 0){
+              this.shortage = 'There is not any week best score yet';
+            }
           }
         );
         break;
@@ -55,6 +76,9 @@ export class RankingsComponent implements OnInit {
             this.bestScores = next;
             this.dataLoaded = true;
             this.message = '';
+            if (next.length === 0){
+              this.shortage = 'There is not any month best score yet';
+            }
           }
         );
         break;
@@ -65,6 +89,9 @@ export class RankingsComponent implements OnInit {
             this.bestScores = next;
             this.dataLoaded = true;
             this.message = '';
+            if (next.length === 0){
+              this.shortage = 'There is not any general best score yet';
+            }
           }
         );
         break;
@@ -76,9 +103,26 @@ export class RankingsComponent implements OnInit {
             console.log(this.bestRankingPoints);
             this.dataLoaded = true;
             this.message = '';
+            if (next.length === 0){
+              this.shortage = 'There is not any best ranking points yet';
+            }
           }
         );
         break;
     }
+  }
+
+  searchUser() {
+    if (this.currentBookmark === 'Ranking Points'){
+      if (this.bestRankingPoints.indexOf(this.bestRankingPoints.find(rankingPoint => rankingPoint.user.username === this.inputName.value)) > 0){
+        this.bestRankingPoints.unshift(this.bestRankingPoints.splice(this.bestRankingPoints.findIndex(rankingPoint => rankingPoint.user.username === this.inputName.value), 1)[0]);
+      }
+    } else {
+      if (this.bestScores.indexOf(this.bestScores.find(bestScore => bestScore.user.username === this.inputName.value)) > 0){
+        this.bestScores.unshift(this.bestScores.splice(this.bestScores.findIndex(bestScore => bestScore.user.username === this.inputName.value), 1)[0]);
+      }
+    }
+    this.searchInput = '';
+    this.isSearching = true;
   }
 }

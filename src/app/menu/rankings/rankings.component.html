@@ -27,9 +27,10 @@
         </li>
       </ul>
     </div>
-    <form class="form-inline">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    <form class="form-inline" [formGroup]="pointsForm">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" formControlName="inputName">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="searchUser()"
+              [disabled]="inputName.invalid">Search</button>
     </form>
   </nav>
 
@@ -46,8 +47,9 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let bestScore of bestScores; index as i">
-          <th scope="row">{{i + 1}}</th>
+        <tr *ngFor="let bestScore of bestScores; let indexOfElement = index"
+            [ngClass]="{'alert alert-success': isSearching && indexOfElement === 0}">
+          <th scope="row">{{indexOfElement + 1}}</th>
           <td>{{bestScore.user.username}}</td>
           <td>{{bestScore.score}}</td>
         </tr>
@@ -65,8 +67,9 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let bestScore of bestScores; index as i">
-          <th scope="row">{{i + 1}}</th>
+        <tr *ngFor="let bestScore of bestScores; let indexOfElement = index"
+            [ngClass]="{'alert alert-success': isSearching && indexOfElement === 0}">
+          <th scope="row">{{indexOfElement + 1}}</th>
           <td>{{bestScore.user.username}}</td>
           <td>{{bestScore.score}}</td>
         </tr>
@@ -84,8 +87,9 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let bestScore of bestScores; index as i">
-          <th scope="row">{{i + 1}}</th>
+        <tr *ngFor="let bestScore of bestScores; let indexOfElement = index"
+            [ngClass]="{'alert alert-success': isSearching && indexOfElement === 0}">
+          <th scope="row">{{indexOfElement + 1}}</th>
           <td>{{bestScore.user.username}}</td>
           <td>{{bestScore.score}}</td>
         </tr>
@@ -102,8 +106,9 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let bestScore of bestScores; index as i">
-          <th scope="row">{{i + 1}}</th>
+        <tr *ngFor="let bestScore of bestScores; let indexOfElement = index"
+            [ngClass]="{'alert alert-success': isSearching && indexOfElement === 0}">
+          <th scope="row">{{indexOfElement + 1}}</th>
           <td>{{bestScore.user.username}}</td>
           <td>{{bestScore.score}}</td>
         </tr>
@@ -121,14 +126,15 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let rankingPoint of bestRankingPoints; index as i">
-          <th scope="row">{{i + 1}}</th>
+        <tr *ngFor="let rankingPoint of bestRankingPoints; let indexOfElement = index"
+            [ngClass]="{'alert alert-success': isSearching && indexOfElement === 0}">
+          <th scope="row">{{indexOfElement + 1}}</th>
           <td>{{rankingPoint.user.username}}</td>
           <td>RP{{rankingPoint.value}}</td>
         </tr>
         </tbody>
       </table>
     </div>
-
+    <div *ngIf="shortage" style="text-align:center" >{{shortage}}</div>
   </div>
 </div>

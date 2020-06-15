@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {User} from '../../model/User';
 import {DataService} from '../../data.service';
 import {MultiplayerGame} from '../../model/MultiplayerGame';
@@ -6,13 +6,21 @@ import {Move} from '../../model/Move';
 import {WebsocketService} from '../../services/websocket.service';
 import {first} from 'rxjs/operators';
 import {COLS, ROWS} from '../classes/constants';
+import {SimpleBoardComponent} from '../simple-board/simple-board.component';
+import {templateJitUrl} from '@angular/compiler';
 
 @Component({
   selector: 'app-multiplayer-boards',
   templateUrl: './multiplayer-boards.component.html',
-  styleUrls: ['./multiplayer-boards.component.css']
+  styleUrls: ['./multiplayer-boards.component.css'],
 })
 export class MultiplayerBoardsComponent implements OnInit, OnDestroy {
+  @ViewChild('simpleBoard')
+  board1: SimpleBoardComponent;
+  @ViewChild('simpleBoard')
+  board2: SimpleBoardComponent;
+  @ViewChild('simpleBoard')
+  board3: SimpleBoardComponent;
 
   @Input()
   multiplayerGameId: number;
@@ -37,6 +45,9 @@ export class MultiplayerBoardsComponent implements OnInit, OnDestroy {
           this.multiplayerGame = next;
           this.otherPlayers = this.getOtherPlayers();
           this.isInitialized = true;
+          this.board1 = new SimpleBoardComponent();
+          this.board2 = new SimpleBoardComponent();
+          this.board3 = new SimpleBoardComponent();
           this.connect();
         },
         error => {
@@ -94,6 +105,13 @@ export class MultiplayerBoardsComponent implements OnInit, OnDestroy {
       const index = this.otherPlayers.findIndex(p => p.id == this.tempMove.userId);
       console.log(index);
       this.moves[index] = this.tempMove;
+      // if (index == 0) {
+      //   this.board1.drawBoard();
+      // } else if (index == 1) {
+      //   this.board2.drawBoard();
+      // } else if (index == 2) {
+      //   this.board3.drawBoard();
+      // }
     } else {
       console.log('the same user');
     }

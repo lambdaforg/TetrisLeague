@@ -19,6 +19,7 @@ import {RoomModalComponent, LeaveRoomDialogComponent} from './menu/waiting-room/
 import {HttpClientModule} from '@angular/common/http';
 import {PasswordRecoveryComponent} from './password-recovery/password-recovery.component';
 import {MultiplayerBoardsComponent} from './game/multiplayer-boards/multiplayer-boards.component';
+import { SimpleBoardComponent } from './game/simple-board/simple-board.component';
 
 
 
@@ -49,7 +50,8 @@ const appRoutes: Routes = [
     LeaveRoomDialogComponent,
     GameResultModalComponent,
     PasswordRecoveryComponent,
-    MultiplayerBoardsComponent
+    MultiplayerBoardsComponent,
+    SimpleBoardComponent
   ],
   imports: [
     BrowserModule,

@@ -9,17 +9,20 @@
     <p>Score: {{moves[0].score}}</p>
     <p>Lines: {{moves[0].scoreLines}}</p>
     <p>Level: {{moves[0].level}}</p>
+    <app-simple-board [board]="moves[0].board" #board1></app-simple-board>
   </div>
   <div class="col" *ngIf="otherPlayers.length > 1">
     <h5>{{otherPlayers[1].username}}</h5>
     <p>Score: {{moves[1].score}}</p>
     <p>Lines: {{moves[1].scoreLines}}</p>
     <p>Level: {{moves[1].level}}</p>
+    <app-simple-board [board]="moves[1].board" #board2></app-simple-board>
   </div>
   <div class="col" *ngIf="otherPlayers.length > 2">
     <h5>{{otherPlayers[2].username}}</h5>
     <p>Score: {{moves[2].score}}</p>
     <p>Lines: {{moves[2].scoreLines}}</p>
     <p>Level: {{moves[2].level}}</p>
+    <app-simple-board [board]="moves[2].board" #board3></app-simple-board>
   </div>
 </div>

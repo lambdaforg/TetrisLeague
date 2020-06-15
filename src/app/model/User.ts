@@ -48,7 +48,7 @@ export class Questions{
   question: string;
   static fromHttp(question: Questions): Questions{
       const newQuestion = new Questions();
-      newQuestion.id = question.id
+      newQuestion.id = question.id;
       newQuestion.question = question.question;
       return newQuestion;
   }

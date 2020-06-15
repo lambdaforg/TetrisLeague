@@ -16,7 +16,8 @@ export class StatsComponent implements OnInit {
   @Input()
   favourite: string;
   @Input()
-  role: Role;
+  roles: string[] = [];
+  authorized: boolean;
   from: string;
   to: string;
   validDates = true;
@@ -37,9 +38,12 @@ export class StatsComponent implements OnInit {
     this.from = formatDate(new Date(2020, 3, 10), 'yyyy MM dd', 'en-UK');
     this.to = formatDate(new Date(), 'yyyy MM dd', 'en-UK');
 
-    if (this.role.roleName === 'player'){
-      this.changeBookmark('User');
-    }
+    // if (this.roles.filter(role => role !== 'ROLE_MODERATOR' && role !== 'ROLE_ADMIN').length === 0){
+    //   this.changeBookmark('User');
+    //   this.authorized = false;
+    // } else {
+      this.authorized = true;
+    // }
 
     this.initializeCharts();
   }
@@ -576,7 +580,7 @@ export class StatsComponent implements OnInit {
 
     chart3.render();
 
-    if (this.role.roleName === 'player'){
+    if (this.roles.filter(role => role !== 'ROLE_MODERATOR' && role !== 'ROLE_ADMIN').length === 0){
       return;
     }
 

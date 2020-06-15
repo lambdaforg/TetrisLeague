@@ -59,9 +59,8 @@
         <app-friends *ngIf="action === 'friends'" [user] = "user"></app-friends>
         <app-rankings *ngIf="action === 'rankings'"></app-rankings>
         <app-settings *ngIf="action === 'setting'" [user]="user" (avatarChangedEvent)="loadAvatar()"></app-settings>
-        <app-stats *ngIf="action === 'stats'" [favourite]="statsFavourite"></app-stats>
+        <app-stats *ngIf="action === 'stats'" [favourite]="statsFavourite" [roles]="roles"></app-stats>
         <app-multiplayer-boards *ngIf="action === 'multiplayer'" [user]="user" [multiplayerGameId]="multiplayerGameId"></app-multiplayer-boards>
-        <app-stats *ngIf="action === 'stats'" [favourite]="statsFavourite" [role]="user.role"></app-stats>
       </div>
     </div>
   </div>

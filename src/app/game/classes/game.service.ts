@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {COLS, POINTS, ROWS} from './constants';
+import {BLOCK_SIZE, COLS, POINTS, ROWS} from './constants';
 import {IPiece} from './piece';
 
 @Injectable({
@@ -61,5 +61,32 @@ export class GameService {
             : 0;
 
     return (level + 1) * lineClearPoints;
+  }
+
+  initBoard(ctx, canvas) {
+    ctx = canvas.nativeElement.getContext('2d');
+    // Calculate size of canvas from constants.
+    ctx.canvas.width = COLS * BLOCK_SIZE;
+    ctx.canvas.height = ROWS * BLOCK_SIZE;
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    // Scale so we don't need to give size on every draw.
+    ctx.scale(BLOCK_SIZE, BLOCK_SIZE);
+    this.drawGrid(1, ctx, canvas);
+  }
+
+  drawGrid(s: number, ctx, canvas) {
+    ctx.strokeStyle = '#373d42';
+    ctx.lineWidth = 0.10;
+    ctx.beginPath();
+    for (let x = 0; x <= ctx.canvas.width; x += s) {
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, ctx.canvas.height);
+    }
+    for (let y = 0; y <= ctx.canvas.height; y += s) {
+      ctx.moveTo(0, y);
+      ctx.lineTo(ctx.canvas.width, y);
+    }
+    ctx.stroke();
   }
 }

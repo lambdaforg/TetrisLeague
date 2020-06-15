@@ -100,7 +100,7 @@ export class BoardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initBoard();
+    this.service.initBoard(this.ctx, this.canvas);
     // this.initCurrent();
     this.initNext();
     this.resetGame();
@@ -109,17 +109,17 @@ export class BoardComponent implements OnInit {
     }
   }
 
-  initBoard() {
-    this.ctx = this.canvas.nativeElement.getContext('2d');
-    // Calculate size of canvas from constants.
-    this.ctx.canvas.width = COLS * BLOCK_SIZE;
-    this.ctx.canvas.height = ROWS * BLOCK_SIZE;
-    this.ctx.fillStyle = '#000000';
-    this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-    // Scale so we don't need to give size on every draw.
-    this.ctx.scale(BLOCK_SIZE, BLOCK_SIZE);
-    this.drawGrid(1);
-  }
+  // initBoard() {
+  //   this.ctx = this.canvas.nativeElement.getContext('2d');
+  //   // Calculate size of canvas from constants.
+  //   this.ctx.canvas.width = COLS * BLOCK_SIZE;
+  //   this.ctx.canvas.height = ROWS * BLOCK_SIZE;
+  //   this.ctx.fillStyle = '#000000';
+  //   this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+  //   // Scale so we don't need to give size on every draw.
+  //   this.ctx.scale(BLOCK_SIZE, BLOCK_SIZE);
+  //   this.drawGrid(1);
+  // }
 
   // initCurrent() {
   //   this.ctxCurrent = this.canvasCurrent.nativeElement.getContext('2d');
@@ -174,20 +174,20 @@ export class BoardComponent implements OnInit {
     );
   }
 
-  drawGrid(s: number) {
-    this.ctx.strokeStyle = '#373d42';
-    this.ctx.lineWidth = 0.10;
-    this.ctx.beginPath();
-    for (let x = 0; x <= this.ctx.canvas.width; x += s) {
-      this.ctx.moveTo(x, 0);
-      this.ctx.lineTo(x, this.ctx.canvas.height);
-    }
-    for (let y = 0; y <= this.ctx.canvas.height; y += s) {
-      this.ctx.moveTo(0, y);
-      this.ctx.lineTo(this.ctx.canvas.width, y);
-    }
-    this.ctx.stroke();
-  }
+  // drawGrid(s: number) {
+  //   this.ctx.strokeStyle = '#373d42';
+  //   this.ctx.lineWidth = 0.10;
+  //   this.ctx.beginPath();
+  //   for (let x = 0; x <= this.ctx.canvas.width; x += s) {
+  //     this.ctx.moveTo(x, 0);
+  //     this.ctx.lineTo(x, this.ctx.canvas.height);
+  //   }
+  //   for (let y = 0; y <= this.ctx.canvas.height; y += s) {
+  //     this.ctx.moveTo(0, y);
+  //     this.ctx.lineTo(this.ctx.canvas.width, y);
+  //   }
+  //   this.ctx.stroke();
+  // }
 
   resetGame() {
     this.points = 0;
@@ -284,7 +284,7 @@ export class BoardComponent implements OnInit {
         }
       });
     });
-    this.drawGrid(1);
+    this.service.drawGrid(1, this.ctx, this.canvas);
   }
 
   // TODO: if multiplayer send event when game ended

@@ -1,27 +1,25 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {environment} from '../../environments/environment';
 import * as SockJS from 'sockjs-client';
-import {Stomp} from '@stomp/stompjs';
+import {Stomp, StompSubscription} from '@stomp/stompjs';
+import {MultiplayerBoardsComponent} from '../game/multiplayer-boards/multiplayer-boards.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebsocketService implements OnDestroy {
 
-  client: any;
   topic = '/multiplayer/get/';
   stompClient: any;
 
-  connect(gameId: number) {
+  connect(gameId: number, callback: (msg) => void) {
     const ws = new SockJS(environment.wsUrl);
     this.stompClient = Stomp.over(ws);
     const thisRef = this;
-    thisRef.stompClient.connect({}, (frame) => {
-      thisRef.stompClient.subscribe(
-        thisRef.topic + gameId, (sdkEvent) => {
-          thisRef.onMessageReceived(sdkEvent);
-        });
-    }, this.errorCallBack);
+    thisRef.stompClient
+      .connect({}, (frame) => {
+        thisRef.stompClient.subscribe(thisRef.topic + gameId, callback);
+      }, this.errorCallBack);
   }
 
   ngOnDestroy() {
@@ -30,16 +28,11 @@ export class WebsocketService implements OnDestroy {
     }
   }
 
-
   errorCallBack(error) {
     console.log('errorCallBack: ' + error);
   }
 
-  send(gameId: number, score: number) {
-    this.stompClient.send('/app/send/' + gameId, {}, JSON.stringify(score));
-  }
-
-  onMessageReceived(score) {
-    console.log('message received: ' + score);
+  send(gameId: number, message) {
+    this.stompClient.send('/app/send/' + gameId, {}, JSON.stringify(message));
   }
 }

@@ -5,6 +5,7 @@ import {MultiplayerGame} from '../../model/MultiplayerGame';
 import {Move} from '../../model/Move';
 import {WebsocketService} from '../../services/websocket.service';
 import {first} from 'rxjs/operators';
+import {COLS, ROWS} from '../classes/constants';
 
 @Component({
   selector: 'app-multiplayer-boards',
@@ -51,20 +52,21 @@ export class MultiplayerBoardsComponent implements OnInit, OnDestroy {
     const otherPlayers = new Array<User>();
     if (this.multiplayerGame.host.id !== this.user.id) {
       otherPlayers.push(this.multiplayerGame.host);
-      this.moves.push(new Move(this.multiplayerGame.host.id, 0, 0, 0));
+      this.initMove(this.multiplayerGame.host.id);
     }
     if (this.multiplayerGame.playerOne.id !== this.user.id) {
       otherPlayers.push(this.multiplayerGame.playerOne);
-      this.moves.push(new Move(this.multiplayerGame.playerOne.id, 0, 0, 0));
+      this.initMove(this.multiplayerGame.host.id);
+      this.initMove(this.multiplayerGame.playerOne.id);
     }
     if (this.multiplayerGame.numberOfPlayers > 2) {
       if (this.multiplayerGame.playerTwo.id !== this.user.id) {
         otherPlayers.push(this.multiplayerGame.playerTwo);
-        this.moves.push(new Move(this.multiplayerGame.playerTwo.id, 0, 0, 0));
+        this.initMove(this.multiplayerGame.playerTwo.id);
       }
       if (this.multiplayerGame.numberOfPlayers > 3 && this.multiplayerGame.playerThree.id !== this.user.id) {
         otherPlayers.push(this.multiplayerGame.playerThree);
-        this.moves.push(new Move(this.multiplayerGame.playerThree.id, 0, 0, 0));
+        this.initMove(this.multiplayerGame.playerThree.id);
       }
     }
     console.log(otherPlayers);
@@ -78,6 +80,7 @@ export class MultiplayerBoardsComponent implements OnInit, OnDestroy {
   }
 
   sendMove(move: Move) {
+    console.log(move);
     this.websocketService.send(this.multiplayerGame.id, move);
   }
 
@@ -94,6 +97,11 @@ export class MultiplayerBoardsComponent implements OnInit, OnDestroy {
     } else {
       console.log('the same user');
     }
+  }
+
+  initMove(userId: number) {
+    this.moves.push(new Move(userId, 0, 0, 0,
+      Array.from({length: ROWS}, () => Array(COLS).fill(0))));
   }
 
 }

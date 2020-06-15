@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.util.HtmlUtils;
 import tetris.rest.api.model.entity.Move;
 
+import java.util.Arrays;
+
 @Controller
 public class WSMultiplayerController {
 
@@ -18,7 +20,8 @@ public class WSMultiplayerController {
                 HtmlUtils.htmlEscape(move.getUserId()),
                 HtmlUtils.htmlEscape(move.getScore()),
                 HtmlUtils.htmlEscape(move.getScoreLines()),
-                HtmlUtils.htmlEscape(move.getLevel())
+                HtmlUtils.htmlEscape(move.getLevel()),
+                move.getBoard()
         );
     }
 

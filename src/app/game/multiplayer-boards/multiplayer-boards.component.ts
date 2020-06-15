@@ -15,12 +15,6 @@ import {templateJitUrl} from '@angular/compiler';
   styleUrls: ['./multiplayer-boards.component.css'],
 })
 export class MultiplayerBoardsComponent implements OnInit, OnDestroy {
-  @ViewChild('simpleBoard')
-  board1: SimpleBoardComponent;
-  @ViewChild('simpleBoard')
-  board2: SimpleBoardComponent;
-  @ViewChild('simpleBoard')
-  board3: SimpleBoardComponent;
 
   @Input()
   multiplayerGameId: number;
@@ -30,8 +24,9 @@ export class MultiplayerBoardsComponent implements OnInit, OnDestroy {
 
   multiplayerGame: MultiplayerGame;
   otherPlayers: Array<User>;
-  isInitialized = false;
   moves = new Array<Move>();
+  avatars = new Array<any>();
+  isInitialized = false;
   tempMove: Move;
 
   constructor(private dataService: DataService,
@@ -45,9 +40,6 @@ export class MultiplayerBoardsComponent implements OnInit, OnDestroy {
           this.multiplayerGame = next;
           this.otherPlayers = this.getOtherPlayers();
           this.isInitialized = true;
-          this.board1 = new SimpleBoardComponent();
-          this.board2 = new SimpleBoardComponent();
-          this.board3 = new SimpleBoardComponent();
           this.connect();
         },
         error => {
@@ -61,23 +53,31 @@ export class MultiplayerBoardsComponent implements OnInit, OnDestroy {
 
   getOtherPlayers(): Array<User> {
     const otherPlayers = new Array<User>();
+    let index = 0;
     if (this.multiplayerGame.host.id !== this.user.id) {
-      otherPlayers.push(this.multiplayerGame.host);
-      this.initMove(this.multiplayerGame.host.id);
+      otherPlayers[index] = this.multiplayerGame.host;
+      this.initMove(this.multiplayerGame.host.id, index);
+      this.loadAvatar(this.multiplayerGame.host.id , index);
+      index ++;
     }
     if (this.multiplayerGame.playerOne.id !== this.user.id) {
-      otherPlayers.push(this.multiplayerGame.playerOne);
-      this.initMove(this.multiplayerGame.host.id);
-      this.initMove(this.multiplayerGame.playerOne.id);
+      otherPlayers[index] = this.multiplayerGame.playerOne;
+      this.initMove(this.multiplayerGame.playerOne.id, index);
+      this.loadAvatar(this.multiplayerGame.playerOne.id, index);
+      index ++;
     }
     if (this.multiplayerGame.numberOfPlayers > 2) {
       if (this.multiplayerGame.playerTwo.id !== this.user.id) {
         otherPlayers.push(this.multiplayerGame.playerTwo);
-        this.initMove(this.multiplayerGame.playerTwo.id);
+        this.initMove(this.multiplayerGame.playerTwo.id, index);
+        this.loadAvatar(this.multiplayerGame.playerTwo.id , index);
+        index ++;
       }
       if (this.multiplayerGame.numberOfPlayers > 3 && this.multiplayerGame.playerThree.id !== this.user.id) {
         otherPlayers.push(this.multiplayerGame.playerThree);
-        this.initMove(this.multiplayerGame.playerThree.id);
+        this.initMove(this.multiplayerGame.playerThree.id, index);
+        this.loadAvatar(this.multiplayerGame.playerThree.id, index);
+        index ++;
       }
     }
     console.log(otherPlayers);
@@ -105,21 +105,23 @@ export class MultiplayerBoardsComponent implements OnInit, OnDestroy {
       const index = this.otherPlayers.findIndex(p => p.id == this.tempMove.userId);
       console.log(index);
       this.moves[index] = this.tempMove;
-      // if (index == 0) {
-      //   this.board1.drawBoard();
-      // } else if (index == 1) {
-      //   this.board2.drawBoard();
-      // } else if (index == 2) {
-      //   this.board3.drawBoard();
-      // }
     } else {
       console.log('the same user');
     }
   }
 
-  initMove(userId: number) {
-    this.moves.push(new Move(userId, 0, 0, 0,
+  initMove(userId: number, index: number) {
+    this.moves[index] = (new Move(userId, 0, 0, 0,
       Array.from({length: ROWS}, () => Array(COLS).fill(0))));
   }
+
+  loadAvatar(userId: number, index: number) {
+      this.dataService.getAvatar(userId)
+        .subscribe(
+          data => {
+            this.avatars[index] = data;
+          }
+        );
+    }
 
 }

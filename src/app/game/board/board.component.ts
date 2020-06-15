@@ -78,17 +78,11 @@ export class BoardComponent implements OnInit {
           this.points += POINTS.HARD_DROP;
           this.piece.move(p);
           p = this.moves[KEY.DOWN](this.piece);
-          // if (this.isMultiplayer) {
-          //   this.emitMoveEvent();
-          // }
         }
       } else if (this.service.valid(p, this.board)) {
         this.piece.move(p);
         if (event.keyCode === KEY.DOWN) {
           this.points += POINTS.SOFT_DROP;
-          // if (this.isMultiplayer) {
-          //   this.emitMoveEvent();
-          // }
         }
       }
     }
@@ -100,6 +94,7 @@ export class BoardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.ctx = this.canvas.nativeElement.getContext('2d');
     this.service.initBoard(this.ctx, this.canvas);
     // this.initCurrent();
     this.initNext();
@@ -394,7 +389,7 @@ export class GameResultModalComponent {
   }
 
   private initializeModal(points: number, lines: number, level: number) {
-    console.log(this.points = points);
+    this.points = points;
     this.lines = lines;
     this.level = level;
   }

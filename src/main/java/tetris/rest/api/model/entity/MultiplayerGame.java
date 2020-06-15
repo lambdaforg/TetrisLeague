@@ -28,6 +28,8 @@ public class MultiplayerGame {
 
     //@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 
+    private boolean duel;
+
     public Integer getId() {
         return id;
     }
@@ -98,6 +100,14 @@ public class MultiplayerGame {
 
     public void setPlayerThree(User playerThree) {
         this.playerThree = playerThree;
+    }
+
+    public boolean isDuel() {
+        return duel;
+    }
+
+    public void setDuel(boolean duel) {
+        this.duel = duel;
     }
 
     public void addPlayer(User player) {

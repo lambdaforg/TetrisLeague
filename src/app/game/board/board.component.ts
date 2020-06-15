@@ -227,9 +227,6 @@ export class BoardComponent implements OnInit {
     if (this.service.valid(p, this.board)) {
       this.piece.move(p);
     } else {
-      if (this.isMultiplayer) {
-        this.emitMoveEvent();
-      }
       this.freeze();
       this.clearLines();
       if (this.piece.y === 0) {
@@ -239,6 +236,9 @@ export class BoardComponent implements OnInit {
       this.piece = this.next;
       this.next = new Piece(this.ctx);
       // this.piece.drawNext(this.ctxCurrent);
+      if (this.isMultiplayer) {
+        this.emitMoveEvent();
+      }
       this.next.drawNext(this.ctxNext);
     }
     return true;
@@ -328,12 +328,14 @@ export class BoardComponent implements OnInit {
     this.move.score = 0;
     this.move.level = 0;
     this.move.scoreLines = 0;
+    this.move.board = this.board;
   }
 
   private emitMoveEvent() {
     this.move.score = this.points;
     this.move.scoreLines = this.lines;
     this.move.level = this.level;
+    this.move.board = this.board;
     this.moveEvent.emit(this.move);
   }
 

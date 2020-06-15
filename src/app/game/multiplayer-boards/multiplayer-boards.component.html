@@ -1,24 +1,34 @@
 <div class="row" *ngIf="otherPlayers && multiplayerGame !== null">
-  <div class="col">
+  <div class="col player-col">
     <h5>{{user.username}}</h5>
     <app-board [user]="user" [isMultiplayer]="true" [multiplayerGame]="multiplayerGame"
                (moveEvent)="sendMove($event)"></app-board>
   </div>
-  <div class="col">
-    <h5>{{otherPlayers[0].username}}</h5>
-    <p>Score: {{moves[0].score}}</p>
-    <p>Lines: {{moves[0].scoreLines}}</p>
-    <p>Level: {{moves[0].level}}</p>
-    <app-simple-board [board]="moves[0].board" #board1></app-simple-board>
-  </div>
-  <div class="col" *ngIf="otherPlayers.length > 1">
+
+    <div class="col player-col">
+      <h5>{{otherPlayers[0].username}}</h5>
+      <div class="row mt-2">
+        <div class="col top-left">
+          <img class="img-responsive pull-left" alt="Logo" [src]="avatars[0]">
+        </div>
+        <div class="col top-right">
+          <p class="mb-0">Score: {{moves[0].score}}</p>
+          <p class="mb-0">Lines: {{moves[0].scoreLines}}</p>
+          <p class="mb-0">Level: {{moves[0].level}}</p>
+        </div>
+      </div>
+      <app-simple-board [board]="moves[0].board"></app-simple-board>
+    </div>
+
+
+  <div class="col player-col" *ngIf="otherPlayers.length > 1">
     <h5>{{otherPlayers[1].username}}</h5>
     <p>Score: {{moves[1].score}}</p>
     <p>Lines: {{moves[1].scoreLines}}</p>
     <p>Level: {{moves[1].level}}</p>
-    <app-simple-board [board]="moves[1].board" #board2></app-simple-board>
+    <app-simple-board [board]="moves[1].board"></app-simple-board>
   </div>
-  <div class="col" *ngIf="otherPlayers.length > 2">
+  <div class="col player-col" *ngIf="otherPlayers.length > 2">
     <h5>{{otherPlayers[2].username}}</h5>
     <p>Score: {{moves[2].score}}</p>
     <p>Lines: {{moves[2].scoreLines}}</p>
@@ -26,3 +36,4 @@
     <app-simple-board [board]="moves[2].board" #board3></app-simple-board>
   </div>
 </div>
+

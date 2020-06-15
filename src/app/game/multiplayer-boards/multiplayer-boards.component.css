@@ -1,4 +1,33 @@
+.col.player-col{
+  margin-left: 50px;
+}
+div.col.top-left{
+  padding: 4px;
+  max-width: 90px;
+}
+div.col.top-right{
+  padding: 0px;
+}
+img {
+  width: 82px;
+  height: 82px;
+  border: solid 1px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 3px 0px #000;
+}
+.row.mt-2{
+  width: 200px;
+  margin: unset;
+  padding: unset;
+}
+h5{
+  max-width: 200px;
+  text-align: center;
+  margin-top: 10px;
+}
 .p{
-  margin-bottom: 0px;
+  margin-bottom: 0rem;
   padding: 0;
 }
+
+

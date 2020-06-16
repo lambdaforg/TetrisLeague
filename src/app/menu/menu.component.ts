@@ -60,6 +60,7 @@ export class MenuComponent implements OnInit, OnDestroy {
       console.log(this.user);
       this.roles = this.tokenStorage.getUser().roles;
       this.getMaxPoints();
+      this.getCurrentRankingsPoints();
       this.dataLoaded = true;
       console.log('test');
       this.message = '';
@@ -127,6 +128,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.dataService.getMaximumScore(this.user.id).subscribe(
       next => {
         this.maxScore = next;
+        console.log('max score' + this.maxScore);
       }
     );
   }
@@ -135,6 +137,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.dataService.getCurrentRankingsPoints(this.user.id).subscribe(
       next => {
         this.currentRankingsPoints = next;
+        console.log(this.currentRankingsPoints);
       }
     );
   }

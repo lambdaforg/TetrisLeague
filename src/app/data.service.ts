@@ -192,6 +192,8 @@ export class DataService {
   }
 
   getPeriodBestScores(date1: string, date2: string): Observable<Array<Game>> {
+    console.log(date1);
+    console.log(date2);
     return this.http.get<Array<Game>>(environment.restUrl + '/api/games/getPeriodBestScores/' + date1 + '/' + date2);
   }
 
@@ -233,5 +235,27 @@ export class DataService {
 
   getCurrentMultiplayerGame(userId: number): Observable<MultiplayerGame> {
         return this.http.get<MultiplayerGame>(environment.restUrl + '/api/multiplayer-games/getCurrentGame/' + userId);
+  }
+
+  getUserPeriodBestScores(userId: number, date1: string, date2: string): Observable<Array<string>> {
+    console.log(date1);
+    console.log(date2);
+    // let obtained: string[] = [];
+    // const result: Array<Array<string>> = new Array<Array<string>>();
+    // // @ts-ignore
+    return this.http.get<Array<string>>(environment.restUrl + '/api/games/getUserPeriodBestScores/' + userId + '/' + date1 + '/' + date2);
+    // for (const i of Object.keys(obtained)){
+    //   result[result.length] = (obtained[i] + ' ').split(',');
+    // }
+    // // @ts-ignore
+    // return result;
+  }
+
+  getUserPeriodCurrentRankingsPoints(userId: number, date1: string, date2: string): Observable<Array<string>> {
+    return this.http.get<Array<string>>(environment.restUrl + '/api/rankingPoints/getUserPeriodCurrentRankingsPoints/' + userId + '/' + date1 + '/' + date2);
+  }
+
+  getPeriodGamers(date1: string, date2: string): Observable<Array<string>> {
+    return this.http.get<Array<string>>(environment.restUrl + '/api/users/getPeriodGamers/' + date1 + '/' + date2);
   }
 }

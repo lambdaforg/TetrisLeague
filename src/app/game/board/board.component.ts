@@ -291,9 +291,6 @@ export class BoardComponent implements OnInit {
     this.ctx.fillStyle = 'red';
     this.ctx.fillText('GAME OVER', 1.8, 4);
 
-    // this.user.points.push(this.points);
-    this.dataService.event.emit(this.user);
-
     if (!this.isMultiplayer) {
       this.showGameResults();
     }
@@ -305,6 +302,8 @@ export class BoardComponent implements OnInit {
     this.dataService.updateGame(this.game).subscribe(
       next => {
         console.log(next);
+        // this.user.points.push(this.points);
+        this.dataService.event.emit(this.user);
         // this.game = next;
       },
       error => {

@@ -62,4 +62,40 @@ public class RankingPointRestController {
         System.out.println(newRankingPoint.getValue());
         return rankingPointRepository.save(newRankingPoint);
     }
+
+    @GetMapping("/getUserPeriodCurrentRankingsPoints/{id}/{date1}/{date2}")
+    public String[] getUserPeriodCurrentRankingsPoints(@PathVariable("id") Integer id, @PathVariable("date1") String date1, @PathVariable("date2") String date2){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date fromDate = null;
+        Date toDate = null;
+        try {
+            fromDate = sdf.parse(date1);
+            toDate = sdf.parse(date2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        List<RankingPoint> userRankingPoints = getAllRankingPoints().stream().filter(rankingPoint -> rankingPoint.getUser().getId().equals(id)).collect(Collectors.toList());
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < userRankingPoints.size(); i++) {
+            Date currentRankingPointDate = null;
+            try {
+                currentRankingPointDate = sdf.parse(userRankingPoints.get(i).getRankingPointsDate().toString());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if (fromDate == null || toDate == null || currentRankingPointDate == null) {
+                System.out.println("Dates cannot be null");
+                return list.toArray(new String[0]);
+            }
+            if(currentRankingPointDate.compareTo(fromDate) >= 0 && currentRankingPointDate.compareTo(toDate) <= 0){
+                list.add(sdf.format(userRankingPoints.get(i).getRankingPointsDate()) + "," + userRankingPoints.get(i).getValue() );
+                System.out.println("list length -1: " + (list.size() - i - 1));
+            }
+        }
+        Collections.reverse(list);
+
+        return list.toArray(new String[0]);
+
+    }
+
 }

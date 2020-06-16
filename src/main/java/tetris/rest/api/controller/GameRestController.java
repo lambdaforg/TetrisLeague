@@ -1,6 +1,7 @@
 package tetris.rest.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.web.bind.annotation.*;
 import tetris.rest.api.data.GameRepository;
 import tetris.rest.api.data.MultiplayerGameRestRepository;
@@ -127,6 +128,39 @@ public class GameRestController {
         return List.copyOf(pendingMultiplayerGames);
     }
 
+    @GetMapping("/getUserPeriodBestScores/{id}/{date1}/{date2}")
+    public String[] getUserPeriodBestScores(@PathVariable("id") Integer id, @PathVariable("date1") String date1, @PathVariable("date2") String date2){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date fromDate = null;
+        Date toDate = null;
+        try {
+            fromDate = sdf.parse(date1);
+            toDate = sdf.parse(date2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        List<Game> userGames = getAllGames().stream().filter(game -> game.getUser().getId().equals(id)).collect(Collectors.toList());
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < userGames.size(); i++) {
+            Date currentGameDate = null;
+            try {
+                currentGameDate = sdf.parse(userGames.get(i).getGameDate().toString());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if (fromDate == null || toDate == null || currentGameDate == null) {
+                System.out.println("Dates cannot be null");
+                return list.toArray(new String[0]);
+            }
+            if(currentGameDate.compareTo(fromDate) >= 0 && currentGameDate.compareTo(toDate) <= 0){
+                list.add(sdf.format(userGames.get(i).getGameDate()) + "," + userGames.get(i).getScore() );
+                System.out.println("list length -1: " + (list.size() - i - 1));
+            }
+        }
+        Collections.reverse(list);
+
+        return list.toArray(new String[0]);
+    }
 }
 
 

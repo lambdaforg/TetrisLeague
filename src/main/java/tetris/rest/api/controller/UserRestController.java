@@ -1,5 +1,6 @@
 package tetris.rest.api.controller;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -196,4 +197,41 @@ public class UserRestController {
             return new AngularUser(userRepository.save(user.asUser()));
     }
 
+    @GetMapping("/getPeriodGamers/{date1}/{date2}")
+    public String[] getPeriodGamers(@PathVariable("date1") String date1, @PathVariable("date2") String date2){
+        int counter = 0;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date fromDate = null;
+        Date toDate = null;
+        try {
+            fromDate = sdf.parse(date1);
+            toDate = sdf.parse(date2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        List<AngularUser> gamers = getAllUsers();
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < gamers.size(); i++) {
+            counter++;
+            Date currentGamerDate = null;
+            try {
+                currentGamerDate = sdf.parse(gamers.get(i).getCreated_At().toString());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if (fromDate == null || toDate == null || currentGamerDate == null) {
+                System.out.println("Dates cannot be null");
+                return list.toArray(new String[0]);
+            }
+            if(currentGamerDate.compareTo(fromDate) >= 0 && currentGamerDate.compareTo(toDate) <= 0){
+                String input = sdf.format(gamers.get(i).getCreated_At()) + "," + counter;
+                System.out.println(input);
+                list.add(input);
+                System.out.println("gamers list length -1: " + (list.size() - i - 1));
+            }
+        }
+        Collections.reverse(list);
+
+        return list.toArray(new String[0]);
+    }
 }

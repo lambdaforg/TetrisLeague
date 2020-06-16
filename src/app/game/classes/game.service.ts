@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {BLOCK_SIZE, COLS, POINTS, ROWS} from './constants';
+import {BLOCK_SIZE, COLORS, COLS, POINTS, ROWS} from './constants';
 import {IPiece} from './piece';
 
 @Injectable({
@@ -72,10 +72,10 @@ export class GameService {
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     // Scale so we don't need to give size on every draw.
     ctx.scale(BLOCK_SIZE, BLOCK_SIZE);
-    this.drawGrid(1, ctx, canvas);
+    this.drawGrid(1, ctx);
   }
 
-  drawGrid(s: number, ctx, canvas) {
+  drawGrid(s: number, ctx) {
     ctx.strokeStyle = '#373d42';
     ctx.lineWidth = 0.10;
     ctx.beginPath();
@@ -88,5 +88,18 @@ export class GameService {
       ctx.lineTo(ctx.canvas.width, y);
     }
     ctx.stroke();
+  }
+
+  drawBoard(board: number[][], ctx) {
+    // Scale so we don't need to give size on every draw.
+    board.forEach((row, y) => {
+      row.forEach((value, x) => {
+        if (value > 0) {
+          ctx.fillStyle = COLORS[value];
+          ctx.fillRect(x, y, 1, 1);
+        }
+      });
+    });
+    this.drawGrid(1, ctx);
   }
 }

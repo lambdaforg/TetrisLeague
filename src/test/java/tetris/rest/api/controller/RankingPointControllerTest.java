@@ -1,7 +1,5 @@
 package tetris.rest.api.controller;
 
-import org.hamcrest.core.Is;
-import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -10,18 +8,14 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import tetris.rest.api.data.RankingPointRepository;
 import tetris.rest.api.model.entity.RankingPoint;
 import tetris.rest.api.model.entity.SecurityQuestion;
 import tetris.rest.api.model.entity.User;
 
-import java.sql.Array;
 import java.sql.Time;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -29,7 +23,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -49,7 +42,7 @@ class RankingPointControllerTest {
     @Autowired
     private MockMvc mvc;
     @Autowired
-    private RankingPointController rankingPointController;
+    private RankingPointRestController rankingPointRestController;
     @MockBean
     private RankingPointRepository repository;
 
@@ -241,7 +234,7 @@ class RankingPointControllerTest {
     void whenValidUserIdThenCurrentUserRankingPointsShouldBeFound() {
         Integer id = 1;
         Integer currentRankingPoints = 3165;
-        Integer foundCurrentRankingPoints = rankingPointController.getCurrentUserRankingPoints(id);
+        Integer foundCurrentRankingPoints = rankingPointRestController.getCurrentUserRankingPoints(id);
         assertEquals(foundCurrentRankingPoints, currentRankingPoints);
     }
 
@@ -250,7 +243,7 @@ class RankingPointControllerTest {
     @Test
     void currentRankingPointsShouldBeFound() throws Exception {
         List<RankingPoint> properCurrentRankingPoints = Arrays.asList(rankingPoints.get(6), rankingPoints.get(5), rankingPoints.get(4));
-        List<RankingPoint> foundCurrentRankingPoints = rankingPointController.getBestRankingPoints();
+        List<RankingPoint> foundCurrentRankingPoints = rankingPointRestController.getBestRankingPoints();
         assertEquals(foundCurrentRankingPoints, properCurrentRankingPoints);
     }
 

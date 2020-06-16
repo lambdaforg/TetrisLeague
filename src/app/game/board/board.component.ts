@@ -214,7 +214,7 @@ export class BoardComponent implements OnInit {
     this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.ctx.stroke();
     this.piece.draw();
-    this.drawBoard();
+    this.service.drawBoard(this.board, this.ctx);
   }
 
   drop(): boolean {
@@ -269,18 +269,18 @@ export class BoardComponent implements OnInit {
     });
   }
 
-  drawBoard() {
-    // Scale so we don't need to give size on every draw.
-    this.board.forEach((row, y) => {
-      row.forEach((value, x) => {
-        if (value > 0) {
-          this.ctx.fillStyle = COLORS[value];
-          this.ctx.fillRect(x, y, 1, 1);
-        }
-      });
-    });
-    this.service.drawGrid(1, this.ctx, this.canvas);
-  }
+  // drawBoard() {
+  //   // Scale so we don't need to give size on every draw.
+  //   this.board.forEach((row, y) => {
+  //     row.forEach((value, x) => {
+  //       if (value > 0) {
+  //         this.ctx.fillStyle = COLORS[value];
+  //         this.ctx.fillRect(x, y, 1, 1);
+  //       }
+  //     });
+  //   });
+  //   this.service.drawGrid(1, this.ctx, this.canvas);
+  // }
 
   // TODO: if multiplayer send event when game ended
   gameOver() {

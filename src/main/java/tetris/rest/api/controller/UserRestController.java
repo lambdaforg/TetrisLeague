@@ -1,5 +1,6 @@
 package tetris.rest.api.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -11,7 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import tetris.rest.api.data.FriendRelationRepository;
 import tetris.rest.api.data.RoleRepository;
 import tetris.rest.api.data.SecurityQuestionRepository;
 import tetris.rest.api.data.UserRepository;
@@ -27,9 +27,6 @@ import tetris.rest.api.security.services.UserDetailsImpl;
 
 import javax.validation.Valid;
 
-import static java.util.stream.Collectors.summarizingInt;
-import static java.util.stream.Collectors.toList;
-
 @RestController
 @RequestMapping("api/users")
 public class UserRestController {
@@ -37,7 +34,9 @@ public class UserRestController {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private FriendRelationRepository friendRelationRepository;
+    private RankingPointRestController rankingPointRestController;
+    @Autowired
+    private LogonRestController logonRestController;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -71,7 +70,6 @@ public class UserRestController {
     /** Sign in **/
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getLogin(), loginRequest.getPassword()));
 
@@ -83,6 +81,9 @@ public class UserRestController {
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
+
+        User user = userRepository.findByLogin(userDetails.getLogin()).get();
+        logonRestController.saveLogon(user);
 
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
@@ -145,6 +146,7 @@ public class UserRestController {
 
         user.setRoles(roles);
         userRepository.save(user);
+        System.out.println(rankingPointRestController.giveRegistrationBonus(user).getId());
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }

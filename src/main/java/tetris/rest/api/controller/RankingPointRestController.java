@@ -1,14 +1,13 @@
 package tetris.rest.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tetris.rest.api.data.RankingPointRepository;
 import tetris.rest.api.model.entity.Game;
 import tetris.rest.api.model.entity.RankingPoint;
+import tetris.rest.api.model.entity.User;
 
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -16,7 +15,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/rankingPoints")
-public class RankingPointController {
+public class RankingPointRestController {
 
     @Autowired
     private RankingPointRepository rankingPointRepository;
@@ -49,5 +48,18 @@ public class RankingPointController {
         }
         return bestRankingPointsById.stream().sorted(Comparator.comparing(RankingPoint::getValue).reversed()).collect(Collectors.toList());
 
+    }
+
+    RankingPoint giveRegistrationBonus(User user){
+        RankingPoint newRankingPoint = new RankingPoint();
+        newRankingPoint.setUser(user);
+        System.out.println(newRankingPoint.getUser());
+        newRankingPoint.setRankingPointsDate(user.getCreated_At());
+        System.out.println(newRankingPoint.getRankingPointsDate());
+        newRankingPoint.setRankingPointsTime(new Time(user.getCreated_At().getTime()));
+        System.out.println(newRankingPoint.getRankingPointsTime());
+        newRankingPoint.setValue(2000);
+        System.out.println(newRankingPoint.getValue());
+        return rankingPointRepository.save(newRankingPoint);
     }
 }

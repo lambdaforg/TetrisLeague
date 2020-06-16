@@ -1,6 +1,7 @@
 package tetris.rest.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tetris.rest.api.data.FriendRelationRepository;
 import tetris.rest.api.data.UserRepository;
@@ -8,6 +9,7 @@ import tetris.rest.api.model.entity.FriendRelation;
 import tetris.rest.api.model.entity.User;
 import tetris.rest.api.model.entity.angular.AngularRelation;
 import tetris.rest.api.model.entity.angular.AngularUser;
+import tetris.rest.api.payloads.response.MessageResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,9 +48,9 @@ public class FriendRelationController {
     }
     @PostMapping("/byusername")
     public FriendRelation addNewFriendRelationByUsername(@RequestBody AngularRelation angularRelation){
-            AngularUser senderUser = angularRelation.getUser();
+            AngularUser angularUserReceiver = angularRelation.getUser();
             FriendRelation newFriendRelation = angularRelation.getFriendRelation();
-            Optional<User> receiverUser = userRepository.findByUsername(senderUser.getUsername());
+            Optional<User> receiverUser = userRepository.findByUsername(angularUserReceiver.getUsername());
             if(receiverUser != null) {
                 if(getInvitations(receiverUser.get().getId(), "Invited").isEmpty()){
                 newFriendRelation.setReceiverUser(receiverUser.get());

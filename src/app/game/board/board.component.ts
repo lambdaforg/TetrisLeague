@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
 import {BLOCK_SIZE, COLORS, COLS, KEY, LEVEL, LINES_PER_LEVEL, POINTS, ROWS} from '../classes/constants';
 import {IPiece, Piece} from '../classes/piece';
 import {GameService} from '../classes/game.service';
@@ -19,7 +19,7 @@ import {Move} from '../../model/Move';
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.css']
 })
-export class BoardComponent implements OnInit {
+export class BoardComponent implements OnInit, OnChanges {
   @ViewChild('board', {static: true})
   canvas: ElementRef<HTMLCanvasElement>;
   // @ViewChild('current', {static: true})
@@ -35,6 +35,9 @@ export class BoardComponent implements OnInit {
 
   @Input()
   multiplayerGame: MultiplayerGame;
+
+  @Input()
+  gameStarted: boolean;
 
   game: Game;
 
@@ -101,6 +104,12 @@ export class BoardComponent implements OnInit {
     this.resetGame();
     if (this.isMultiplayer) {
       this.initMultiplayer();
+    }
+  }
+
+  ngOnChanges() {
+    if (this.gameStarted) {
+      this.play();
     }
   }
 

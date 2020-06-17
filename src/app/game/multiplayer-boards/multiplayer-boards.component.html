@@ -1,7 +1,7 @@
 <div class="row" *ngIf="otherPlayers && multiplayerGame !== null">
   <div class="col player-col">
     <h5>{{user.username}}</h5>
-    <app-board [user]="user" [isMultiplayer]="true" [multiplayerGame]="multiplayerGame"
+    <app-board [user]="user" [isMultiplayer]="true" [multiplayerGame]="multiplayerGame" [gameStarted]="isStarted"
                (moveEvent)="sendMove($event)"></app-board>
   </div>
 

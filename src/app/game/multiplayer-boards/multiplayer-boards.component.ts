@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {User} from '../../model/User';
 import {DataService} from '../../data.service';
 import {MultiplayerGame} from '../../model/MultiplayerGame';
@@ -11,7 +11,7 @@ import {templateJitUrl} from '@angular/compiler';
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {debugFnType} from '@stomp/stompjs';
 import {async} from '@angular/core/testing';
-import {GameResultModalComponent} from '../board/board.component';
+import {BoardComponent, GameResultModalComponent} from '../board/board.component';
 
 @Component({
   selector: 'app-multiplayer-boards',
@@ -168,8 +168,8 @@ export class MultiplayerBoardsComponent implements OnInit, OnDestroy {
     } else {
       // TODO: start game
       this.startModal.close();
-      this.isStarted = true;
       this.connect();
+      this.isStarted = true;
     }
   }
 }

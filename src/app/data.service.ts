@@ -270,4 +270,16 @@ export class DataService {
     // const assesingDate = newCustomerSatisfaction.assesingDate;
     return this.http.get<CustomerSatisfaction>(environment.restUrl + '/api/customerSatisfaction/' + newCustomerSatisfaction.assesingUser.id + '/' + newCustomerSatisfaction.assesingDate + '/' + newCustomerSatisfaction.assesment);
   }
+
+  getCustomerSatisfactions(date1: string, date2: string): Observable<Array<string>>{
+    console.log('start' + date1);
+    console.log('end' + date2);
+    return this.http.get<Array<string>>(environment.restUrl + '/api/customerSatisfaction/getCustomerAssessments/' + date1 + '/' + date2);
+  }
+
+  getGamesAmounts(date1: string, date2: string): Observable<Array<string>>{
+    console.log('from' + date1);
+    console.log('to' + date2);
+    return this.http.get<Array<string>>(environment.restUrl + '/api/games/getPeriodGamesAmounts/' + date1 + '/' + date2);
+  }
 }

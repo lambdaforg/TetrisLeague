@@ -379,6 +379,11 @@ export class StatsComponent implements OnInit {
     let finalCurrentRankingsPoints = [];
     let currentGamers: Array<Array<string>> = new Array<Array<string>>();
     let finalCurrentGamers = [];
+    let currentSatisfactions: Array<Array<string>> = new Array<Array<string>>();
+    let finalCurrentSatisfactions = [];
+    let currentGamesAmounts: Array<Array<string>> = new Array<Array<string>>();
+    let finalCurrentSingleGamesAmounts = [];
+    let finalCurrentMultiGamesAmounts = [];
     let q2 = [];
     let year = +formatDate(this.from, 'yyyy', 'en-UK');
     let scope = 0;
@@ -516,7 +521,7 @@ export class StatsComponent implements OnInit {
         // }
         console.log('first' + next);
         if (next.length === 0){
-          this.shortage[0] = 'There is not any data to best scores chart';
+          this.shortage[4] = 'There is not any data to gamers amount chart';
         }
         for (let i = 0; i < next.length; i++) {
           console.log(currentGamers[i] = next[i].split(','));
@@ -564,6 +569,113 @@ export class StatsComponent implements OnInit {
       }
     );
 
+    this.dataService.getCustomerSatisfactions(this.from, this.to).subscribe(
+      next => {
+        console.log('first' + next);
+        if (next.length === 0) {
+          this.shortage[8] = 'There is not any data to satisfaction chart';
+        }
+        for (let i = 0; i < next.length; i++) {
+          console.log(currentSatisfactions[i] = next[i].split(','));
+        }
+        for (let i = 0; i < currentSatisfactions.length; i++) {
+          finalCurrentSatisfactions[i] = ({
+            x: new Date(currentSatisfactions[i][0]),
+            y: +currentSatisfactions[i][1]
+          });
+          console.log('pair: ' + finalCurrentSatisfactions[i]);
+        }
+
+        const chart8 = new CanvasJS.Chart("chartContainer8", {
+          animationEnabled: true,
+          // height: this.heights[7],
+          // width: this.widths[7],
+          theme: 'light2',
+          title: {
+            text: "Customer Satisfaction Based on Reviews"
+          },
+          axisY: {
+            title: "Satisfied Customers",
+            suffix: "%",
+            maxValue: 100
+          },
+          data: [{
+            type: "stepArea",
+            markerSize: 5,
+            xValueFormatString: "DD MMMM YYYY",
+            yValueFormatString: "#,##0.##\"%\"",
+            dataPoints: finalCurrentSatisfactions
+          }]
+        });
+        chart8.render();
+
+
+      }
+    );
+    this.dataService.getGamesAmounts(this.from, this.to).subscribe(
+      next => {
+        console.log('first' + next);
+        if (next.length === 0) {
+          this.shortage[9] = 'There is not any data to satisfaction chart';
+        }
+        for (let i = 0; i < next.length; i++) {
+          console.log(currentGamesAmounts[i] = next[i].split(','));
+        }
+        for (let i = 0; i < currentGamesAmounts.length; i++) {
+          finalCurrentSingleGamesAmounts[i] = ({
+            x: new Date(currentGamesAmounts[i][0]),
+            y: +currentGamesAmounts[i][1]
+          });
+          finalCurrentMultiGamesAmounts[i] = ({
+            x: new Date(currentGamesAmounts[i][0]),
+            y: +currentGamesAmounts[i][2]
+          });
+          console.log('pair: ' + finalCurrentSingleGamesAmounts[i]);
+          console.log('pair: ' + finalCurrentMultiGamesAmounts[i]);
+        }
+
+        let chart10 = new CanvasJS.Chart("chartContainer10", {
+          animationEnabled: true,
+          // height: this.heights[9],
+          // width: this.widths[9],
+          theme: 'light2',
+          title: {
+            text: "Quantity of Singleplayer and Multiplayer games"
+          },
+          axisX: {
+            valueFormatString: "DD MMM YYYY"
+          },
+          axisY: {
+            title: "Quantity of games",
+          },
+          toolTip: {
+            shared: true
+          },
+          legend: {
+            verticalAlign: "top",
+            horizontalAlign: "center",
+            dockInsidePlotArea: true,
+          },
+          data: [{
+            type: "line",
+            name: "Singleplayer",
+            showInLegend: true,
+            markerSize: 0,
+            dataPoints: finalCurrentSingleGamesAmounts
+          },
+            {
+            type: "line",
+            name: "Multiplayer",
+            showInLegend: true,
+            markerSize: 0,
+            dataPoints: finalCurrentMultiGamesAmounts
+          }]
+        });
+        chart10.render();
+
+
+      }
+    );
 
     // if (formatDate(this.from, 'yyyy', 'en-UK') === formatDate(this.to, 'yyyy', 'en-UK')) {
     //   if (formatDate(this.from, 'MM', 'en-UK') === formatDate(this.to, 'MM', 'en-UK')) {
@@ -859,29 +971,6 @@ export class StatsComponent implements OnInit {
     //   i.y = Math.floor(Math.random() * (100 + 1));
     // }
     //
-    // const chart8 = new CanvasJS.Chart("chartContainer8", {
-    //   animationEnabled: true,
-    //   height: this.heights[7],
-    //   width: this.widths[7],
-    //   theme: 'light2',
-    //   title: {
-    //     text: "Customer Satisfaction Based on Reviews"
-    //   },
-    //   axisY: {
-    //     title: "Satisfied Customers",
-    //     suffix: "%",
-    //     maxValue: 100
-    //   },
-    //   data: [{
-    //     type: "stepArea",
-    //     markerSize: 5,
-    //     xValueFormatString: "DD MMMM YYYY",
-    //     yValueFormatString: "#,##0.##\"%\"",
-    //     dataPoints: q
-    //   }]
-    // });
-    // chart8.render();
-    //
     // let chart9 = new CanvasJS.Chart("chartContainer9", {
     //   animationEnabled: true,
     //   height: this.heights[8],
@@ -927,45 +1016,6 @@ export class StatsComponent implements OnInit {
     //     }]
     // });
     // chart9.render();
-    //
-    // let chart10 = new CanvasJS.Chart("chartContainer10", {
-    //   animationEnabled: true,
-    //   height: this.heights[9],
-    //   width: this.widths[9],
-    //   theme: 'light2',
-    //   title: {
-    //     text: "Quantity of Singleplayer and Multiplayer games"
-    //   },
-    //   axisX: {
-    //     valueFormatString: "DD MMM YYYY"
-    //   },
-    //   axisY: {
-    //     title: "Quantity of games",
-    //   },
-    //   toolTip: {
-    //     shared: true
-    //   },
-    //   legend: {
-    //     verticalAlign: "top",
-    //     horizontalAlign: "center",
-    //     dockInsidePlotArea: true,
-    //   },
-    //   data: [{
-    //     type: "line",
-    //     name: "Singleplayer",
-    //     showInLegend: true,
-    //     markerSize: 0,
-    //     dataPoints: q5
-    //   },
-    //     {
-    //       type: "line",
-    //       name: "Multiplayer",
-    //       showInLegend: true,
-    //       markerSize: 0,
-    //       dataPoints: q
-    //     }]
-    // });
-    // chart10.render();
     //
     //
     // const chart11 = new CanvasJS.Chart("chartContainer11", {

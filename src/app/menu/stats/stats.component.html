@@ -36,20 +36,18 @@
 <button *ngIf="exitButton" class="text-xl-center font-weight-bold btn btn-block btn btn-outline-success my-2 my-sm-0" (click)="decreaseChart()">Back to all charts</button>
 <div class="container">
   <div class="row m-b-1" [hidden]="selectedBookmark !== 'User'">
-      <div class="col-xl-12">
+      <div class="col-lg-6">
         <div [hidden]="(!all && chartId !== 0) || shortage[0]" (click)="expandChart(0)" class="float-left" id="chartContainer" style="height: 400px; width: 100%;"></div>
         <div *ngIf="shortage[0]" class="float-left" >{{shortage}}</div>
       </div>
-  </div>
-  <div class="row m-b-1" [hidden]="selectedBookmark !== 'User'">
-    <div class="col-lg-6">
+      <div class="col-lg-6">
         <div [hidden]="(!all && chartId !== 1) || shortage[1]" (click)="expandChart(1)" class="float-left" id="chartContainer2" style="height: 400px; width: 100%;"></div>
         <div *ngIf="shortage[1]" class="float-left" >{{shortage}}</div>
       </div>
-    <div class="col-lg-6">
-        <div [hidden]="(!all && chartId !== 2) || shortage[2]" (click)="expandChart(2)" class="float-left" id="chartContainer3" style="height: 400px; width: 100%;"></div>
-        <div *ngIf="shortage[2]" class="float-left" >{{shortage}}</div>
-      </div>
+    <!--<div class="col-lg-6">-->
+        <!--<div [hidden]="(!all && chartId !== 2) || shortage[2]" (click)="expandChart(2)" class="float-left" id="chartContainer3" style="height: 400px; width: 100%;"></div>-->
+        <!--<div *ngIf="shortage[2]" class="float-left" >{{shortage}}</div>-->
+    <!--</div>-->
   </div>
   <div class="row m-b-1" [hidden]="selectedBookmark !== 'Website Traffic' || !authorized">
     <div class="col-lg-6">
@@ -67,10 +65,14 @@
       <!--<div [hidden]="!all && chartId !== 6" (click)="expandChart(6)" class="float-left" id="chartContainer7" style="height: 400px; width: 100%;"></div>-->
     </div>
   </div>
-    <div [hidden]="selectedBookmark !== 'Customers Activity and Satisfaction' || !authorized">
-      <div [hidden]="!all && chartId !== 7" (click)="expandChart(7)" class="float-left" id="chartContainer8" style="height: 400px; width: 50%;"></div>
-      <div [hidden]="!all && chartId !== 8" (click)="expandChart(8)" class="float-left" id="chartContainer9" style="height: 400px; width: 50%;"></div>
-      <div [hidden]="!all && chartId !== 9" (click)="expandChart(9)" class="float-left" id="chartContainer10" style="height: 400px; width: 50%;"></div>
-      <div [hidden]="!all && chartId !== 10" (click)="expandChart(10)" class="float-left" id="chartContainer11" style="height: 400px; width: 50%;"></div>
+  <div class="row m-b-1" [hidden]="selectedBookmark !== 'Customers Activity and Satisfaction' || !authorized">
+    <div class="col-lg-6">
+      <div [hidden]="!all && chartId !== 7" (click)="expandChart(7)" class="float-left" id="chartContainer8" style="height: 400px; width: 100%;"></div>
     </div>
+      <!--<div [hidden]="!all && chartId !== 8" (click)="expandChart(8)" class="float-left" id="chartContainer9" style="height: 400px; width: 50%;"></div>-->
+    <div class="col-lg-6">
+      <div [hidden]="!all && chartId !== 9" (click)="expandChart(9)" class="float-left" id="chartContainer10" style="height: 400px; width: 100%;"></div>
+    </div>
+      <!--<div [hidden]="!all && chartId !== 10" (click)="expandChart(10)" class="float-left" id="chartContainer11" style="height: 400px; width: 50%;"></div>-->
+  </div>
 </div>

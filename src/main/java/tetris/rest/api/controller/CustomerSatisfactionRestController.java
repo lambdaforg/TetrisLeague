@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/customerSatisfaction")
@@ -47,5 +48,43 @@ public class CustomerSatisfactionRestController {
         System.out.println(customerSatisfaction.getAssesmentDate());
         System.out.println("App succesfully assesed");
         return customerSatisfactionRepository.save(customerSatisfaction);
+    }
+
+    @GetMapping("/getCustomerAssessments/{date1}/{date2}")
+    public String[] getCustomerAssessments(@PathVariable("date1") String date1, @PathVariable("date2") String date2) {
+        System.out.println("satisfaction");
+        double sum = 0.0, max = 0.0;
+        double result = 0.0;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date start = null;
+        Date end = null;
+        try {
+            start = sdf.parse(date1);
+            end = sdf.parse(date2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        List<String> list = new ArrayList<>();
+
+        System.out.println("start" + date1);
+        System.out.println("end" + date2);
+
+        if (start == null || end == null) {
+            return list.toArray(new String[0]);
+        }
+        Date finalEnd = end;
+        List<CustomerSatisfaction> customerSatisfactions = getAllCustomerSatisfactions().stream()
+                .filter(satisfaction -> satisfaction.getAssesmentDate().before(finalEnd))
+                .collect(Collectors.toList());
+
+        for (int i = 0; i < customerSatisfactions.size(); i++) {
+            sum += customerSatisfactions.get(i).getAssesment();
+            max += 5;
+            result = sum / max;
+            list.add(sdf.format(customerSatisfactions.get(i).getAssesmentDate()) + "," + result);
+            System.out.println(list.get(i));
+        }
+        return list.toArray(new String[0]);
     }
 }

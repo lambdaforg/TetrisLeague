@@ -227,7 +227,7 @@ public class UserRestController {
                 String input = sdf.format(gamers.get(i).getCreated_At()) + "," + counter;
                 System.out.println(input);
                 list.add(input);
-                System.out.println("gamers list length -1: " + (list.size() - i - 1));
+//                System.out.println("gamers list length -1: " + (list.size() - i - 1));
             }
         }
         Collections.reverse(list);

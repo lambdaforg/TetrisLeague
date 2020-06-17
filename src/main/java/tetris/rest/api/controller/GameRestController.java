@@ -161,6 +161,49 @@ public class GameRestController {
 
         return list.toArray(new String[0]);
     }
+
+    @GetMapping("/getPeriodGamesAmounts/{date1}/{date2}")
+    public String[] getPeriodGamesAmounts (@PathVariable("date1") String date1, @PathVariable("date2") String date2){
+        System.out.println("yes");
+        int singlePlayerCounter = 0, multiPlayerCounter = 0;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date start = null;
+        Date end = null;
+        try {
+            start = sdf.parse(date1);
+            end = sdf.parse(date2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Alabama" + date1);
+        System.out.println("Kansas" + date2);
+
+        List<String> list = new ArrayList<>();
+
+            if (start == null || end == null) {
+                System.out.println("Dates cannot be null");
+                return list.toArray(new String[0]);
+            }
+
+            Date finalStart = start;
+            Date finalEnd = end;
+            List<Game> games = getAllGames().stream()
+                    .filter(game -> game.getGameDate().before(finalEnd) && game.getGameDate().after(finalStart))
+                    .collect(Collectors.toList());
+        for (int i = 0; i < games.size(); i++) {
+            if (games.get(i).getMultiplayerGame() == null){
+                singlePlayerCounter++;
+            } else {
+                multiPlayerCounter++;
+            }
+            list.add(sdf.format(games.get(i).getGameDate()) + "," + singlePlayerCounter + "," + multiPlayerCounter);
+            System.out.println(list.get(i));
+        }
+        Collections.reverse(list);
+
+        return list.toArray(new String[0]);
+    }
 }
 
 

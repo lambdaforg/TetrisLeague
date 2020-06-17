@@ -8,6 +8,10 @@ import {first} from 'rxjs/operators';
 import {COLS, ROWS} from '../classes/constants';
 import {SimpleBoardComponent} from '../simple-board/simple-board.component';
 import {templateJitUrl} from '@angular/compiler';
+import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {debugFnType} from '@stomp/stompjs';
+import {async} from '@angular/core/testing';
+import {GameResultModalComponent} from '../board/board.component';
 
 @Component({
   selector: 'app-multiplayer-boards',
@@ -26,21 +30,28 @@ export class MultiplayerBoardsComponent implements OnInit, OnDestroy {
   otherPlayers: Array<User>;
   moves = new Array<Move>();
   avatars = new Array<any>();
-  isInitialized = false;
+  isStarted = false;
   tempMove: Move;
 
+  startModal: any;
+  resultModal: any;
+
   constructor(private dataService: DataService,
-              private websocketService: WebsocketService) {
+              private websocketService: WebsocketService,
+              private modalService: NgbModal) {
   }
 
   ngOnInit(): void {
     this.dataService.getCurrentMultiplayerGame(this.user.id)
       .subscribe(
         next => {
-          this.multiplayerGame = next;
-          this.otherPlayers = this.getOtherPlayers();
-          this.isInitialized = true;
-          this.connect();
+          (async () => {
+              this.multiplayerGame = next;
+              this.otherPlayers = this.getOtherPlayers();
+              await this.openStartModal();
+              // this.connect();
+            }
+          )();
         },
         error => {
           console.log(error.message);
@@ -57,27 +68,27 @@ export class MultiplayerBoardsComponent implements OnInit, OnDestroy {
     if (this.multiplayerGame.host.id !== this.user.id) {
       otherPlayers[index] = this.multiplayerGame.host;
       this.initMove(this.multiplayerGame.host.id, index);
-      this.loadAvatar(this.multiplayerGame.host.id , index);
-      index ++;
+      this.loadAvatar(this.multiplayerGame.host.id, index);
+      index++;
     }
     if (this.multiplayerGame.playerOne.id !== this.user.id) {
       otherPlayers[index] = this.multiplayerGame.playerOne;
       this.initMove(this.multiplayerGame.playerOne.id, index);
       this.loadAvatar(this.multiplayerGame.playerOne.id, index);
-      index ++;
+      index++;
     }
     if (this.multiplayerGame.numberOfPlayers > 2) {
       if (this.multiplayerGame.playerTwo.id !== this.user.id) {
         otherPlayers.push(this.multiplayerGame.playerTwo);
         this.initMove(this.multiplayerGame.playerTwo.id, index);
-        this.loadAvatar(this.multiplayerGame.playerTwo.id , index);
-        index ++;
+        this.loadAvatar(this.multiplayerGame.playerTwo.id, index);
+        index++;
       }
       if (this.multiplayerGame.numberOfPlayers > 3 && this.multiplayerGame.playerThree.id !== this.user.id) {
         otherPlayers.push(this.multiplayerGame.playerThree);
         this.initMove(this.multiplayerGame.playerThree.id, index);
         this.loadAvatar(this.multiplayerGame.playerThree.id, index);
-        index ++;
+        index++;
       }
     }
     console.log(otherPlayers);
@@ -116,12 +127,126 @@ export class MultiplayerBoardsComponent implements OnInit, OnDestroy {
   }
 
   loadAvatar(userId: number, index: number) {
-      this.dataService.getAvatar(userId)
-        .subscribe(
-          data => {
-            this.avatars[index] = data;
-          }
-        );
+    this.dataService.getAvatar(userId)
+      .subscribe(
+        data => {
+          this.avatars[index] = data;
+        }
+      );
+  }
+
+  openStartModal() {
+    this.startModal = this.modalService.open(MultiplayerStartModalComponent,
+      {
+        size: 'sm',
+        keyboard: true,
+        centered: true,
+        backdrop: 'static'
+
+      });
+    (async () => {
+      this.websocketService.signalConnect(this.multiplayerGame.id, (msg) => {
+        this.receiveSignal();
+      });
+      await this.delay(4000).then(res => {
+        if (this.user.id === this.multiplayerGame.host.id) {
+          this.websocketService.sendSignal(this.multiplayerGame.id, this.user.id);
+        }
+      });
+    })();
+    return new Promise(res => {});
+  }
+
+
+  delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  receiveSignal() {
+    if (this.isStarted) {
+      // TODO: game results / block users boards
+    } else {
+      // TODO: start game
+      this.startModal.close();
+      this.isStarted = true;
+      this.connect();
     }
+  }
+}
+
+@Component({
+  template: `
+    <div class="modal-body">
+      <p>{{startingGame}}</p>
+    </div>
+  `
+})
+export class MultiplayerStartModalComponent implements OnInit {
+
+  startingGame = 'Starting game...';
+  startingGame1 = 'Starting game...';
+  startingGame2 = 'Starting game.';
+  startingGame3 = 'Starting game..';
+
+  constructor() {
+  }
+
+  ngOnInit() {
+    setInterval(
+      () => {
+        this.waitingAnimation();
+      }, 1000);
+  }
+
+  waitingAnimation() {
+    if (this.startingGame === this.startingGame1) {
+      this.startingGame = this.startingGame2;
+    } else if (this.startingGame === this.startingGame2) {
+      this.startingGame = this.startingGame3;
+    } else if (this.startingGame === this.startingGame3) {
+      this.startingGame = this.startingGame1;
+    }
+  }
 
 }
+
+
+// @Component({
+//   template: `
+//     <div class="modal-header">
+//       <h4 class="modal-title">Game results</h4>
+//     </div>
+//     <div class="modal-body">
+//       <div class="row ml-3">Score: {{ points }}</div>
+//       <div class="row ml-3">Lines: {{ lines }}</div>
+//       <div class="row ml-3">Level: {{ level }}</div>
+//     </div>
+//     <div class="modal-footer row" style="margin: 8px; padding: unset">
+//       <div class="col">
+//         <button (click)="activeModal.close()" class="btn btn-danger pull-left" data-orientation="cancel">Quit</button>
+//       </div>
+//       <div class="col">
+//         <button (click)="playAgain()" class="play-button btn btn-success pull-right" ngbAutofocus>Play again</button>
+//       </div>
+//     </div>
+//   `
+// })
+// export class MultiplayerResultModalComponent {
+//
+//   points: number;
+//   lines: number;
+//   level: number;
+//
+//   constructor(public activeModal: NgbActiveModal) {
+//   }
+//
+//   playAgain() {
+//     this.activeModal.close('play');
+//   }
+//
+//   private initializeModal(points: number, lines: number, level: number) {
+//     this.points = points;
+//     this.lines = lines;
+//     this.level = level;
+//   }
+// }

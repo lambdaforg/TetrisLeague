@@ -18,7 +18,10 @@ import {ModalDismissReasons, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {RoomModalComponent, LeaveRoomDialogComponent} from './menu/waiting-room/room-modal/room-modal.component';
 import {HttpClientModule} from '@angular/common/http';
 import {PasswordRecoveryComponent} from './password-recovery/password-recovery.component';
-import {MultiplayerBoardsComponent} from './game/multiplayer-boards/multiplayer-boards.component';
+import {
+  MultiplayerBoardsComponent,
+  MultiplayerStartModalComponent
+} from './game/multiplayer-boards/multiplayer-boards.component';
 import { SimpleBoardComponent } from './game/simple-board/simple-board.component';
 
 
@@ -51,7 +54,9 @@ const appRoutes: Routes = [
     GameResultModalComponent,
     PasswordRecoveryComponent,
     MultiplayerBoardsComponent,
-    SimpleBoardComponent
+    SimpleBoardComponent,
+    MultiplayerStartModalComponent,
+
   ],
   imports: [
     BrowserModule,

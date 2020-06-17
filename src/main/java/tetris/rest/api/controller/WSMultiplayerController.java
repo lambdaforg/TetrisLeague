@@ -25,4 +25,10 @@ public class WSMultiplayerController {
         );
     }
 
+    @MessageMapping("/sendSignal/{gameId}")
+    @SendTo("/multiplayer/signal/get/{gameId}")
+    public Integer sendSignal(@DestinationVariable("gameId") String gameId, @Payload Integer userId) throws Exception {
+        return userId;
+    }
+
 }

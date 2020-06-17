@@ -233,6 +233,10 @@ export class DataService {
     return this.http.put<MultiplayerGame>(environment.restUrl + '/api/multiplayer-games/changeStatus/' + gameId, newStatus);
   }
 
+  setMultiplayerGameWinner(gameId: number, winnerId: number): Observable<MultiplayerGame> {
+    return this.http.put<MultiplayerGame>(environment.restUrl + '/api/multiplayer-games/setWinner/' + gameId, winnerId);
+  }
+
   getCurrentMultiplayerGame(userId: number): Observable<MultiplayerGame> {
         return this.http.get<MultiplayerGame>(environment.restUrl + '/api/multiplayer-games/getCurrentGame/' + userId);
   }

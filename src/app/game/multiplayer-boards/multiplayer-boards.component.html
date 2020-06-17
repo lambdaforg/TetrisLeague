@@ -2,7 +2,7 @@
   <div class="col player-col">
     <h5>{{user.username}}</h5>
     <app-board [user]="user" [isMultiplayer]="true" [multiplayerGame]="multiplayerGame" [gameStarted]="isStarted"
-               (moveEvent)="sendMove($event)"></app-board>
+               (moveEvent)="sendMove($event)" (gameOverEvent)="gameOver()"></app-board>
   </div>
 
     <div class="col player-col">
@@ -17,7 +17,7 @@
           <p class="mb-0">Level: {{moves[0].level}}</p>
         </div>
       </div>
-      <app-simple-board [board]="moves[0].board"></app-simple-board>
+      <app-simple-board [board]="moves[0].board" [gameEnded]="endedGames[0]"></app-simple-board>
     </div>
 
 
@@ -26,14 +26,14 @@
     <p>Score: {{moves[1].score}}</p>
     <p>Lines: {{moves[1].scoreLines}}</p>
     <p>Level: {{moves[1].level}}</p>
-    <app-simple-board [board]="moves[1].board"></app-simple-board>
+    <app-simple-board [board]="moves[1].board" [gameEnded]="endedGames[1]"></app-simple-board>
   </div>
   <div class="col player-col" *ngIf="otherPlayers.length > 2">
     <h5>{{otherPlayers[2].username}}</h5>
     <p>Score: {{moves[2].score}}</p>
     <p>Lines: {{moves[2].scoreLines}}</p>
     <p>Level: {{moves[2].level}}</p>
-    <app-simple-board [board]="moves[2].board" #board3></app-simple-board>
+    <app-simple-board [board]="moves[2].board" [gameEnded]="endedGames[2]"></app-simple-board>
   </div>
 </div>
 

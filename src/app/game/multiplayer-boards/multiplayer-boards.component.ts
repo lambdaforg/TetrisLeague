@@ -4,7 +4,7 @@ import {DataService} from '../../data.service';
 import {MultiplayerGame} from '../../model/MultiplayerGame';
 import {Move} from '../../model/Move';
 import {WebsocketService} from '../../services/websocket.service';
-import {first} from 'rxjs/operators';
+import {first, max} from 'rxjs/operators';
 import {COLS, ROWS} from '../classes/constants';
 import {SimpleBoardComponent} from '../simple-board/simple-board.component';
 import {templateJitUrl} from '@angular/compiler';
@@ -12,6 +12,8 @@ import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {debugFnType} from '@stomp/stompjs';
 import {async} from '@angular/core/testing';
 import {BoardComponent, GameResultModalComponent} from '../board/board.component';
+import {isFromDtsFile} from '@angular/compiler-cli/src/ngtsc/util/src/typescript';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-multiplayer-boards',
@@ -30,15 +32,18 @@ export class MultiplayerBoardsComponent implements OnInit, OnDestroy {
   otherPlayers: Array<User>;
   moves = new Array<Move>();
   avatars = new Array<any>();
+  endedGames = new Array<boolean>();
   isStarted = false;
   tempMove: Move;
+  yourLastMove: Move;
+  endedGamesCount = 0;
 
   startModal: any;
-  resultModal: any;
 
   constructor(private dataService: DataService,
               private websocketService: WebsocketService,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -109,21 +114,20 @@ export class MultiplayerBoardsComponent implements OnInit, OnDestroy {
   assignMove(message) {
     this.tempMove = new Move();
     Object.assign(this.tempMove, JSON.parse(message));
-    console.log(this.tempMove);
     // tslint:disable-next-line:triple-equals
     if (this.tempMove.userId != this.user.id) {
       // tslint:disable-next-line:triple-equals
       const index = this.otherPlayers.findIndex(p => p.id == this.tempMove.userId);
-      console.log(index);
       this.moves[index] = this.tempMove;
     } else {
-      console.log('the same user');
+      this.yourLastMove = this.tempMove;
     }
   }
 
   initMove(userId: number, index: number) {
     this.moves[index] = (new Move(userId, 0, 0, 0,
       Array.from({length: ROWS}, () => Array(COLS).fill(0))));
+    this.endedGames[index] = false;
   }
 
   loadAvatar(userId: number, index: number) {
@@ -146,7 +150,7 @@ export class MultiplayerBoardsComponent implements OnInit, OnDestroy {
       });
     (async () => {
       this.websocketService.signalConnect(this.multiplayerGame.id, (msg) => {
-        this.receiveSignal();
+        this.receiveSignal(msg.body);
       });
       await this.delay(4000).then(res => {
         if (this.user.id === this.multiplayerGame.host.id) {
@@ -154,7 +158,8 @@ export class MultiplayerBoardsComponent implements OnInit, OnDestroy {
         }
       });
     })();
-    return new Promise(res => {});
+    return new Promise(res => {
+    });
   }
 
 
@@ -162,15 +167,64 @@ export class MultiplayerBoardsComponent implements OnInit, OnDestroy {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  receiveSignal() {
+  receiveSignal(msg) {
     if (this.isStarted) {
-      // TODO: game results / block users boards
+      // tslint:disable-next-line:triple-equals
+      if (msg != this.user.id) {
+        console.log(msg);
+        // tslint:disable-next-line:triple-equals
+        const index = this.otherPlayers.findIndex(p => p.id == msg);
+        this.endedGames[index] = true;
+      }
+      this.endedGamesCount++;
+      if (this.endedGamesCount === this.multiplayerGame.numberOfPlayers) {
+        this.showGameResults();
+      }
     } else {
-      // TODO: start game
       this.startModal.close();
       this.connect();
       this.isStarted = true;
     }
+  }
+
+  gameOver() {
+    this.websocketService.sendSignal(this.multiplayerGame.id, this.user.id);
+  }
+
+  showGameResults() {
+    const modalRef = this.modalService.open(MultiplayerResultModalComponent, {
+      size: 'sm',
+      keyboard: true,
+      centered: true,
+      backdrop: 'static'
+
+    });
+    const maxScore = Math.max.apply(Math, this.moves.map(m => m.score));
+    let winnerScore = this.moves.find(m => m.score = maxScore);
+    let winnerUser: User;
+    if (this.yourLastMove.score > winnerScore.score) {
+      winnerScore = this.yourLastMove;
+      modalRef.componentInstance.youWonInit(winnerScore.score, winnerScore.scoreLines, winnerScore.level);
+      winnerUser = this.user;
+    } else {
+      // tslint:disable-next-line:triple-equals
+      winnerUser = this.otherPlayers.find(u => u.id == winnerScore.userId);
+      modalRef.componentInstance.otherPlayerWonInit(
+        winnerUser.username,
+        winnerScore.score,
+        this.yourLastMove.score,
+        this.yourLastMove.scoreLines,
+        this.yourLastMove.level
+      );
+    }
+    this.dataService.setMultiplayerGameWinner(this.multiplayerGame.id, winnerUser.id).subscribe(
+      next => console.log(next)
+    );
+    modalRef.result.then(
+      (result) => {
+        this.router.navigate(['menu'], {queryParams: {action: 'waitingRoom'}});
+      }
+    );
   }
 }
 
@@ -211,42 +265,60 @@ export class MultiplayerStartModalComponent implements OnInit {
 }
 
 
-// @Component({
-//   template: `
-//     <div class="modal-header">
-//       <h4 class="modal-title">Game results</h4>
-//     </div>
-//     <div class="modal-body">
-//       <div class="row ml-3">Score: {{ points }}</div>
-//       <div class="row ml-3">Lines: {{ lines }}</div>
-//       <div class="row ml-3">Level: {{ level }}</div>
-//     </div>
-//     <div class="modal-footer row" style="margin: 8px; padding: unset">
-//       <div class="col">
-//         <button (click)="activeModal.close()" class="btn btn-danger pull-left" data-orientation="cancel">Quit</button>
-//       </div>
-//       <div class="col">
-//         <button (click)="playAgain()" class="play-button btn btn-success pull-right" ngbAutofocus>Play again</button>
-//       </div>
-//     </div>
-//   `
-// })
-// export class MultiplayerResultModalComponent {
-//
-//   points: number;
-//   lines: number;
-//   level: number;
-//
-//   constructor(public activeModal: NgbActiveModal) {
-//   }
-//
-//   playAgain() {
-//     this.activeModal.close('play');
-//   }
-//
-//   private initializeModal(points: number, lines: number, level: number) {
-//     this.points = points;
-//     this.lines = lines;
-//     this.level = level;
-//   }
-// }
+@Component({
+  template: `
+    <div class="modal-header">
+      <h4 class="modal-title">Game results</h4>
+    </div>
+    <div class="modal-body" *ngIf="otherPlayerWon">
+      <div class="row ml-2">
+        <h5>{{winner}} won with score: {{winnerScore}}</h5>
+      </div>
+      <div class="row ml-3">Your result:</div>
+      <div class="row ml-3">Score: {{ score }}</div>
+      <div class="row ml-3">Lines: {{ lines }}</div>
+      <div class="row ml-3">Level: {{ level }}</div>
+    </div>
+    <div class="modal-body" *ngIf="!otherPlayerWon">
+      <div class="row ml-2">
+        <h5>You won!</h5>
+      </div>
+      <div class="row ml-3">Score: {{ score }}</div>
+      <div class="row ml-3">Lines: {{ lines }}</div>
+      <div class="row ml-3">Level: {{ level }}</div>
+    </div>
+    <div class="modal-footer row" style="margin: 8px; padding: unset">
+      <div class="col">
+        <button (click)="activeModal.close()" class="btn btn-danger pull-left" data-orientation="cancel">Quit</button>
+      </div>
+    </div>
+  `
+})
+export class MultiplayerResultModalComponent {
+
+  otherPlayerWon: boolean;
+  winner: string;
+  winnerScore: number;
+  score: number;
+  lines: number;
+  level: number;
+
+  constructor(public activeModal: NgbActiveModal) {
+  }
+
+  otherPlayerWonInit(winner: string, winnerScore: number, score: number, lines: number, level: number) {
+    this.winner = winner;
+    this.winnerScore = winnerScore;
+    this.score = score;
+    this.lines = lines;
+    this.level = level;
+    this.otherPlayerWon = true;
+  }
+
+  youWonInit(score: number, lines: number, level: number) {
+    this.score = score;
+    this.lines = lines;
+    this.level = level;
+    this.otherPlayerWon = false;
+  }
+}

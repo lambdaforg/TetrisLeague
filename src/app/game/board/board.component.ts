@@ -66,6 +66,9 @@ export class BoardComponent implements OnInit, OnChanges {
   @Output()
   moveEvent = new EventEmitter<Move>();
 
+  @Output()
+  gameOverEvent = new EventEmitter();
+
   // To do another class Key Handler
   @HostListener('window:keydown', ['$event'])
   keyEvent(event: KeyboardEvent) {
@@ -293,6 +296,9 @@ export class BoardComponent implements OnInit, OnChanges {
 
   // TODO: if multiplayer send event when game ended
   gameOver() {
+    if (this.isMultiplayer) {
+      this.gameOverEvent.emit();
+    }
     cancelAnimationFrame(this.requestId);
     this.ctx.fillStyle = 'black';
     this.ctx.fillRect(1, 3, 8, 1.2);

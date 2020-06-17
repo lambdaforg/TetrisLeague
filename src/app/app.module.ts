@@ -23,6 +23,7 @@ import {
   MultiplayerStartModalComponent
 } from './game/multiplayer-boards/multiplayer-boards.component';
 import { SimpleBoardComponent } from './game/simple-board/simple-board.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 
@@ -56,7 +57,8 @@ const appRoutes: Routes = [
     MultiplayerBoardsComponent,
     SimpleBoardComponent,
     MultiplayerStartModalComponent,
-    MultiplayerResultModalComponent
+    MultiplayerResultModalComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

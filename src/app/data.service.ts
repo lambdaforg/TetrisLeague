@@ -8,6 +8,7 @@ import {MultiplayerGame} from './model/MultiplayerGame';
 import {FriendRelation} from './model/FriendRelation';
 import {map} from 'rxjs/operators';
 import {RankingPoint} from './model/RankingPoint';
+import {CustomerSatisfaction} from './model/CustomerSatisfaction';
 
 
 @Injectable({
@@ -261,5 +262,12 @@ export class DataService {
 
   getPeriodGamers(date1: string, date2: string): Observable<Array<string>> {
     return this.http.get<Array<string>>(environment.restUrl + '/api/users/getPeriodGamers/' + date1 + '/' + date2);
+  }
+
+  addNewCustomerSatisfaction(newCustomerSatisfaction: CustomerSatisfaction): Observable<CustomerSatisfaction> {
+    console.log(newCustomerSatisfaction.assesingDate);
+    console.log(newCustomerSatisfaction.assesingUser);
+    // const assesingDate = newCustomerSatisfaction.assesingDate;
+    return this.http.get<CustomerSatisfaction>(environment.restUrl + '/api/customerSatisfaction/' + newCustomerSatisfaction.assesingUser.id + '/' + newCustomerSatisfaction.assesingDate + '/' + newCustomerSatisfaction.assesment);
   }
 }

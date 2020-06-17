@@ -1,0 +1,19 @@
+<div class="jumbotron-fluid bg-info text-white text-center">
+  <div class="container">
+    <div class="row-fluid">
+      <div class="col-md-3 float-left" >
+        <p class="without_padding">rate us</p>
+      </div>
+      <div class="col-md-3 float-right" >
+        <button class="btn btn-outline-success my-2 my-sm-0 without_padding" [disabled]="!assesed" (click)="submit()">Send</button>
+      </div>
+      <div class="col-md-1 float-none rating">
+        <input type="radio" name="star" id="star1" class="without_padding" (click)="assess(5)"><label for="star1"></label>
+        <input type="radio" name="star" id="star2" class="without_padding" (click)="assess(4)"><label for="star2"></label>
+        <input type="radio" name="star" id="star3" class="without_padding" (click)="assess(3)"><label for="star3"></label>
+        <input type="radio" name="star" id="star4" class="without_padding" (click)="assess(2)"><label for="star4"></label>
+        <input type="radio" name="star" id="star5" class="without_padding" (click)="assess(1)"><label for="star5"></label>
+      </div>
+    </div>
+  </div>
+</div>

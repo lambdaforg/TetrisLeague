@@ -711,60 +711,6 @@ export class StatsComponent implements OnInit {
     //   return;
     // }
     //
-    // let q3 = q;
-    // let q4 = q;
-    // let q5 = q;
-    //
-    // for (let i = 0; i < q.length; i++) {
-    //   q3[i].y += Math.round(Math.random() + 50);
-    //   q4[i].y += Math.round(Math.random() + 150);
-    //   q5[i].y += Math.round(Math.random() + 300);
-    // }
-    //
-    // const chart4 = new CanvasJS.Chart("chartContainer4", {
-    //   animationEnabled: true,
-    //   height: this.heights[3],
-    //   width: this.widths[3],
-    //   theme: 'light2',
-    //   title: {
-    //     text: "Amount of players vs guests"
-    //   },
-    //   axisX: {
-    //     title: 'Date',
-    //     valueFormatString: "DD MMM,YYYY"
-    //   },
-    //   axisY: {
-    //     title: "Amount of users"
-    //   },
-    //   legend: {
-    //     verticalAlign: "top",
-    //     horizontalAlign: "center",
-    //     dockInsidePlotArea: true,
-    //   },
-    //   toolTip: {
-    //     shared: true
-    //   },
-    //   data: [{
-    //     name: "Players",
-    //     type: "spline",
-    //     showInLegend: true,
-    //     dataPoints: q3
-    //   },
-    //     {
-    //       name: "Guests reading info",
-    //       type: "spline",
-    //       showInLegend: true,
-    //       dataPoints: q4
-    //     },
-    //     {
-    //       name: "Guests not reading info",
-    //       type: "spline",
-    //       showInLegend: true,
-    //       dataPoints: q5
-    //     }]
-    // });
-    // chart4.render();
-    //
     //
     // const chart5 = new CanvasJS.Chart("chartContainer5", {
     //   animationEnabled: true,

@@ -68,7 +68,7 @@ export class RoomModalComponent implements OnInit {
       () => {
         this.loadData();
         this.redirectToMultiplayerGame();
-      }, 1000);
+      }, 100);
   }
 
   loadData() {

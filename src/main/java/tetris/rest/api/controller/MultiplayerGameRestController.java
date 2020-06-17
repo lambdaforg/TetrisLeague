@@ -82,6 +82,21 @@ public class MultiplayerGameRestController {
         return null;
     }
 
+    @PutMapping("/setWinner/{gameId}")
+    public MultiplayerGame setWinner(@PathVariable("gameId") Integer gameId, @RequestBody Integer winnerId) {
+        Optional<MultiplayerGame> game = multiplayerGameRepository.findById(gameId);
+        if (game.isPresent()) {
+            Optional<User> user = userRepository.findById(winnerId);
+            if (user.isPresent()) {
+                MultiplayerGame updatedGame = game.get();
+                updatedGame.setWinner(user.get());
+                updatedGame.setStatus("ended");
+                return multiplayerGameRepository.save(updatedGame);
+            }
+        }
+        return null;
+    }
+
     // deletes user from game
     @PutMapping("/leave/{gameId}")
     public MultiplayerGame leaveGame(@PathVariable("gameId") Integer gameId, @RequestBody Integer userId) {

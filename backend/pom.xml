@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>tetris</groupId>
-	<artifactId>rest.api</artifactId>
+	<artifactId>tetris-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Tetris-Rest-Api</name>
-	<description>Tertris-Rest-Api</description>
+	<name>tetris-backend</name>
+	<description>Tetris-Backend</description>
 
 	<properties>
 		<java.version>14</java.version>
